@@ -1,0 +1,33 @@
+{
+    "app_id": "welcome_back",
+    "episode_id": "1",
+    "haru_id": "haru-jp",
+    "stage_id": 1,
+    "task_id": 1,
+    "ready": false,
+    "mute": true,
+    "teleconference_on": true,
+    "description": "WelcomeBack - Warm greeting for returning users who already know Haru",
+    "actions": [
+        {
+            "action_id": 1,
+            "action_type": "HARU_CONVERSATE",
+            "action_goal": "{\"id\": \"welcome_back\", \"description\": \"Welcome back returning participants with a warm, familiar greeting.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} greets the group mentioning each participant name: {participants_start_left}.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"{robot_name} expresses that it is happy to see them again (e.g., 'good to see you again', 'nice to have you back').\", \"reached\": false, \"evidence\": null}, {\"id\": \"c3\", \"description\": \"At least one participant responds to {robot_name}'s greeting.\", \"reached\": false, \"evidence\": null}], \"timeout\": {\"max_time\": {\"minutes\": 2, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Do NOT introduce yourself - they already know you.\", \"Be warm and genuinely happy to see them again.\", \"Keep it natural and brief.\"]}",
+            "action_content": []
+        },
+        {
+            "action_id": 2,
+            "action_type": "HARU_GAZE",
+            "bond_action_ids": [1],
+            "action_arguments": {
+                "gaze_arguments": {
+                    "gaze_mode": "GROUP"
+                }
+            },
+            "action_content": []
+        }
+    ],
+    "template": {
+        "parameters": {}
+    }
+}

@@ -1,0 +1,33 @@
+{
+    "app_id": "closing",
+    "episode_id": "1",
+    "haru_id": "haru-jp",
+    "stage_id": 1,
+    "task_id": 1,
+    "ready": false,
+    "mute": true,
+    "teleconference_on": true,
+    "description": "Closing - Wrap up the session and say goodbye to participants",
+    "actions": [
+        {
+            "action_id": 1,
+            "action_type": "HARU_CONVERSATE",
+            "action_goal": "{\"id\": \"closing\", \"description\": \"Wrap up the session and say goodbye to participants.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} expresses that it enjoyed the time with the group.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"{robot_name} says goodbye to the group.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c3\", \"description\": \"At least one participant responds to {robot_name}'s goodbye.\", \"reached\": false, \"evidence\": null}], \"timeout\": {\"max_time\": {\"minutes\": 2, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Address participants as a group (e.g., 'you all', 'everyone').\", \"Keep the goodbye warm but brief.\"]}",
+            "action_content": []
+        },
+        {
+            "action_id": 2,
+            "action_type": "HARU_GAZE",
+            "bond_action_ids": [1],
+            "action_arguments": {
+                "gaze_arguments": {
+                    "gaze_mode": "GROUP"
+                }
+            },
+            "action_content": []
+        }
+    ],
+    "template": {
+        "parameters": {}
+    }
+}

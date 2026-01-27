@@ -1,0 +1,345 @@
+{
+    "app_id": "complex_session",
+    "episode_id": "1",
+    "haru_id": "haru-jp",
+    "stage_id": 1,
+    "task_id": 1,
+    "ready": false,
+    "mute": true,
+    "teleconference_on": true,
+    "description": "Complex - Full test case with all action types, relationships, and premade content",
+    "actions": [
+        {
+            "action_id": 1,
+            "action_type": "HARU_CONVERSATE",
+            "action_content": [
+                {
+                    "value": [
+                        {
+                            "tts": "Hello everyone! Welcome to our session today!",
+                            "delay": 1,
+                            "routine": 2011
+                        }
+                    ],
+                    "metainfo": "Premade welcome message",
+                    "value_type": "JSON_CONVERSATE_MULTITTS"
+                }
+            ]
+        },
+        {
+            "action_id": 2,
+            "action_type": "HARU_GAZE",
+            "bond_action_ids": [1],
+            "action_arguments": {
+                "gaze_arguments": {
+                    "gaze_mode": "GROUP"
+                }
+            },
+            "action_content": []
+        },
+        {
+            "action_id": 3,
+            "action_type": "HARU_CONVERSATE",
+            "wait_for_action_ids": [1, 2],
+            "action_goal": "{\"id\": \"greet_phase\", \"description\": \"Introduce yourself and greet each participant.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} says its name.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"{robot_name} greets {participant}.\", \"reached\": false, \"evidence\": null}], \"criteria_expand\": [{\"ids\": [\"c2\"], \"mappings\": [{\"source\": \"participants_start_left\", \"target\": \"participant\"}]}], \"timeout\": {\"max_time\": {\"minutes\": 2, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Introduce yourself briefly.\", \"Be warm and friendly.\"]}",
+            "action_content": []
+        },
+        {
+            "action_id": 4,
+            "action_type": "HARU_GAZE",
+            "bond_action_ids": [3],
+            "wait_for_action_ids": [1, 2],
+            "action_arguments": {
+                "gaze_arguments": {
+                    "gaze_mode": "TRACK_PERSON"
+                }
+            },
+            "action_content": []
+        },
+        {
+            "action_id": 5,
+            "action_type": "HARU_CONVERSATE",
+            "wait_for_action_ids": [3, 4],
+            "action_content": [
+                {
+                    "value": [
+                        {
+                            "tts": "Now, let me show you something fun on the screen!",
+                            "delay": 1,
+                            "routine": 2105
+                        }
+                    ],
+                    "metainfo": "Transition to share content",
+                    "value_type": "JSON_CONVERSATE_MULTITTS"
+                }
+            ]
+        },
+        {
+            "action_id": 6,
+            "action_type": "HARU_SHARE",
+            "wait_for_action_ids": [5],
+            "action_content": [
+                {
+                    "value": "/path/to/intro_video.webm",
+                    "metainfo": "Introduction video",
+                    "value_type": "URL_VIDEO"
+                }
+            ],
+            "action_arguments": {
+                "share_arguments": {
+                    "share_mode": "SHOW_SIMPLE",
+                    "share_type": "VIDEO",
+                    "share_screen": 1,
+                    "share_subtype": "APP_CONTENT",
+                    "share_video_args": {
+                        "video_loop": false,
+                        "video_mute": false,
+                        "video_wait_completion": true
+                    }
+                }
+            }
+        },
+        {
+            "action_id": 7,
+            "action_type": "HARU_GAZE",
+            "wait_for_action_ids": [5],
+            "action_arguments": {
+                "gaze_arguments": {
+                    "gaze_mode": "GROUP"
+                }
+            },
+            "action_content": []
+        },
+        {
+            "action_id": 8,
+            "action_type": "HARU_REQUEST",
+            "wait_for_action_ids": [6, 7],
+            "action_content": [
+                {
+                    "user_id": {
+                        "haru_id": "haru-jp",
+                        "local_id": -1
+                    },
+                    "metainfo": "Request avatars from participants"
+                }
+            ],
+            "action_arguments": {
+                "request_arguments": {
+                    "request_type": "IMAGE_AVATAR"
+                }
+            },
+            "action_results_key": "avatar_results"
+        },
+        {
+            "action_id": 9,
+            "action_type": "HARU_CONVERSATE",
+            "wait_for_action_ids": [8],
+            "action_content": [
+                {
+                    "value": [
+                        {
+                            "tts": "Great! Let me show everyone's avatars!",
+                            "delay": 1,
+                            "routine": 2011
+                        }
+                    ],
+                    "metainfo": "Announce showing avatars",
+                    "value_type": "JSON_CONVERSATE_MULTITTS"
+                }
+            ]
+        },
+        {
+            "action_id": 10,
+            "action_type": "HARU_SHARE",
+            "wait_for_action_ids": [9],
+            "action_content": "{{avatar_results}}",
+            "action_arguments": {
+                "share_arguments": {
+                    "share_mode": "SHOW_ALL",
+                    "share_type": "IMAGE",
+                    "share_screen": 1,
+                    "share_subtype": "SHARED_CONTENT",
+                    "share_image_subtype": "IMAGE_AVATAR"
+                }
+            }
+        },
+        {
+            "action_id": 11,
+            "action_type": "HARU_GAZE",
+            "wait_for_action_ids": [9],
+            "action_content": [
+                {
+                    "value": {
+                        "gaze_targets": [
+                            {
+                                "user_id": "1",
+                                "duration": 3000
+                            },
+                            {
+                                "user_id": "2",
+                                "duration": 3000
+                            },
+                            {
+                                "user_id": "3",
+                                "duration": 3000
+                            }
+                        ],
+                        "loop": true
+                    },
+                    "value_type": "JSON_GAZE_MULTI_INDIVIDUAL",
+                    "metainfo": "Cycle through participants while showing avatars"
+                }
+            ]
+        },
+        {
+            "action_id": 12,
+            "action_type": "HARU_CONVERSATE",
+            "wait_for_action_ids": [10, 11],
+            "action_goal": "{\"id\": \"learn_topic\", \"description\": \"Learn each participant's favorite color.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} asks {participant} about their favorite color.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"{robot_name} learns {participant}'s favorite color.\", \"reached\": false, \"evidence\": null}], \"criteria_expand\": [{\"ids\": [\"c1\", \"c2\"], \"mappings\": [{\"source\": \"participants_start_right\", \"target\": \"participant\"}]}], \"timeout\": {\"max_time\": {\"minutes\": 3, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Be curious about their answers.\"]}",
+            "action_content": []
+        },
+        {
+            "action_id": 13,
+            "action_type": "HARU_GAZE",
+            "bond_action_ids": [12],
+            "wait_for_action_ids": [10, 11],
+            "action_arguments": {
+                "gaze_arguments": {
+                    "gaze_mode": "TRACK_PERSON"
+                }
+            },
+            "action_content": []
+        },
+        {
+            "action_id": 14,
+            "action_type": "HARU_CONVERSATE",
+            "parallel_action_ids": [15],
+            "wait_for_action_ids": [12, 13],
+            "action_goal": "{\"id\": \"group_discussion\", \"description\": \"Facilitate a group discussion about colors.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} summarizes what the group shared.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"At least two participants talk to each other.\", \"reached\": false, \"evidence\": null}], \"additional_instructions\": [\"Address participants as a group.\", \"Step back and let them talk.\"]}",
+            "action_content": []
+        },
+        {
+            "action_id": 15,
+            "action_type": "HARU_GAZE",
+            "wait_for_action_ids": [12, 13],
+            "action_arguments": {
+                "gaze_arguments": {
+                    "gaze_mode": "GROUP"
+                }
+            },
+            "action_content": []
+        },
+        {
+            "action_id": 16,
+            "action_type": "HARU_GAZE",
+            "wait_for_action_ids": [14, 15],
+            "action_arguments": {
+                "gaze_arguments": {
+                    "gaze_mode": "TRACK_PERSON"
+                }
+            },
+            "action_content": [
+                {
+                    "user_id": {
+                        "haru_id": "haru-jp",
+                        "local_id": 1
+                    },
+                    "value_type": "GAZE_INDIVIDUAL",
+                    "metainfo": "Look at specific participant"
+                }
+            ]
+        },
+        {
+            "action_id": 17,
+            "action_type": "HARU_CONVERSATE",
+            "wait_for_action_ids": [16],
+            "action_goal": "{\"id\": \"individual_moment\", \"description\": \"Have a brief individual moment with one participant.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} asks a personal question.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"The participant shares something personal.\", \"reached\": false, \"evidence\": null}], \"timeout\": {\"max_time\": {\"minutes\": 2, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Be genuinely interested.\"]}",
+            "action_content": []
+        },
+        {
+            "action_id": 18,
+            "action_type": "HARU_GAZE",
+            "bond_action_ids": [17],
+            "wait_for_action_ids": [16],
+            "action_arguments": {
+                "gaze_arguments": {
+                    "gaze_mode": "TRACK_PERSON"
+                }
+            },
+            "action_content": []
+        },
+        {
+            "action_id": 19,
+            "action_type": "HARU_CONVERSATE",
+            "wait_for_action_ids": [17, 18],
+            "action_content": [
+                {
+                    "value": [
+                        {
+                            "tts": "Thank you all so much for spending time with me today!",
+                            "delay": 1,
+                            "routine": 2105
+                        },
+                        {
+                            "tts": "I had a wonderful time getting to know each of you.",
+                            "delay": 2,
+                            "routine": 2011
+                        }
+                    ],
+                    "metainfo": "Premade closing message",
+                    "value_type": "JSON_CONVERSATE_MULTITTS"
+                }
+            ]
+        },
+        {
+            "action_id": 20,
+            "action_type": "HARU_GAZE",
+            "bond_action_ids": [19],
+            "wait_for_action_ids": [17, 18],
+            "action_arguments": {
+                "gaze_arguments": {
+                    "gaze_mode": "GROUP"
+                }
+            },
+            "action_content": []
+        },
+        {
+            "action_id": 21,
+            "action_type": "HARU_CONVERSATE",
+            "wait_for_action_ids": [19, 20],
+            "action_goal": "{\"id\": \"farewell\", \"description\": \"Say goodbye to participants.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} says goodbye.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"At least one participant says goodbye.\", \"reached\": false, \"evidence\": null}], \"timeout\": {\"max_time\": {\"minutes\": 1, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Keep it warm but brief.\"]}",
+            "action_content": []
+        },
+        {
+            "action_id": 22,
+            "action_type": "HARU_GAZE",
+            "bond_action_ids": [21],
+            "wait_for_action_ids": [19, 20],
+            "action_arguments": {
+                "gaze_arguments": {
+                    "gaze_mode": "GROUP"
+                }
+            },
+            "action_content": []
+        },
+        {
+            "action_id": 23,
+            "action_type": "HARU_GAZE",
+            "wait_for_action_ids": [21, 22],
+            "action_arguments": {
+                "gaze_arguments": {
+                    "gaze_mode": "TRACK_PERSON"
+                }
+            },
+            "action_content": [
+                {
+                    "value_type": "GAZE_STOP",
+                    "metainfo": "Stop gazing at end of session"
+                }
+            ]
+        }
+    ],
+    "template": {
+        "parameters": {}
+    }
+}
