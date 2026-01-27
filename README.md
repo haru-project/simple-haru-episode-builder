@@ -1,99 +1,128 @@
+# Haru Scenario Builder
 
-# Simple Haru Episode Builder
-
-A lightweight Streamlit app for creating episode JSON files for the Haru social robot.  
-The tool lets you define metadata, add actions, specify bonds, and export structured JSON files ready for use in Haru interaction pipelines.
-
-![alt text](images/SimpleHaruEpisodeBuilder.png)
+A Streamlit app for creating Task and Scenario JSON files for the Haru social robot.
 
 ---
 
 ## Features
-- Simple Streamlit web UI  
-- Auto-incrementing action IDs  
-- Two action types:
-  - `HARU_CONVERSATE`
-  - `HARU_GAZE` (auto-fills gaze arguments)
-- Support for bonded and waiting dependencies  
-- Live JSON preview  
-- One-click JSON download  
+
+- **Two-page workflow**: Task Builder and Scenario Builder
+- **Template-based tasks**: Load from predefined templates with parameter substitution
+- **Four action types**:
+  - `HARU_CONVERSATE` - Dialogue with structured goals
+  - `HARU_GAZE` - Gaze tracking (person/group)
+  - `HARU_SHARE` - Display content on screen
+  - `HARU_REQUEST` - Request input from users
+- **Visual action flow**: Timeline view with parallel action support
+- **Inline editing**: Edit timeout and additional instructions directly in preview
+- **Scenario composition**: Combine multiple tasks into scenarios
 
 ---
 
-## Setup (Linux, using `uv`)
+## Setup
 
-This project already includes a `pyproject.toml` with the required dependencies.
-
-### 1. Create the virtual environment
+### Using `uv` (recommended)
 
 ```bash
+# Create virtual environment
 uv venv
-```
 
-### 2. Activate the environment
-
-```bash
+# Activate
 source .venv/bin/activate
-```
 
-### 3. Install dependencies from `pyproject.toml`
-
-```bash
+# Install dependencies
 uv sync
 ```
 
-This installs everything listed under `[project.dependencies]` into the venv.
-
----
-
-## Run the App
+### Using pip
 
 ```bash
-streamlit run haru_json_builder_app.py
-```
-
-Then open:
-
-```
-http://localhost:8501
+python -m venv .venv
+source .venv/bin/activate
+pip install streamlit pydantic
 ```
 
 ---
 
-## Usage Overview
+## Run
 
-### 1. Configure Episode Metadata
-Specify:
-- app_id / episode_id  
-- haru_id  
-- stage_id / task_id  
-- ready / mute / teleconference flags  
-- description  
+```bash
+streamlit run app.py
+```
 
-### 2. Add Actions
-Choose between:
+Open http://localhost:8501
 
-#### HARU_CONVERSATE
-- `action_content: []`
-- No `action_arguments`
+---
 
-#### HARU_GAZE
-Automatically inserts:
+## Pages
+
+### Task Builder
+
+Create individual tasks from templates or load existing tasks.
+
+1. **Load**: Select a template or load an existing task
+2. **Configure**: Fill in template parameters (topic, etc.)
+3. **Preview & Edit**: View action flow, edit timeout and instructions
+4. **Save**: Save to Scenario Builder or download JSON
+
+### Scenario Builder
+
+Combine saved tasks into scenarios.
+
+1. **Add tasks** from the left panel
+2. **Reorder** with up/down buttons
+3. **Download** the complete scenario JSON
+
+---
+
+## Action Types
+
+| Type | Icon | Description |
+|------|------|-------------|
+| CONVERSATE | `conversation` | Dialogue with goals, success criteria, timeout |
+| GAZE | `eye` | Look at person or group |
+| SHARE | `screen` | Display text, image, or video |
+| REQUEST | `inbox` | Request avatar photo or text input |
+
+---
+
+## Project Structure
+
+```
+simple-haru-episode-builder/
+├── app.py                    # Main entry point
+├── views/
+│   ├── scenario_builder.py   # Scenario Builder page
+│   └── task_builder.py       # Task Builder page
+├── src/
+│   ├── models/               # Pydantic data models
+│   ├── components/           # UI components
+│   ├── services/             # Template service
+│   └── utils/                # Constants and helpers
+└── data/
+    └── tasks/
+        ├── templates/        # Task templates
+        └── saved/            # Saved tasks
+```
+
+---
+
+## Templates
+
+Templates are JSON files with parameter placeholders:
 
 ```json
 {
-  "gaze_arguments": {
-    "gaze_mode": "TRACK_PERSON"
-  }
+  "template": {
+    "parameters": {
+      "topic": {
+        "description": "The topic to discuss",
+        "example": "favorite movies"
+      }
+    }
+  },
+  "actions": [...]
 }
 ```
 
-### 3. Link Actions
-Optionally configure:
-- `bond_action_ids`
-- `wait_for_action_ids`
-
-### 4. Export Episode
-Preview the generated JSON and download it in one click.
-
----
+Place templates in `data/tasks/templates/` or configure a custom path in `src/utils/constants.py`.
