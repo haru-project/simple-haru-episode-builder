@@ -332,12 +332,32 @@ def render_goal_visualization(goal_str: str, action: dict = None, action_id: int
     st.markdown(f"**{goal.get('description', 'Goal')}**")
 
     criteria = goal.get("success_criteria", [])
+    criteria_expand = goal.get("criteria_expand", [])
+
+    # Build set of expanded criteria IDs for marking
+    expanded_ids = set()
+    for exp in criteria_expand:
+        expanded_ids.update(exp.get("ids", []))
+
     if criteria:
         st.markdown("**Success Criteria:**")
         for c in criteria:
             cid = c.get("id", "")
             desc = c.get("description", "")
-            st.markdown(f"- `{cid}`: {desc}")
+            expand_marker = " 🔄" if cid in expanded_ids else ""
+            st.markdown(f"- `{cid}`{expand_marker}: {desc}")
+
+    # Show criteria expansion info
+    if criteria_expand:
+        with st.expander("🔄 Criteria Expansion", expanded=True):
+            for exp in criteria_expand:
+                ids = exp.get("ids", [])
+                mappings = exp.get("mappings", [])
+                ids_str = ", ".join(ids)
+                for mapping in mappings:
+                    source_var = mapping.get("source", "")
+                    target_var = mapping.get("target", "")
+                    st.markdown(f"**{ids_str}** → expand `{{{target_var}}}` for each value in `{source_var}`")
 
     # Editable timeout
     timeout = goal.get("timeout", {})
@@ -485,10 +505,12 @@ with source_tab1:
                 st.markdown("---")
                 st.subheader("Configure")
 
-                param_key = f"params_{selected_name}"
+                template_base_name = selected_name  # Save original template name
+                param_key = f"params_{template_base_name}"
                 if param_key not in st.session_state:
                     st.session_state[param_key] = {}
                 param_values = st.session_state[param_key]
+                st.session_state["current_template_param_key"] = param_key
 
                 # Sort: _id params come last, after their source params
                 def param_sort_key(item):
@@ -589,9 +611,23 @@ with source_tab2:
 
 # Store result in session state for editing
 if result:
-    if "working_task" not in st.session_state or st.session_state.get("working_task_name") != selected_name:
+    # For template-based loading, track param values to detect changes
+    param_key = st.session_state.get("current_template_param_key")
+    current_params = st.session_state.get(param_key, {}) if param_key else {}
+    params_hash = hash(frozenset(current_params.items())) if current_params else None
+    prev_params_hash = st.session_state.get("working_task_params_hash")
+
+    # Update if: new task, name changed, or params changed
+    should_update = (
+        "working_task" not in st.session_state
+        or st.session_state.get("working_task_name") != selected_name
+        or (params_hash is not None and params_hash != prev_params_hash)
+    )
+
+    if should_update:
         st.session_state["working_task"] = result
         st.session_state["working_task_name"] = selected_name
+        st.session_state["working_task_params_hash"] = params_hash
     result = st.session_state["working_task"]
 
 # Display task if we have a result
