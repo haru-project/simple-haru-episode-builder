@@ -250,7 +250,7 @@ def render_action_panel(action: dict):
     with st.container(border=True):
         if atype == "CONVERSATE":
             goal = action.get("action_goal", "")
-            render_goal_visualization(goal, action=action, action_id=aid)
+            render_goal_visualization(goal, action=action, action_id=aid, task_name=selected_name)
 
         elif atype == "GAZE":
             args = action.get("action_arguments", {}).get("gaze_arguments", {})
@@ -317,7 +317,7 @@ def render_action_panel(action: dict):
         st.json(action)
 
 
-def render_goal_visualization(goal_str: str, action: dict = None, action_id: int = 0):
+def render_goal_visualization(goal_str: str, action: dict = None, action_id: int = 0, task_name: str = ""):
     """Render a structured goal in a nice format with editable instructions and timeout."""
     if not goal_str or not goal_str.strip().startswith("{"):
         st.markdown(f"**Goal:** {goal_str}" if goal_str else "*No goal*")
@@ -369,7 +369,7 @@ def render_goal_visualization(goal_str: str, action: dict = None, action_id: int
                 "Minutes",
                 min_value=0,
                 value=max_time.get("minutes", 0),
-                key=f"timeout_mins_{action_id}",
+                key=f"timeout_mins_{task_name}_{action_id}",
             )
         with col2:
             secs = st.number_input(
@@ -377,14 +377,14 @@ def render_goal_visualization(goal_str: str, action: dict = None, action_id: int
                 min_value=0,
                 max_value=59,
                 value=max_time.get("seconds", 0),
-                key=f"timeout_secs_{action_id}",
+                key=f"timeout_secs_{task_name}_{action_id}",
             )
         with col3:
             turns = st.number_input(
                 "Max Turns",
                 min_value=0,
                 value=timeout.get("max_turns", 0) or 0,
-                key=f"timeout_turns_{action_id}",
+                key=f"timeout_turns_{task_name}_{action_id}",
             )
 
         # Update timeout if changed
@@ -401,8 +401,8 @@ def render_goal_visualization(goal_str: str, action: dict = None, action_id: int
     # Editable additional instructions as list
     instructions = goal.get("additional_instructions", [])
 
-    # Initialize session state for instructions list
-    instr_key = f"instructions_list_{action_id}"
+    # Initialize session state for instructions list (include task_name to reset on template change)
+    instr_key = f"instructions_list_{task_name}_{action_id}"
     if instr_key not in st.session_state:
         st.session_state[instr_key] = instructions.copy()
 
@@ -417,13 +417,13 @@ def render_goal_visualization(goal_str: str, action: dict = None, action_id: int
                 new_val = st.text_input(
                     f"Instruction {idx + 1}",
                     value=instr,
-                    key=f"instr_{action_id}_{idx}",
+                    key=f"instr_{task_name}_{action_id}_{idx}",
                     label_visibility="collapsed",
                 )
                 if new_val != instr:
                     current_instructions[idx] = new_val
             with col2:
-                if st.button("🗑️", key=f"del_instr_{action_id}_{idx}", help="Delete"):
+                if st.button("🗑️", key=f"del_instr_{task_name}_{action_id}_{idx}", help="Delete"):
                     to_delete = idx
 
         if to_delete is not None:
@@ -437,12 +437,12 @@ def render_goal_visualization(goal_str: str, action: dict = None, action_id: int
             new_instr = st.text_input(
                 "New instruction",
                 value="",
-                key=f"new_instr_{action_id}",
+                key=f"new_instr_{task_name}_{action_id}",
                 placeholder="Add new instruction...",
                 label_visibility="collapsed",
             )
         with col2:
-            if st.button("➕", key=f"add_instr_{action_id}", help="Add"):
+            if st.button("➕", key=f"add_instr_{task_name}_{action_id}", help="Add"):
                 if new_instr.strip():
                     current_instructions.append(new_instr.strip())
                     st.session_state[instr_key] = current_instructions
