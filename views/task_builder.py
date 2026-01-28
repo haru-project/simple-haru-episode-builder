@@ -22,6 +22,11 @@ def to_snake_case(text: str) -> str:
     return text
 
 
+def to_title_case(snake_text: str) -> str:
+    """Convert snake_case to Title_Case (preserving underscores)."""
+    return "_".join(word.capitalize() for word in snake_text.split("_"))
+
+
 def get_action_content_preview(action: dict, max_len: int = 50) -> str:
     """Extract a short content preview for display in action flow."""
     atype = action.get("action_type", "").replace("HARU_", "")
@@ -485,31 +490,58 @@ with source_tab1:
                     st.session_state[param_key] = {}
                 param_values = st.session_state[param_key]
 
-                sorted_params = sorted(parameters.items(), key=lambda x: (x[0] == "topic_id", x[0]))
+                # Sort: _id params come last, after their source params
+                def param_sort_key(item):
+                    name = item[0]
+                    if name.endswith("_id"):
+                        return (1, name)  # _id params last
+                    return (0, name)
+
+                sorted_params = sorted(parameters.items(), key=param_sort_key)
+
+                # Find first non-id param for fallback auto-generation
+                first_source_param = next((p for p, _ in sorted_params if not p.endswith("_id")), None)
 
                 for pname, pinfo in sorted_params:
                     desc = pinfo.get("description", "")
                     example = pinfo.get("example", "")
+                    widget_key = f"tmpl_param_{selected_name}_{pname}"
 
-                    if pname == "topic_id" and "topic" in parameters:
-                        topic_val = param_values.get("topic", "")
-                        current_val = param_values.get(pname, "")
-                        if not current_val or current_val == to_snake_case(st.session_state.get(f"prev_topic_{selected_name}", "")):
-                            current_val = to_snake_case(topic_val) if topic_val else ""
-                        st.session_state[f"prev_topic_{selected_name}"] = topic_val
-                        param_values[pname] = st.text_input(
-                            pname,
-                            value=current_val,
-                            help="Auto-generated from topic (editable)",
-                            key=f"tmpl_param_{pname}",
-                        )
+                    # Auto-generate _id params from their base param or first param
+                    if pname.endswith("_id"):
+                        base_param = pname[:-3]  # e.g., "topic_id" -> "topic"
+                        source_param = base_param if base_param in parameters else first_source_param
+
+                        if source_param:
+                            source_widget_key = f"tmpl_param_{selected_name}_{source_param}"
+                            source_val = st.session_state.get(source_widget_key, "")
+                            prev_key = f"prev_{source_param}_{selected_name}"
+                            prev_source_val = st.session_state.get(prev_key, "")
+
+                            # Auto-update widget if source changed
+                            if source_val != prev_source_val:
+                                new_id = to_snake_case(source_val) if source_val else ""
+                                st.session_state[widget_key] = new_id
+                                st.session_state[prev_key] = source_val
+
+                            param_values[pname] = st.text_input(
+                                pname,
+                                help=f"Auto-generated from {source_param} (editable)",
+                                key=widget_key,
+                            )
+                        else:
+                            param_values[pname] = st.text_input(
+                                pname,
+                                help=desc,
+                                placeholder=f"e.g., {example}" if example else "",
+                                key=widget_key,
+                            )
                     else:
                         param_values[pname] = st.text_input(
                             pname,
-                            value=param_values.get(pname, ""),
                             help=desc,
                             placeholder=f"e.g., {example}" if example else "",
-                            key=f"tmpl_param_{pname}",
+                            key=widget_key,
                         )
 
                 errors = template_service.validate_parameters(template_data, param_values)
@@ -518,7 +550,12 @@ with source_tab1:
                     st.warning("Please fill in all parameters")
                 else:
                     result = template_service.substitute_parameters(template_data, param_values)
-                    selected_name = f"{selected_name}_{param_values.get(list(parameters.keys())[0], 'task')}"
+                    # Use template name + Topic_Id (or first _id param) as task name
+                    id_param = next((p for p in parameters if p.endswith("_id")), None)
+                    if id_param and param_values.get(id_param):
+                        selected_name = f"{selected_name}_{to_title_case(param_values[id_param])}"
+                    else:
+                        selected_name = f"{selected_name}_{to_title_case(param_values.get(list(parameters.keys())[0], 'task'))}"
             else:
                 result = template_data.copy()
                 if "template" in result:

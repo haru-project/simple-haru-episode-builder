@@ -36,7 +36,7 @@
                 "example": "favorite school subject"
             },
             "topic_id": {
-                "description": "Snake_case identifier for the topic (e.g., 'favorite_school_subject', 'favorite_color', 'first_pet')",
+                "description": "Auto-generated from topic (editable)",
                 "example": "favorite_school_subject"
             },
             "participant_order": {

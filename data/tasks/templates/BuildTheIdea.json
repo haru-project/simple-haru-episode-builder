@@ -1,0 +1,46 @@
+{
+    "app_id": "build_the_idea_{topic_id}",
+    "episode_id": "1",
+    "haru_id": "haru-jp",
+    "stage_id": 1,
+    "task_id": 1,
+    "ready": false,
+    "mute": true,
+    "teleconference_on": true,
+    "description": "BuildTheIdea - Collaboratively build an idea about {topic} together as a group",
+    "actions": [
+        {
+            "action_id": 1,
+            "action_type": "HARU_CONVERSATE",
+            "action_goal": "{\"id\": \"build_the_idea_{topic_id}\", \"description\": \"Start with a seed idea about {topic} and have the group build on it together.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} introduces the challenge: Let's plan {topic} together.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"One participant contributes an idea.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c3\", \"description\": \"{robot_name} continues facilitating the discussion for {discussion_time}.\", \"reached\": false, \"evidence\": null}], \"timeout\": {\"max_time\": {\"minutes\": 5, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Address the group as a whole.\", \"Stay neutral - don't judge opinions.\", \"Encourage everyone to contribute.\"]}",
+            "action_content": []
+        },
+        {
+            "action_id": 2,
+            "action_type": "HARU_GAZE",
+            "bond_action_ids": [1],
+            "action_arguments": {
+                "gaze_arguments": {
+                    "gaze_mode": "GROUP"
+                }
+            },
+            "action_content": []
+        }
+    ],
+    "template": {
+        "parameters": {
+            "topic": {
+                "description": "What to build together (e.g., 'the perfect party', 'an ideal vacation', 'a fun weekend')",
+                "example": "the perfect party"
+            },
+            "topic_id": {
+                "description": "Auto-generated from topic (editable)",
+                "example": "perfect_party"
+            },
+            "discussion_time": {
+                "description": "How long to continue the discussion (e.g., '2 minutes', '90 seconds')",
+                "example": "2 minutes"
+            }
+        }
+    }
+}

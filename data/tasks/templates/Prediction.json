@@ -1,0 +1,46 @@
+{
+    "app_id": "prediction_{topic_id}",
+    "episode_id": "1",
+    "haru_id": "haru-jp",
+    "stage_id": 1,
+    "task_id": 1,
+    "ready": false,
+    "mute": true,
+    "teleconference_on": true,
+    "description": "Prediction - Ask the group what they think will happen with {topic}",
+    "actions": [
+        {
+            "action_id": 1,
+            "action_type": "HARU_CONVERSATE",
+            "action_goal": "{\"id\": \"prediction_{topic_id}\", \"description\": \"Ask the group to make predictions about {topic} and compare their views.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} asks the group: What do you think will happen with {topic}?\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"At least one participant shares their prediction.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c3\", \"description\": \"{robot_name} continues facilitating the discussion for {discussion_time}.\", \"reached\": false, \"evidence\": null}], \"timeout\": {\"max_time\": {\"minutes\": 5, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Address the group as a whole.\", \"Compare different predictions.\"]}",
+            "action_content": []
+        },
+        {
+            "action_id": 2,
+            "action_type": "HARU_GAZE",
+            "bond_action_ids": [1],
+            "action_arguments": {
+                "gaze_arguments": {
+                    "gaze_mode": "GROUP"
+                }
+            },
+            "action_content": []
+        }
+    ],
+    "template": {
+        "parameters": {
+            "topic": {
+                "description": "What to predict (e.g., 'the weather tomorrow', 'the next big trend', 'how the story ends')",
+                "example": "the weather tomorrow"
+            },
+            "topic_id": {
+                "description": "Auto-generated from topic (editable)",
+                "example": "weather_tomorrow"
+            },
+            "discussion_time": {
+                "description": "How long to continue the discussion (e.g., '2 minutes', '90 seconds')",
+                "example": "2 minutes"
+            }
+        }
+    }
+}
