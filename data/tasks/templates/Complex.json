@@ -29,7 +29,9 @@
         {
             "action_id": 2,
             "action_type": "HARU_GAZE",
-            "bond_action_ids": [1],
+            "bond_action_ids": [
+                1
+            ],
             "action_arguments": {
                 "gaze_arguments": {
                     "gaze_mode": "GROUP"
@@ -40,15 +42,23 @@
         {
             "action_id": 3,
             "action_type": "HARU_CONVERSATE",
-            "wait_for_action_ids": [1, 2],
+            "wait_for_action_ids": [
+                1,
+                2
+            ],
             "action_goal": "{\"id\": \"greet_phase\", \"description\": \"Introduce yourself and greet each participant.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} says its name.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"{robot_name} greets {participant}.\", \"reached\": false, \"evidence\": null}], \"criteria_expand\": [{\"ids\": [\"c2\"], \"mappings\": [{\"source\": \"participants_start_left\", \"target\": \"participant\"}]}], \"timeout\": {\"max_time\": {\"minutes\": 2, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Introduce yourself briefly.\", \"Be warm and friendly.\"]}",
             "action_content": []
         },
         {
             "action_id": 4,
             "action_type": "HARU_GAZE",
-            "bond_action_ids": [3],
-            "wait_for_action_ids": [1, 2],
+            "bond_action_ids": [
+                3
+            ],
+            "wait_for_action_ids": [
+                1,
+                2
+            ],
             "action_arguments": {
                 "gaze_arguments": {
                     "gaze_mode": "TRACK_PERSON"
@@ -59,7 +69,10 @@
         {
             "action_id": 5,
             "action_type": "HARU_CONVERSATE",
-            "wait_for_action_ids": [3, 4],
+            "wait_for_action_ids": [
+                3,
+                4
+            ],
             "action_content": [
                 {
                     "value": [
@@ -77,7 +90,9 @@
         {
             "action_id": 6,
             "action_type": "HARU_SHARE",
-            "wait_for_action_ids": [5],
+            "wait_for_action_ids": [
+                5
+            ],
             "action_content": [
                 {
                     "value": "/path/to/intro_video.webm",
@@ -102,7 +117,9 @@
         {
             "action_id": 7,
             "action_type": "HARU_GAZE",
-            "wait_for_action_ids": [5],
+            "wait_for_action_ids": [
+                5
+            ],
             "action_arguments": {
                 "gaze_arguments": {
                     "gaze_mode": "GROUP"
@@ -113,7 +130,10 @@
         {
             "action_id": 8,
             "action_type": "HARU_REQUEST",
-            "wait_for_action_ids": [6, 7],
+            "wait_for_action_ids": [
+                6,
+                7
+            ],
             "action_content": [
                 {
                     "user_id": {
@@ -133,7 +153,9 @@
         {
             "action_id": 9,
             "action_type": "HARU_CONVERSATE",
-            "wait_for_action_ids": [8],
+            "wait_for_action_ids": [
+                8
+            ],
             "action_content": [
                 {
                     "value": [
@@ -151,7 +173,9 @@
         {
             "action_id": 10,
             "action_type": "HARU_SHARE",
-            "wait_for_action_ids": [9],
+            "wait_for_action_ids": [
+                9
+            ],
             "action_content": "{{avatar_results}}",
             "action_arguments": {
                 "share_arguments": {
@@ -166,7 +190,9 @@
         {
             "action_id": 11,
             "action_type": "HARU_GAZE",
-            "wait_for_action_ids": [9],
+            "wait_for_action_ids": [
+                9
+            ],
             "action_content": [
                 {
                     "value": {
@@ -194,15 +220,23 @@
         {
             "action_id": 12,
             "action_type": "HARU_CONVERSATE",
-            "wait_for_action_ids": [10, 11],
+            "wait_for_action_ids": [
+                10,
+                11
+            ],
             "action_goal": "{\"id\": \"learn_topic\", \"description\": \"Learn each participant's favorite color.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} asks {participant} about their favorite color.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"{robot_name} learns {participant}'s favorite color.\", \"reached\": false, \"evidence\": null}], \"criteria_expand\": [{\"ids\": [\"c1\", \"c2\"], \"mappings\": [{\"source\": \"participants_start_right\", \"target\": \"participant\"}]}], \"timeout\": {\"max_time\": {\"minutes\": 3, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Be curious about their answers.\"]}",
             "action_content": []
         },
         {
             "action_id": 13,
             "action_type": "HARU_GAZE",
-            "bond_action_ids": [12],
-            "wait_for_action_ids": [10, 11],
+            "bond_action_ids": [
+                12
+            ],
+            "wait_for_action_ids": [
+                10,
+                11
+            ],
             "action_arguments": {
                 "gaze_arguments": {
                     "gaze_mode": "TRACK_PERSON"
@@ -213,15 +247,23 @@
         {
             "action_id": 14,
             "action_type": "HARU_CONVERSATE",
-            "parallel_action_ids": [15],
-            "wait_for_action_ids": [12, 13],
+            "parallel_action_ids": [
+                15
+            ],
+            "wait_for_action_ids": [
+                12,
+                13
+            ],
             "action_goal": "{\"id\": \"group_discussion\", \"description\": \"Facilitate a group discussion about colors.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} summarizes what the group shared.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"At least two participants talk to each other.\", \"reached\": false, \"evidence\": null}], \"additional_instructions\": [\"Address participants as a group.\", \"Step back and let them talk.\"]}",
             "action_content": []
         },
         {
             "action_id": 15,
             "action_type": "HARU_GAZE",
-            "wait_for_action_ids": [12, 13],
+            "wait_for_action_ids": [
+                12,
+                13
+            ],
             "action_arguments": {
                 "gaze_arguments": {
                     "gaze_mode": "GROUP"
@@ -232,7 +274,10 @@
         {
             "action_id": 16,
             "action_type": "HARU_GAZE",
-            "wait_for_action_ids": [14, 15],
+            "wait_for_action_ids": [
+                14,
+                15
+            ],
             "action_arguments": {
                 "gaze_arguments": {
                     "gaze_mode": "TRACK_PERSON"
@@ -252,15 +297,21 @@
         {
             "action_id": 17,
             "action_type": "HARU_CONVERSATE",
-            "wait_for_action_ids": [16],
+            "wait_for_action_ids": [
+                16
+            ],
             "action_goal": "{\"id\": \"individual_moment\", \"description\": \"Have a brief individual moment with one participant.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} asks a personal question.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"The participant shares something personal.\", \"reached\": false, \"evidence\": null}], \"timeout\": {\"max_time\": {\"minutes\": 2, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Be genuinely interested.\"]}",
             "action_content": []
         },
         {
             "action_id": 18,
             "action_type": "HARU_GAZE",
-            "bond_action_ids": [17],
-            "wait_for_action_ids": [16],
+            "bond_action_ids": [
+                17
+            ],
+            "wait_for_action_ids": [
+                16
+            ],
             "action_arguments": {
                 "gaze_arguments": {
                     "gaze_mode": "TRACK_PERSON"
@@ -271,7 +322,10 @@
         {
             "action_id": 19,
             "action_type": "HARU_CONVERSATE",
-            "wait_for_action_ids": [17, 18],
+            "wait_for_action_ids": [
+                17,
+                18
+            ],
             "action_content": [
                 {
                     "value": [
@@ -294,8 +348,13 @@
         {
             "action_id": 20,
             "action_type": "HARU_GAZE",
-            "bond_action_ids": [19],
-            "wait_for_action_ids": [17, 18],
+            "bond_action_ids": [
+                19
+            ],
+            "wait_for_action_ids": [
+                17,
+                18
+            ],
             "action_arguments": {
                 "gaze_arguments": {
                     "gaze_mode": "GROUP"
@@ -306,15 +365,23 @@
         {
             "action_id": 21,
             "action_type": "HARU_CONVERSATE",
-            "wait_for_action_ids": [19, 20],
+            "wait_for_action_ids": [
+                19,
+                20
+            ],
             "action_goal": "{\"id\": \"farewell\", \"description\": \"Say goodbye to participants.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} says goodbye.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"At least one participant says goodbye.\", \"reached\": false, \"evidence\": null}], \"timeout\": {\"max_time\": {\"minutes\": 1, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Keep it warm but brief.\"]}",
             "action_content": []
         },
         {
             "action_id": 22,
             "action_type": "HARU_GAZE",
-            "bond_action_ids": [21],
-            "wait_for_action_ids": [19, 20],
+            "bond_action_ids": [
+                21
+            ],
+            "wait_for_action_ids": [
+                19,
+                20
+            ],
             "action_arguments": {
                 "gaze_arguments": {
                     "gaze_mode": "GROUP"
@@ -325,7 +392,10 @@
         {
             "action_id": 23,
             "action_type": "HARU_GAZE",
-            "wait_for_action_ids": [21, 22],
+            "wait_for_action_ids": [
+                21,
+                22
+            ],
             "action_arguments": {
                 "gaze_arguments": {
                     "gaze_mode": "TRACK_PERSON"
