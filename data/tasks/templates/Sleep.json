@@ -18,7 +18,12 @@
                         {
                             "tts": "",
                             "delay": 0,
-                            "routine": 2014
+                            "routine": 2046
+                        },
+                        {
+                            "tts": "",
+                            "delay": 0,
+                            "routine": 2045
                         }
                     ],
                     "value_type": "JSON_CONVERSATE_MULTITTS",
