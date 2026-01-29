@@ -33,15 +33,12 @@ class TemplateService:
                 with open(json_file, "r") as f:
                     data = json.load(f)
 
-                # Check if it's a template (has template field or {param} placeholders)
+                # Check if it's a template (has template field)
                 template_info = data.get("template", {})
                 parameters = template_info.get("parameters", {})
 
-                # Also detect parameters from content if not explicitly defined
-                if not parameters:
-                    parameters = self._detect_parameters(data)
-
-                if parameters or "template" in data:
+                # Only use explicitly defined parameters from template.parameters
+                if "template" in data:
                     templates.append(
                         TemplateInfo(
                             name=json_file.stem,
@@ -61,7 +58,7 @@ class TemplateService:
         # Find all {param} patterns
         params = set(re.findall(r"\{(\w+)\}", content))
         # Exclude common false positives
-        exclude = {"robot_name", "participant"}
+        exclude = {"robot_name", "participant", "participants_count"}
         params = params - exclude
 
         return {
