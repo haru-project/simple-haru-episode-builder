@@ -10,5 +10,6 @@ __pycache__/
 ###################
 .python-version
 
-# Tasks
+# Data
 data/tasks/saved
+data/episodes
