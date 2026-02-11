@@ -11,7 +11,25 @@
     "actions": [
         {
             "action_id": 1,
+            "action_type": "HARU_GAZE",
+            "action_arguments": {
+                "gaze_arguments": {
+                    "gaze_mode": "TRACK_PERSON"
+                }
+            },
+            "action_content": [
+                {
+                    "value_type": "GAZE_STOP",
+                    "metainfo": "Stop gaze tracking"
+                }
+            ]
+        },
+        {
+            "action_id": 2,
             "action_type": "HARU_CONVERSATE",
+            "wait_for_action_ids": [
+                1
+            ],
             "action_content": [
                 {
                     "value": [
@@ -28,21 +46,6 @@
                     ],
                     "value_type": "JSON_CONVERSATE_MULTITTS",
                     "metainfo": "Going to sleep"
-                }
-            ]
-        },
-        {
-            "action_id": 2,
-            "action_type": "HARU_GAZE",
-            "action_arguments": {
-                "gaze_arguments": {
-                    "gaze_mode": "TRACK_PERSON"
-                }
-            },
-            "action_content": [
-                {
-                    "value_type": "GAZE_STOP",
-                    "metainfo": "Stop gaze tracking"
                 }
             ]
         }
