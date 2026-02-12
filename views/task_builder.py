@@ -13,6 +13,226 @@ from src.utils.constants import DEFAULT_TEMPLATE_PATH
 # Saved tasks directory
 SAVED_TASKS_DIR = Path(__file__).parent.parent / "data" / "tasks" / "saved"
 
+# ---------------------------------------------------------------------------
+# Block templates — extensible: add entries here for new block types
+# ---------------------------------------------------------------------------
+VOICE_GENRES = ["default", "question", "highnrg", "sad", "serious", "whiny"]
+
+BLOCK_TEMPLATES = {
+    "Express TTS": {
+        "action_type": "HARU_CONVERSATE",
+        "fields": [
+            {"name": "tts", "label": "TTS Text", "type": "text_area", "required": True,
+             "help": "The robot's speech text."},
+            {"name": "voice_genre", "label": "Voice Genre", "type": "select", "default": "default",
+             "options": VOICE_GENRES,
+             "help": "Voice style: default (neutral), question (interrogative), highnrg (energetic), sad, serious, whiny (frustrated)."},
+            {"name": "delay", "label": "Delay (seconds)", "type": "number", "default": 0,
+             "help": "Delay in seconds between the TTS and the routine."},
+            {"name": "routine", "label": "Routine ID", "type": "number", "default": 2001,
+             "help": "Routine ID from the [Routine List](https://docs.google.com/spreadsheets/d/1HAl8e7q3Vk94xx7pFC_rzmOrMwwRwDomXYbhDgINVmE/edit?gid=0#gid=0)."},
+            {"name": "metainfo", "label": "Metainfo", "type": "text", "default": ""},
+        ],
+        "build": lambda vals: {
+            "action_type": "HARU_CONVERSATE",
+            "action_content": [
+                {
+                    "value": [
+                        {
+                            "tts": f'<usel genre="{vals["voice_genre"]}"> {vals["tts"]} </usel>',
+                            "delay": vals["delay"],
+                            "routine": vals["routine"],
+                        }
+                    ],
+                    "value_type": "JSON_CONVERSATE_MULTITTS",
+                    "metainfo": vals["metainfo"] if vals.get("metainfo") else "Express TTS",
+                }
+            ],
+        },
+    },
+}
+
+
+ACTION_KEY_ORDER = [
+    "action_id", "wait_for_action_ids", "bond_action_ids",
+    "action_type", "action_arguments", "action_goal", "action_content",
+]
+
+
+def _order_action_keys(action: dict) -> dict:
+    """Return a new dict with keys in the canonical order."""
+    ordered = {}
+    for key in ACTION_KEY_ORDER:
+        if key in action:
+            ordered[key] = action[key]
+    # Append any extra keys not in the standard order
+    for key in action:
+        if key not in ordered:
+            ordered[key] = action[key]
+    return ordered
+
+
+def prepare_for_save(task: dict) -> dict:
+    """Return a copy of the task with action keys in canonical order."""
+    out = dict(task)
+    out["actions"] = [_order_action_keys(a) for a in task.get("actions", [])]
+    return out
+
+
+def renumber_actions(actions: list) -> list:
+    """Renumber action IDs sequentially and update all references."""
+    old_to_new = {}
+    for idx, action in enumerate(actions):
+        old_id = action.get("action_id", idx + 1)
+        new_id = idx + 1
+        old_to_new[old_id] = new_id
+        action["action_id"] = new_id
+
+    for action in actions:
+        if "wait_for_action_ids" in action and action["wait_for_action_ids"]:
+            action["wait_for_action_ids"] = [
+                old_to_new[wid] for wid in action["wait_for_action_ids"] if wid in old_to_new
+            ]
+        if "bond_action_ids" in action and action["bond_action_ids"]:
+            action["bond_action_ids"] = [
+                old_to_new[bid] for bid in action["bond_action_ids"] if bid in old_to_new
+            ]
+    return actions
+
+
+def _get_bond_group(actions: list, action_id: int) -> set[int]:
+    """Return the set of action IDs bonded with action_id (including itself)."""
+    group = {action_id}
+    for a in actions:
+        aid = a.get("action_id", 0)
+        bonds = a.get("bond_action_ids", [])
+        if aid == action_id or action_id in bonds:
+            group.add(aid)
+            group.update(bonds)
+    return group
+
+
+def insert_action(task: dict, target_action_id: int, position: str, new_action_data: dict):
+    """Insert a new action before or after target_action_id and rewire dependencies.
+
+    Bonded actions (e.g. CONVERSATE + GAZE) are treated as a group:
+    - "before": new action inherits the group's wait_for_action_ids;
+      all actions in the group now wait for the new action.
+    - "after": new action waits for all actions in the group;
+      any action that waited for any member of the group now waits for the new action.
+    """
+    actions = task.get("actions", [])
+    actions = sorted(actions, key=lambda a: a.get("action_id", 0))
+
+    target_idx = next(
+        (i for i, a in enumerate(actions) if a.get("action_id") == target_action_id), None
+    )
+    if target_idx is None:
+        return
+
+    # Identify bond group by old IDs (before any mutation)
+    old_bond_group = _get_bond_group(actions, target_action_id)
+    # Track group members by list index so we survive renumbering
+    group_member_indices = [i for i, a in enumerate(actions) if a.get("action_id") in old_bond_group]
+
+    if position == "before":
+        insert_idx = min(group_member_indices)
+
+        # Collect external wait_for_action_ids from the group
+        group_waits = set()
+        for gi in group_member_indices:
+            for wid in actions[gi].get("wait_for_action_ids", []):
+                if wid not in old_bond_group:
+                    group_waits.add(wid)
+        new_action_data["wait_for_action_ids"] = list(group_waits)
+
+        actions.insert(insert_idx, new_action_data)
+        # Indices shifted +1 for everything at or after insert_idx
+        group_member_indices = [gi + 1 for gi in group_member_indices]
+
+        renumber_actions(actions)
+        new_id = actions[insert_idx]["action_id"]
+
+        # Group members' new IDs (after renumber)
+        group_new_ids = {actions[gi]["action_id"] for gi in group_member_indices}
+
+        # All group members: keep intra-group waits, add wait for new action
+        for gi in group_member_indices:
+            a = actions[gi]
+            old_waits = a.get("wait_for_action_ids", [])
+            kept = [wid for wid in old_waits if wid in group_new_ids]
+            if new_id not in kept:
+                kept.append(new_id)
+            a["wait_for_action_ids"] = kept
+
+    else:  # after
+        insert_idx = max(group_member_indices) + 1
+
+        actions.insert(insert_idx, new_action_data)
+        # Group indices are all before insert_idx, so they don't shift
+
+        renumber_actions(actions)
+        new_id = actions[insert_idx]["action_id"]
+
+        # Group members' new IDs (after renumber)
+        group_new_ids = {actions[gi]["action_id"] for gi in group_member_indices}
+
+        # New action waits for all members of the bond group
+        actions[insert_idx]["wait_for_action_ids"] = sorted(group_new_ids)
+
+        # Any non-group action that waited for a group member now waits for the new action
+        for i, a in enumerate(actions):
+            if i == insert_idx or i in group_member_indices:
+                continue
+            waits = a.get("wait_for_action_ids", [])
+            if any(wid in group_new_ids for wid in waits):
+                replaced = [new_id if wid in group_new_ids else wid for wid in waits]
+                seen = set()
+                a["wait_for_action_ids"] = [w for w in replaced if w not in seen and not seen.add(w)]
+
+    task["actions"] = actions
+
+
+def delete_action(task: dict, action_id: int):
+    """Remove an action and rewire dependencies so the flow stays connected."""
+    actions = task.get("actions", [])
+    actions = sorted(actions, key=lambda a: a.get("action_id", 0))
+
+    target_idx = next(
+        (i for i, a in enumerate(actions) if a.get("action_id") == action_id), None
+    )
+    if target_idx is None:
+        return
+
+    removed = actions[target_idx]
+    removed_waits = removed.get("wait_for_action_ids", [])
+
+    # Any action that waited for the removed action now inherits its wait_for_action_ids
+    for a in actions:
+        waits = a.get("wait_for_action_ids", [])
+        if action_id in waits:
+            new_waits = [wid for wid in waits if wid != action_id] + removed_waits
+            # Deduplicate while preserving order
+            seen = set()
+            deduped = []
+            for wid in new_waits:
+                if wid not in seen:
+                    seen.add(wid)
+                    deduped.append(wid)
+            a["wait_for_action_ids"] = deduped
+
+    # Remove bond references to the deleted action
+    for a in actions:
+        bonds = a.get("bond_action_ids", [])
+        if action_id in bonds:
+            a["bond_action_ids"] = [bid for bid in bonds if bid != action_id]
+            if not a["bond_action_ids"]:
+                del a["bond_action_ids"]
+
+    actions.pop(target_idx)
+    renumber_actions(actions)
+    task["actions"] = actions
+
 
 def to_snake_case(text: str) -> str:
     """Convert text to snake_case identifier."""
@@ -233,6 +453,95 @@ def render_action_panel(action: dict):
         <p style="margin: 4px 0 0 0; color: #666;">{atype}</p>
     </div>
     """, unsafe_allow_html=True)
+
+    # --- Optional: Insert / Delete ---
+    insert_mode = st.session_state.get("insert_mode")
+    expander_open = insert_mode is not None and insert_mode[1] == aid
+    with st.expander("➕ Insert or Delete Action", expanded=expander_open):
+        btn_cols = st.columns(3)
+        with btn_cols[0]:
+            if st.button("⬆️ Insert Before", key=f"ins_before_{aid}", use_container_width=True):
+                st.session_state["insert_mode"] = ("before", aid)
+                st.rerun()
+        with btn_cols[1]:
+            if st.button("⬇️ Insert After", key=f"ins_after_{aid}", use_container_width=True):
+                st.session_state["insert_mode"] = ("after", aid)
+                st.rerun()
+        with btn_cols[2]:
+            if st.button("🗑️ Delete", key=f"del_action_{aid}", use_container_width=True):
+                task = st.session_state.get("working_task")
+                if task:
+                    delete_action(task, aid)
+                    st.session_state["selected_action"] = None
+                    st.session_state.pop("insert_mode", None)
+                    st.rerun()
+
+        # --- Block insertion form ---
+        if insert_mode and insert_mode[1] == aid:
+            position, _ = insert_mode
+            pos_label = "Before" if position == "before" else "After"
+            st.markdown(f"#### Insert {pos_label} Action #{aid}")
+
+            # Filter templates to those matching the selected action's type
+            current_action_type = action.get("action_type", "")
+            compatible = {
+                name: tmpl for name, tmpl in BLOCK_TEMPLATES.items()
+                if tmpl["action_type"] == current_action_type
+            }
+            if not compatible:
+                st.info("No block templates available for this action type.")
+            else:
+                block_type = st.selectbox(
+                    "Block Type",
+                    options=list(compatible.keys()),
+                    key=f"block_type_{aid}",
+                )
+                tmpl = compatible[block_type]
+                field_values = {}
+                for field in tmpl["fields"]:
+                    fkey = f"block_field_{aid}_{field['name']}"
+                    help_text = field.get("help")
+                    if field["type"] == "text_area":
+                        field_values[field["name"]] = st.text_area(
+                            field["label"], key=fkey, help=help_text,
+                        )
+                    elif field["type"] == "number":
+                        field_values[field["name"]] = st.number_input(
+                            field["label"], value=field.get("default", 0), key=fkey, help=help_text,
+                        )
+                    elif field["type"] == "select":
+                        options = field.get("options", [])
+                        default_idx = options.index(field["default"]) if field.get("default") in options else 0
+                        field_values[field["name"]] = st.selectbox(
+                            field["label"], options=options, index=default_idx, key=fkey, help=help_text,
+                        )
+                    else:
+                        field_values[field["name"]] = st.text_input(
+                            field["label"], value=field.get("default", ""), key=fkey, help=help_text,
+                        )
+
+                form_cols = st.columns(2)
+                with form_cols[0]:
+                    can_confirm = all(
+                        field_values.get(f["name"])
+                        for f in tmpl["fields"]
+                        if f.get("required")
+                    )
+                    if st.button(
+                        "✅ Confirm", key=f"confirm_insert_{aid}",
+                        disabled=not can_confirm, use_container_width=True,
+                    ):
+                        task = st.session_state.get("working_task")
+                        if task:
+                            new_action_data = tmpl["build"](field_values)
+                            insert_action(task, aid, position, new_action_data)
+                            st.session_state.pop("insert_mode", None)
+                            st.session_state["selected_action"] = None
+                            st.rerun()
+                with form_cols[1]:
+                    if st.button("Cancel", key=f"cancel_insert_{aid}", use_container_width=True):
+                        st.session_state.pop("insert_mode", None)
+                        st.rerun()
 
     wait_ids = action.get("wait_for_action_ids", [])
     bond_ids = action.get("bond_action_ids", [])
@@ -634,8 +943,8 @@ if result:
 if result and selected_name:
     actions = result.get("actions", [])
 
-    # Generate JSON from current state
-    json_str = json.dumps(result, indent=2, ensure_ascii=False)
+    # Generate JSON from current state (with canonical key order)
+    json_str = json.dumps(prepare_for_save(result), indent=2, ensure_ascii=False)
 
     # Save Task section
     st.markdown("---")
@@ -682,7 +991,8 @@ with st.sidebar:
     1. Select a template from dropdown
     2. Configure task parameters
     3. Click an action to edit timeout/instructions
-    4. Save to use in Scenario Builder
+    4. Optionally use **Insert Before/After** to add blocks
+    5. Save to use in Scenario Builder
 
     **Load Existing:**
     1. Switch to "Load Existing Task" tab
