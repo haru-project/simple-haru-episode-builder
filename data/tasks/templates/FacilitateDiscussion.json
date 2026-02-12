@@ -1,50 +1,50 @@
 {
-    "app_id": "facilitate_discussion_{topic_id}",
-    "episode_id": "1",
-    "haru_id": "haru-jp",
-    "stage_id": 1,
-    "task_id": 1,
-    "ready": false,
-    "mute": true,
-    "teleconference_on": true,
-    "description": "FacilitateDiscussion - Facilitate a group discussion about {topic}",
-    "actions": [
-        {
-            "action_id": 1,
-            "action_type": "HARU_CONVERSATE",
-            "action_goal": "{\"id\": \"facilitate_discussion_{topic_id}\", \"description\": \"Facilitate a group discussion where participants talk to each other about their {topic}.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} invites the group to discuss their {topic} with each other.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"{robot_name} keeps participants engaged for {discussion_time}.\", \"reached\": false, \"evidence\": null}], \"timeout\": {\"max_time\": {\"minutes\": 5, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Address the group as a whole - avoid using individual names.\", \"React to what participants say, use open-ended questions, connect ideas, and encourage everyone to share.\", \"Step back and keep responses short - facilitate, don't dominate.\"]}",
-            "action_content": []
-        },
-        {
-            "action_id": 2,
-            "action_type": "HARU_GAZE",
-            "bond_action_ids": [
-                1
-            ],
-            "action_arguments": {
-                "gaze_arguments": {
-                    "gaze_mode": "GROUP"
-                }
-            },
-            "action_content": [
-                {}
-            ]
+  "app_id": "facilitate_discussion_{topic_id}",
+  "episode_id": "1",
+  "haru_id": "haru-jp",
+  "stage_id": 1,
+  "task_id": 1,
+  "ready": false,
+  "mute": true,
+  "teleconference_on": true,
+  "description": "FacilitateDiscussion - Facilitate a group discussion about {topic}",
+  "actions": [
+    {
+      "action_id": 1,
+      "action_type": "HARU_CONVERSATE",
+      "action_goal": "{\"id\": \"facilitate_discussion_{topic_id}\", \"description\": \"Facilitate a group discussion where participants talk to each other about their {topic}.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} invites the group to discuss their {topic} with each other.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"{robot_name} keeps participants engaged for {discussion_time}.\", \"reached\": false, \"evidence\": null}], \"timeout\": {\"max_time\": {\"minutes\": 5, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Address the group as a whole - avoid using individual names.\", \"React to what participants say, use open-ended questions, connect ideas, and encourage everyone to share.\", \"Step back and keep responses short - facilitate, don't dominate.\"]}",
+      "action_content": []
+    },
+    {
+      "action_id": 2,
+      "bond_action_ids": [
+        1
+      ],
+      "action_type": "HARU_GAZE",
+      "action_arguments": {
+        "gaze_arguments": {
+          "gaze_mode": "GROUP"
         }
-    ],
-    "template": {
-        "parameters": {
-            "topic": {
-                "description": "The topic to discuss (e.g., 'favorite school subject', 'favorite color', 'first pet')",
-                "example": "favorite school subject"
-            },
-            "topic_id": {
-                "description": "Auto-generated from topic (editable)",
-                "example": "favorite_school_subject"
-            },
-            "discussion_time": {
-                "description": "How long the group discussion should continue (e.g., '5 minutes', '90 seconds')",
-                "example": "5 minutes"
-            }
-        }
+      },
+      "action_content": [
+        {}
+      ]
     }
+  ],
+  "template": {
+    "parameters": {
+      "topic": {
+        "description": "The topic to discuss (e.g., 'favorite school subject', 'favorite color', 'first pet')",
+        "example": "favorite school subject"
+      },
+      "topic_id": {
+        "description": "Auto-generated from topic (editable)",
+        "example": "favorite_school_subject"
+      },
+      "discussion_time": {
+        "description": "How long the group discussion should continue (e.g., '5 minutes', '90 seconds')",
+        "example": "5 minutes"
+      }
+    }
+  }
 }

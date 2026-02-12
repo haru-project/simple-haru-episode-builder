@@ -1,50 +1,50 @@
 {
-    "app_id": "share_and_relate_{topic_id}",
-    "episode_id": "1",
-    "haru_id": "haru-jp",
-    "stage_id": 1,
-    "task_id": 1,
-    "ready": false,
-    "mute": true,
-    "teleconference_on": true,
-    "description": "ShareAndRelate - One person shares about {topic}, others relate with similar experiences",
-    "actions": [
-        {
-            "action_id": 1,
-            "action_type": "HARU_CONVERSATE",
-            "action_goal": "{\"id\": \"share_and_relate_{topic_id}\", \"description\": \"Have one person share about {topic}, then invite others to relate with similar experiences.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} asks who wants to share about {topic}.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"One participant shares their experience or story.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c3\", \"description\": \"{robot_name} asks if anyone else has had a similar experience.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c4\", \"description\": \"{robot_name} keeps participants engaged for {discussion_time}.\", \"reached\": false, \"evidence\": null}], \"timeout\": {\"max_time\": {\"minutes\": 5, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Address the group as a whole.\", \"React to what participants say, encourage others to relate, and keep responses short.\"]}",
-            "action_content": []
-        },
-        {
-            "action_id": 2,
-            "action_type": "HARU_GAZE",
-            "bond_action_ids": [
-                1
-            ],
-            "action_arguments": {
-                "gaze_arguments": {
-                    "gaze_mode": "GROUP"
-                }
-            },
-            "action_content": [
-                {}
-            ]
+  "app_id": "share_and_relate_{topic_id}",
+  "episode_id": "1",
+  "haru_id": "haru-jp",
+  "stage_id": 1,
+  "task_id": 1,
+  "ready": false,
+  "mute": true,
+  "teleconference_on": true,
+  "description": "ShareAndRelate - One person shares about {topic}, others relate with similar experiences",
+  "actions": [
+    {
+      "action_id": 1,
+      "action_type": "HARU_CONVERSATE",
+      "action_goal": "{\"id\": \"share_and_relate_{topic_id}\", \"description\": \"Have one person share about {topic}, then invite others to relate with similar experiences.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} asks who wants to share about {topic}.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"One participant shares their experience or story.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c3\", \"description\": \"{robot_name} asks if anyone else has had a similar experience.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c4\", \"description\": \"{robot_name} keeps participants engaged for {discussion_time}.\", \"reached\": false, \"evidence\": null}], \"timeout\": {\"max_time\": {\"minutes\": 5, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Address the group as a whole.\", \"React to what participants say, encourage others to relate, and keep responses short.\"]}",
+      "action_content": []
+    },
+    {
+      "action_id": 2,
+      "bond_action_ids": [
+        1
+      ],
+      "action_type": "HARU_GAZE",
+      "action_arguments": {
+        "gaze_arguments": {
+          "gaze_mode": "GROUP"
         }
-    ],
-    "template": {
-        "parameters": {
-            "topic": {
-                "description": "What to share about (e.g., 'a funny memory', 'a challenge you overcame', 'something you learned recently')",
-                "example": "a funny memory"
-            },
-            "topic_id": {
-                "description": "Auto-generated from topic (editable)",
-                "example": "funny_memory"
-            },
-            "discussion_time": {
-                "description": "How long to continue the discussion (e.g., '2 minutes', '90 seconds')",
-                "example": "2 minutes"
-            }
-        }
+      },
+      "action_content": [
+        {}
+      ]
     }
+  ],
+  "template": {
+    "parameters": {
+      "topic": {
+        "description": "What to share about (e.g., 'a funny memory', 'a challenge you overcame', 'something you learned recently')",
+        "example": "a funny memory"
+      },
+      "topic_id": {
+        "description": "Auto-generated from topic (editable)",
+        "example": "funny_memory"
+      },
+      "discussion_time": {
+        "description": "How long to continue the discussion (e.g., '2 minutes', '90 seconds')",
+        "example": "2 minutes"
+      }
+    }
+  }
 }

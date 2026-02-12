@@ -1,56 +1,56 @@
 {
-    "app_id": "sleep",
-    "episode_id": "1",
-    "haru_id": "haru-jp",
-    "stage_id": 1,
-    "task_id": 1,
-    "ready": false,
-    "mute": true,
-    "teleconference_on": true,
-    "description": "Sleep - Haru goes to sleep",
-    "actions": [
-        {
-            "action_id": 1,
-            "action_type": "HARU_GAZE",
-            "action_arguments": {
-                "gaze_arguments": {
-                    "gaze_mode": "TRACK_PERSON"
-                }
-            },
-            "action_content": [
-                {
-                    "value_type": "GAZE_STOP",
-                    "metainfo": "Stop gaze tracking"
-                }
-            ]
-        },
-        {
-            "action_id": 2,
-            "action_type": "HARU_CONVERSATE",
-            "wait_for_action_ids": [
-                1
-            ],
-            "action_content": [
-                {
-                    "value": [
-                        {
-                            "tts": "",
-                            "delay": 0,
-                            "routine": 2046
-                        },
-                        {
-                            "tts": "",
-                            "delay": 0,
-                            "routine": 2045
-                        }
-                    ],
-                    "value_type": "JSON_CONVERSATE_MULTITTS",
-                    "metainfo": "Going to sleep"
-                }
-            ]
+  "app_id": "sleep",
+  "episode_id": "1",
+  "haru_id": "haru-jp",
+  "stage_id": 1,
+  "task_id": 1,
+  "ready": false,
+  "mute": true,
+  "teleconference_on": true,
+  "description": "Sleep - Haru goes to sleep",
+  "actions": [
+    {
+      "action_id": 1,
+      "action_type": "HARU_GAZE",
+      "action_arguments": {
+        "gaze_arguments": {
+          "gaze_mode": "TRACK_PERSON"
         }
-    ],
-    "template": {
-        "parameters": {}
+      },
+      "action_content": [
+        {
+          "value_type": "GAZE_STOP",
+          "metainfo": "Stop gaze tracking"
+        }
+      ]
+    },
+    {
+      "action_id": 2,
+      "wait_for_action_ids": [
+        1
+      ],
+      "action_type": "HARU_CONVERSATE",
+      "action_content": [
+        {
+          "value": [
+            {
+              "tts": "",
+              "delay": 0,
+              "routine": 2046
+            },
+            {
+              "tts": "",
+              "delay": 0,
+              "routine": 2045
+            }
+          ],
+          "value_type": "JSON_CONVERSATE_MULTITTS",
+          "metainfo": "Going to sleep"
+        }
+      ]
     }
+  ],
+  "template": {
+    "parameters": {}
+  }
 }

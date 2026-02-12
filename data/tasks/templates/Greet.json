@@ -1,40 +1,40 @@
 {
-    "app_id": "greet",
-    "episode_id": "1",
-    "haru_id": "haru-jp",
-    "stage_id": 1,
-    "task_id": 1,
-    "ready": false,
-    "mute": true,
-    "teleconference_on": true,
-    "description": "Greet - Self-introduction and personalized greeting for each participant",
-    "actions": [
-        {
-            "action_id": 1,
-            "action_type": "HARU_CONVERSATE",
-            "action_goal": "{\"id\": \"greet\", \"description\": \"Introduce yourself and greet each participant individually by name.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} says its name.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"{robot_name} greets {participant}.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c3\", \"description\": \"At least one participant responds to {robot_name}'s greeting.\", \"reached\": false, \"evidence\": null}], \"criteria_expand\": [{\"ids\": [\"c2\"], \"mappings\": [{\"source\": \"{participant_order}\", \"target\": \"participant\"}]}], \"timeout\": {\"max_time\": {\"minutes\": 3, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Complete all criteria for one participant before moving to the next.\", \"Follow the criteria order.\", \"Introduce yourself as Honda's newest robot friend.\", \"Express how happy you are to meet everyone.\", \"Keep the introduction brief.\"]}",
-            "action_content": []
-        },
-        {
-            "action_id": 2,
-            "action_type": "HARU_GAZE",
-            "bond_action_ids": [
-                1
-            ],
-            "action_arguments": {
-                "gaze_arguments": {
-                    "gaze_mode": "TRACK_PERSON"
-                }
-            },
-            "action_content": []
+  "app_id": "greet",
+  "episode_id": "1",
+  "haru_id": "haru-jp",
+  "stage_id": 1,
+  "task_id": 1,
+  "ready": false,
+  "mute": true,
+  "teleconference_on": true,
+  "description": "Greet - Self-introduction and personalized greeting for each participant",
+  "actions": [
+    {
+      "action_id": 1,
+      "action_type": "HARU_CONVERSATE",
+      "action_goal": "{\"id\": \"greet\", \"description\": \"Introduce yourself and greet each participant individually by name.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} says its name.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"{robot_name} greets {participant}.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c3\", \"description\": \"At least one participant responds to {robot_name}'s greeting.\", \"reached\": false, \"evidence\": null}], \"criteria_expand\": [{\"ids\": [\"c2\"], \"mappings\": [{\"source\": \"{participant_order}\", \"target\": \"participant\"}]}], \"timeout\": {\"max_time\": {\"minutes\": 3, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Complete all criteria for one participant before moving to the next.\", \"Follow the criteria order.\", \"Introduce yourself as Honda's newest robot friend.\", \"Express how happy you are to meet everyone.\", \"Keep the introduction brief.\"]}",
+      "action_content": []
+    },
+    {
+      "action_id": 2,
+      "bond_action_ids": [
+        1
+      ],
+      "action_type": "HARU_GAZE",
+      "action_arguments": {
+        "gaze_arguments": {
+          "gaze_mode": "TRACK_PERSON"
         }
-    ],
-    "template": {
-        "parameters": {
-            "participant_order": {
-                "description": "Order to address participants (e.g., 'participants_start_left', 'participants_start_right')",
-                "example": "participants_start_left"
-            }
-        }
+      },
+      "action_content": []
     }
+  ],
+  "template": {
+    "parameters": {
+      "participant_order": {
+        "description": "Order to address participants (e.g., 'participants_start_left', 'participants_start_right')",
+        "example": "participants_start_left"
+      }
+    }
+  }
 }

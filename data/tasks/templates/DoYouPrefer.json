@@ -1,46 +1,50 @@
 {
-    "app_id": "do_you_prefer_{topic_id}",
-    "episode_id": "1",
-    "haru_id": "haru-jp",
-    "stage_id": 1,
-    "task_id": 1,
-    "ready": false,
-    "mute": true,
-    "teleconference_on": true,
-    "description": "DoYouPrefer - Haru asks the group if they prefer {option_a} or {option_b}",
-    "actions": [
-        {
-            "action_id": 1,
-            "action_type": "HARU_CONVERSATE",
-            "action_goal": "{\"id\": \"do_you_prefer_{topic_id}\", \"description\": \"Ask the group about their preference and discuss.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} asks the group if they prefer {option_a} or {option_b}.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"{robot_name} gets {participants_count} responses from participants.\", \"reached\": false, \"evidence\": null}], \"timeout\": {\"max_time\": {\"minutes\": 3, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Address the group as a whole.\", \"Be curious about their preferences!\", \"Ask participants why they prefer one over the other.\", \"Share reactions to their answers.\"]}",
-            "action_content": []
-        },
-        {
-            "action_id": 2,
-            "action_type": "HARU_GAZE",
-            "bond_action_ids": [1],
-            "action_arguments": {
-                "gaze_arguments": {
-                    "gaze_mode": "GROUP"
-                }
-            },
-            "action_content": [{}]
+  "app_id": "do_you_prefer_{topic_id}",
+  "episode_id": "1",
+  "haru_id": "haru-jp",
+  "stage_id": 1,
+  "task_id": 1,
+  "ready": false,
+  "mute": true,
+  "teleconference_on": true,
+  "description": "DoYouPrefer - Haru asks the group if they prefer {option_a} or {option_b}",
+  "actions": [
+    {
+      "action_id": 1,
+      "action_type": "HARU_CONVERSATE",
+      "action_goal": "{\"id\": \"do_you_prefer_{topic_id}\", \"description\": \"Ask the group about their preference and discuss.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} asks the group if they prefer {option_a} or {option_b}.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"{robot_name} gets {participants_count} responses from participants.\", \"reached\": false, \"evidence\": null}], \"timeout\": {\"max_time\": {\"minutes\": 3, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Address the group as a whole.\", \"Be curious about their preferences!\", \"Ask participants why they prefer one over the other.\", \"Share reactions to their answers.\"]}",
+      "action_content": []
+    },
+    {
+      "action_id": 2,
+      "bond_action_ids": [
+        1
+      ],
+      "action_type": "HARU_GAZE",
+      "action_arguments": {
+        "gaze_arguments": {
+          "gaze_mode": "GROUP"
         }
-    ],
-    "template": {
-        "parameters": {
-            "option_a": {
-                "description": "First option (e.g., 'cats', 'summer', 'pizza')",
-                "example": "cats"
-            },
-            "option_b": {
-                "description": "Second option (e.g., 'dogs', 'winter', 'burgers')",
-                "example": "dogs"
-            },
-            "topic_id": {
-                "description": "Auto-generated from options (editable)",
-                "example": "cats_vs_dogs"
-            }
-        }
+      },
+      "action_content": [
+        {}
+      ]
     }
+  ],
+  "template": {
+    "parameters": {
+      "option_a": {
+        "description": "First option (e.g., 'cats', 'summer', 'pizza')",
+        "example": "cats"
+      },
+      "option_b": {
+        "description": "Second option (e.g., 'dogs', 'winter', 'burgers')",
+        "example": "dogs"
+      },
+      "topic_id": {
+        "description": "Auto-generated from options (editable)",
+        "example": "cats_vs_dogs"
+      }
+    }
+  }
 }

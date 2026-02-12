@@ -1,37 +1,37 @@
 {
-    "app_id": "haru_share_ice_cream",
-    "episode_id": "1",
-    "haru_id": "haru-jp",
-    "stage_id": 1,
-    "task_id": 1,
-    "ready": false,
-    "mute": true,
-    "teleconference_on": true,
-    "description": "HaruShareIceCream - Haru shares his favorite ice cream and discusses with the group",
-    "actions": [
-        {
-            "action_id": 1,
-            "action_type": "HARU_CONVERSATE",
-            "action_goal": "{\"id\": \"haru_share_ice_cream\", \"description\": \"Share your favorite ice cream flavor and discuss ice cream preferences with the group.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} shares that if he could eat ice cream, his favorite would be chocolate mint.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"{robot_name} gets {participants_count} responses from participants.\", \"reached\": false, \"evidence\": null}], \"timeout\": {\"max_time\": {\"minutes\": 3, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Address the group as a whole.\", \"Ask the group about their favorite flavors and react to their answers.\", \"Keep the discussion flowing with follow-up questions.\"]}",
-            "action_content": []
-        },
-        {
-            "action_id": 2,
-            "action_type": "HARU_GAZE",
-            "bond_action_ids": [
-                1
-            ],
-            "action_arguments": {
-                "gaze_arguments": {
-                    "gaze_mode": "GROUP"
-                }
-            },
-            "action_content": [
-                {}
-            ]
+  "app_id": "haru_share_ice_cream",
+  "episode_id": "1",
+  "haru_id": "haru-jp",
+  "stage_id": 1,
+  "task_id": 1,
+  "ready": false,
+  "mute": true,
+  "teleconference_on": true,
+  "description": "HaruShareIceCream - Haru shares his favorite ice cream and discusses with the group",
+  "actions": [
+    {
+      "action_id": 1,
+      "action_type": "HARU_CONVERSATE",
+      "action_goal": "{\"id\": \"haru_share_ice_cream\", \"description\": \"Share your favorite ice cream flavor and discuss ice cream preferences with the group.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} shares that if he could eat ice cream, his favorite would be chocolate mint.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"{robot_name} gets {participants_count} responses from participants.\", \"reached\": false, \"evidence\": null}], \"timeout\": {\"max_time\": {\"minutes\": 3, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Address the group as a whole.\", \"Ask the group about their favorite flavors and react to their answers.\", \"Keep the discussion flowing with follow-up questions.\"]}",
+      "action_content": []
+    },
+    {
+      "action_id": 2,
+      "bond_action_ids": [
+        1
+      ],
+      "action_type": "HARU_GAZE",
+      "action_arguments": {
+        "gaze_arguments": {
+          "gaze_mode": "GROUP"
         }
-    ],
-    "template": {
-        "parameters": {}
+      },
+      "action_content": [
+        {}
+      ]
     }
+  ],
+  "template": {
+    "parameters": {}
+  }
 }

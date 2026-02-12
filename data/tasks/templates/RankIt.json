@@ -1,54 +1,54 @@
 {
-    "app_id": "rank_it_{topic_id}",
-    "episode_id": "1",
-    "haru_id": "haru-jp",
-    "stage_id": 1,
-    "task_id": 1,
-    "ready": false,
-    "mute": true,
-    "teleconference_on": true,
-    "description": "RankIt - Have the group rank {options} from most to least important",
-    "actions": [
-        {
-            "action_id": 1,
-            "action_type": "HARU_CONVERSATE",
-            "action_goal": "{\"id\": \"rank_it_{topic_id}\", \"description\": \"Present options and have the group discuss and rank them together.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} presents the options: {options}.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"{robot_name} asks the group to rank them by {ranking_criteria}.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c3\", \"description\": \"At least one participant shares their ranking.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c4\", \"description\": \"{robot_name} keeps participants engaged for {discussion_time}.\", \"reached\": false, \"evidence\": null}], \"timeout\": {\"max_time\": {\"minutes\": 5, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Address the group as a whole.\", \"Stay neutral - don't judge opinions.\", \"React to what participants say and keep responses short.\"]}",
-            "action_content": []
-        },
-        {
-            "action_id": 2,
-            "action_type": "HARU_GAZE",
-            "bond_action_ids": [
-                1
-            ],
-            "action_arguments": {
-                "gaze_arguments": {
-                    "gaze_mode": "GROUP"
-                }
-            },
-            "action_content": [
-                {}
-            ]
+  "app_id": "rank_it_{topic_id}",
+  "episode_id": "1",
+  "haru_id": "haru-jp",
+  "stage_id": 1,
+  "task_id": 1,
+  "ready": false,
+  "mute": true,
+  "teleconference_on": true,
+  "description": "RankIt - Have the group rank {options} from most to least important",
+  "actions": [
+    {
+      "action_id": 1,
+      "action_type": "HARU_CONVERSATE",
+      "action_goal": "{\"id\": \"rank_it_{topic_id}\", \"description\": \"Present options and have the group discuss and rank them together.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} presents the options: {options}.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"{robot_name} asks the group to rank them by {ranking_criteria}.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c3\", \"description\": \"At least one participant shares their ranking.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c4\", \"description\": \"{robot_name} keeps participants engaged for {discussion_time}.\", \"reached\": false, \"evidence\": null}], \"timeout\": {\"max_time\": {\"minutes\": 5, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Address the group as a whole.\", \"Stay neutral - don't judge opinions.\", \"React to what participants say and keep responses short.\"]}",
+      "action_content": []
+    },
+    {
+      "action_id": 2,
+      "bond_action_ids": [
+        1
+      ],
+      "action_type": "HARU_GAZE",
+      "action_arguments": {
+        "gaze_arguments": {
+          "gaze_mode": "GROUP"
         }
-    ],
-    "template": {
-        "parameters": {
-            "options": {
-                "description": "The options to rank (e.g., 'honesty, humor, and loyalty')",
-                "example": "honesty, humor, and loyalty"
-            },
-            "ranking_criteria": {
-                "description": "What to rank by (e.g., 'importance', 'preference', 'priority')",
-                "example": "importance"
-            },
-            "topic_id": {
-                "description": "Auto-generated from options (editable)",
-                "example": "qualities_in_friend"
-            },
-            "discussion_time": {
-                "description": "How long to continue the discussion (e.g., '2 minutes', '90 seconds')",
-                "example": "2 minutes"
-            }
-        }
+      },
+      "action_content": [
+        {}
+      ]
     }
+  ],
+  "template": {
+    "parameters": {
+      "options": {
+        "description": "The options to rank (e.g., 'honesty, humor, and loyalty')",
+        "example": "honesty, humor, and loyalty"
+      },
+      "ranking_criteria": {
+        "description": "What to rank by (e.g., 'importance', 'preference', 'priority')",
+        "example": "importance"
+      },
+      "topic_id": {
+        "description": "Auto-generated from options (editable)",
+        "example": "qualities_in_friend"
+      },
+      "discussion_time": {
+        "description": "How long to continue the discussion (e.g., '2 minutes', '90 seconds')",
+        "example": "2 minutes"
+      }
+    }
+  }
 }

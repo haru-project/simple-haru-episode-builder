@@ -1,48 +1,48 @@
 {
-    "app_id": "ask_about_{topic_id}",
-    "episode_id": "1",
-    "haru_id": "haru-jp",
-    "stage_id": 1,
-    "task_id": 1,
-    "ready": false,
-    "mute": true,
-    "teleconference_on": true,
-    "description": "AskAbout - Ask each participant about their {topic}",
-    "actions": [
-        {
-            "action_id": 1,
-            "action_type": "HARU_CONVERSATE",
-            "action_goal": "{\"id\": \"ask_about_{topic_id}\", \"description\": \"Ask each participant about their {topic}.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} learns {participant}'s {topic}.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"{robot_name} acknowledges {participant}'s answer.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c3\", \"description\": \"{robot_name} briefly thanks the group in one short sentence.\", \"reached\": false, \"evidence\": null}], \"criteria_expand\": [{\"ids\": [\"c1\", \"c2\"], \"mappings\": [{\"source\": \"{participant_order}\", \"target\": \"participant\"}]}], \"timeout\": {\"max_time\": {\"minutes\": 5, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Complete all criteria for one participant before moving to the next.\", \"Follow the criteria order.\", \"Address participants by name.\", \"Keep the conversation natural, light and fun.\"]}",
-            "action_content": []
-        },
-        {
-            "action_id": 2,
-            "action_type": "HARU_GAZE",
-            "bond_action_ids": [
-                1
-            ],
-            "action_arguments": {
-                "gaze_arguments": {
-                    "gaze_mode": "TRACK_PERSON"
-                }
-            },
-            "action_content": []
+  "app_id": "ask_about_{topic_id}",
+  "episode_id": "1",
+  "haru_id": "haru-jp",
+  "stage_id": 1,
+  "task_id": 1,
+  "ready": false,
+  "mute": true,
+  "teleconference_on": true,
+  "description": "AskAbout - Ask each participant about their {topic}",
+  "actions": [
+    {
+      "action_id": 1,
+      "action_type": "HARU_CONVERSATE",
+      "action_goal": "{\"id\": \"ask_about_{topic_id}\", \"description\": \"Ask each participant about their {topic}.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} learns {participant}'s {topic}.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"{robot_name} acknowledges {participant}'s answer.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c3\", \"description\": \"{robot_name} briefly thanks the group in one short sentence.\", \"reached\": false, \"evidence\": null}], \"criteria_expand\": [{\"ids\": [\"c1\", \"c2\"], \"mappings\": [{\"source\": \"{participant_order}\", \"target\": \"participant\"}]}], \"timeout\": {\"max_time\": {\"minutes\": 5, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Complete all criteria for one participant before moving to the next.\", \"Follow the criteria order.\", \"Address participants by name.\", \"Keep the conversation natural, light and fun.\"]}",
+      "action_content": []
+    },
+    {
+      "action_id": 2,
+      "bond_action_ids": [
+        1
+      ],
+      "action_type": "HARU_GAZE",
+      "action_arguments": {
+        "gaze_arguments": {
+          "gaze_mode": "TRACK_PERSON"
         }
-    ],
-    "template": {
-        "parameters": {
-            "topic": {
-                "description": "The topic to ask about (e.g., 'favorite school subject', 'favorite color', 'first pet', 'least favorite food')",
-                "example": "favorite school subject"
-            },
-            "topic_id": {
-                "description": "Auto-generated from topic (editable)",
-                "example": "favorite_school_subject"
-            },
-            "participant_order": {
-                "description": "Order to address participants (e.g., 'participants_start_left', 'participants_start_right')",
-                "example": "participants_start_left"
-            }
-        }
+      },
+      "action_content": []
     }
+  ],
+  "template": {
+    "parameters": {
+      "topic": {
+        "description": "The topic to ask about (e.g., 'favorite school subject', 'favorite color', 'first pet', 'least favorite food')",
+        "example": "favorite school subject"
+      },
+      "topic_id": {
+        "description": "Auto-generated from topic (editable)",
+        "example": "favorite_school_subject"
+      },
+      "participant_order": {
+        "description": "Order to address participants (e.g., 'participants_start_left', 'participants_start_right')",
+        "example": "participants_start_left"
+      }
+    }
+  }
 }
