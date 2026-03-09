@@ -625,6 +625,72 @@ def render_action_panel(action: dict):
     with st.expander("🔧 Raw JSON"):
         st.json(action)
 
+def timeout_block(action: dict, goal: dict, timeout: dict, timeout_parent: dict, id: str, title: str = "Timeout") -> None:
+    """Render editable timeout block with minutes, seconds, and max turns."""
+    
+    def update_timeout():
+        """Update the timeout in the goal and action based on session state inputs."""
+        mins = st.session_state[mins_key]
+        secs = st.session_state[secs_key]
+        turns = st.session_state[turns_key]
+
+        new_timeout = {}
+
+        if mins > 0 or secs > 0:
+            new_timeout["max_time"] = {"minutes": mins, "seconds": secs}
+
+        if turns > 0:
+            new_timeout["max_turns"] = turns
+
+        timeout_parent["timeout"] = new_timeout
+
+        if action is not None:
+            action["action_goal"] = json.dumps(goal, ensure_ascii=False)
+    
+    max_time = timeout.get("max_time", {})
+
+    mins_key = f"timeout_mins_{task_name}_{id}"
+    secs_key = f"timeout_secs_{task_name}_{id}"
+    turns_key = f"timeout_turns_{task_name}_{id}"
+
+    # Initialize session state if needed
+    if mins_key not in st.session_state:
+        st.session_state[mins_key] = max_time.get("minutes", 0)
+
+    if secs_key not in st.session_state:
+        st.session_state[secs_key] = max_time.get("seconds", 0)
+
+    if turns_key not in st.session_state:
+        st.session_state[turns_key] = timeout.get("max_turns", 0) or 0
+
+    with st.expander(f"⏱️ {title}", expanded=bool(timeout)):
+
+        col1, col2, col3 = st.columns(3)
+
+        with col1:
+            st.number_input(
+                "Minutes",
+                min_value=0,
+                key=mins_key,
+                on_change=update_timeout,
+            )
+
+        with col2:
+            st.number_input(
+                "Seconds",
+                min_value=0,
+                max_value=59,
+                key=secs_key,
+                on_change=update_timeout,
+            )
+
+        with col3:
+            st.number_input(
+                "Max Turns",
+                min_value=0,
+                key=turns_key,
+                on_change=update_timeout,
+            )
 
 def render_goal_visualization(goal_str: str, action: dict = None, action_id: int = 0, task_name: str = ""):
     """Render a structured goal in a nice format with editable instructions and timeout."""
@@ -653,8 +719,11 @@ def render_goal_visualization(goal_str: str, action: dict = None, action_id: int
         for c in criteria:
             cid = c.get("id", "")
             desc = c.get("description", "")
+            criteria_timeout = c.get("timeout", {})
             expand_marker = " 🔄" if cid in expanded_ids else ""
             st.markdown(f"- `{cid}`{expand_marker}: {desc}")
+            timeout_block(action, goal, criteria_timeout, c, id=cid, title=f"Timeout for Criterion `{cid}`")
+
 
     # Show criteria expansion info
     if criteria_expand:
@@ -670,42 +739,7 @@ def render_goal_visualization(goal_str: str, action: dict = None, action_id: int
 
     # Editable timeout
     timeout = goal.get("timeout", {})
-    with st.expander("⏱️ Timeout", expanded=bool(timeout)):
-        max_time = timeout.get("max_time", {})
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            mins = st.number_input(
-                "Minutes",
-                min_value=0,
-                value=max_time.get("minutes", 0),
-                key=f"timeout_mins_{task_name}_{action_id}",
-            )
-        with col2:
-            secs = st.number_input(
-                "Seconds",
-                min_value=0,
-                max_value=59,
-                value=max_time.get("seconds", 0),
-                key=f"timeout_secs_{task_name}_{action_id}",
-            )
-        with col3:
-            turns = st.number_input(
-                "Max Turns",
-                min_value=0,
-                value=timeout.get("max_turns", 0) or 0,
-                key=f"timeout_turns_{task_name}_{action_id}",
-            )
-
-        # Update timeout if changed
-        if action is not None:
-            new_timeout = {}
-            if mins > 0 or secs > 0:
-                new_timeout["max_time"] = {"minutes": mins, "seconds": secs}
-            if turns > 0:
-                new_timeout["max_turns"] = turns
-            if new_timeout != timeout:
-                goal["timeout"] = new_timeout
-                action["action_goal"] = json.dumps(goal, ensure_ascii=False)
+    timeout_block(action, goal, timeout, goal, action_id, title="Goal Timeout")
 
     # Editable additional instructions as list
     instructions = goal.get("additional_instructions", [])
