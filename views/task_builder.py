@@ -704,42 +704,176 @@ def render_goal_visualization(goal_str: str, action: dict = None, action_id: int
         st.markdown(f"**Goal:** {goal_str}")
         return
 
-    st.markdown(f"**{goal.get('description', 'Goal')}**")
+    # Initialize session state for editing the goal description
+    if "editing_goal_description" not in st.session_state:
+        st.session_state.editing_goal_description = False
+
+    # Show either normal view or edit form
+    if not st.session_state.editing_goal_description:
+
+        # Display goal description
+        st.markdown(f"**{goal.get('description', 'Goal')}**")
+
+        # Edit button
+        if st.button("Edit Goal Description"):
+            st.session_state.editing_goal_description = True
+            st.rerun()
+
+    else:
+        # Edit form
+        with st.form("edit_goal_description_form"):
+
+            new_desc = st.text_area(
+                "Edit Goal Description",
+                value=goal.get("description", "")
+            )
+
+            save = st.form_submit_button("Save")
+            cancel = st.form_submit_button("Cancel")
+
+            if save:
+                goal["description"] = new_desc
+                if action is not None:
+                    action["action_goal"] = json.dumps(goal, ensure_ascii=False)
+
+                st.session_state.editing_goal_description = False
+                st.rerun()
+
+            if cancel:
+                st.session_state.editing_goal_description = False
+                st.rerun()
 
     criteria = goal.get("success_criteria", [])
     criteria_expand = goal.get("criteria_expand", [])
 
-    # Build set of expanded criteria IDs for marking
-    expanded_ids = set()
-    for exp in criteria_expand:
-        expanded_ids.update(exp.get("ids", []))
+    # Criteria Session State
+    if "editing_criterion" not in st.session_state:
+        st.session_state.editing_criterion = None
 
-    if criteria:
-        st.markdown("**Success Criteria:**")
-        for c in criteria:
-            cid = c.get("id", "")
-            desc = c.get("description", "")
-            criteria_timeout = c.get("timeout", {})
-            expand_marker = " 🔄" if cid in expanded_ids else ""
-            st.markdown(f"- `{cid}`{expand_marker}: {desc}")
-            timeout_block(action, goal, criteria_timeout, c, id=cid, title=f"Timeout for Criterion `{cid}`")
+    if "adding_criterion" not in st.session_state:
+        st.session_state.adding_criterion = False
 
+    if "deleting_criterion" not in st.session_state:
+        st.session_state.deleting_criterion = None
 
-    # Show criteria expansion info
-    if criteria_expand:
-        with st.expander("🔄 Criteria Expansion", expanded=True):
-            for exp in criteria_expand:
-                ids = exp.get("ids", [])
-                mappings = exp.get("mappings", [])
-                ids_str = ", ".join(ids)
-                for mapping in mappings:
-                    source_var = mapping.get("source", "")
-                    target_var = mapping.get("target", "")
-                    st.markdown(f"**{ids_str}** → expand `{{{target_var}}}` for each value in `{source_var}`")
+    expanded_ids = {cid for exp in criteria_expand for cid in exp.get("ids", [])}
 
-    # Editable timeout
+    st.markdown("### Success Criteria")
+
+    # ADD BUTTON
+    if not st.session_state.adding_criterion:
+        if st.button("➕ Add Criterion"):
+            st.session_state.adding_criterion = True
+            st.rerun()
+
+    # ADD FORM
+    if st.session_state.adding_criterion:
+        with st.form("add_criterion_form"):
+            new_id = st.text_input(
+                "Criterion ID",
+                value=f"C{len(criteria)+1}"
+            )
+            new_desc = st.text_input("Description")
+            save = st.form_submit_button("Add")
+            cancel = st.form_submit_button("Cancel")
+
+            if save:
+                if any(c["id"] == new_id for c in criteria):
+                    st.error("Criterion ID already exists.")
+                else:
+                    new_criterion = {
+                        "id": new_id,
+                        "description": new_desc,
+                        "timeout": {}
+                    }
+                    criteria.append(new_criterion)
+                    if action is not None:
+                        action["action_goal"] = json.dumps(goal, ensure_ascii=False)
+                    st.session_state.adding_criterion = False
+                    st.rerun()
+            if cancel:
+                st.session_state.adding_criterion = False
+                st.rerun()
+
+    # CRITERIA LIST
+    for i, c in enumerate(criteria):
+
+        cid = c.get("id", "")
+        desc = c.get("description", "")
+        criteria_timeout = c.get("timeout", {})
+
+        expand_marker = " 🔄" if cid in expanded_ids else ""
+
+        col1, col2, col3 = st.columns([6, 1, 1])
+
+        # NORMAL VIEW
+        if st.session_state.editing_criterion != cid:
+            with col1:
+                st.markdown(f"- `{cid}`{expand_marker}: {desc}")
+            with col2:
+                if st.button("Edit", key=f"edit_{cid}"):
+                    st.session_state.editing_criterion = cid
+                    st.rerun()
+            with col3:
+                if st.button("🗑", key=f"delete_{cid}"):
+                    st.session_state.deleting_criterion = cid
+                    st.rerun()
+        # EDIT MODE
+        else:
+            with st.form(f"edit_form_{cid}"):
+                new_desc = st.text_input(
+                    f"Edit description for {cid}",
+                    value=desc
+                )
+                save = st.form_submit_button("Save")
+                cancel = st.form_submit_button("Cancel")
+                if save:
+                    criteria[i]["description"] = new_desc
+                    if action is not None:
+                        action["action_goal"] = json.dumps(goal, ensure_ascii=False)
+                    st.session_state.editing_criterion = None
+                    st.rerun()
+                if cancel:
+                    st.session_state.editing_criterion = None
+                    st.rerun()
+
+        # DELETE CONFIRM
+        if st.session_state.deleting_criterion == cid:
+            st.warning(f"Delete criterion `{cid}`?")
+            colA, colB = st.columns(2)
+            with colA:
+                if st.button("Confirm Delete", key=f"confirm_delete_{cid}"):
+                    criteria.pop(i)
+                    if action is not None:
+                        action["action_goal"] = json.dumps(goal, ensure_ascii=False)
+                    st.session_state.deleting_criterion = None
+                    st.rerun()
+            with colB:
+                if st.button("Cancel", key=f"cancel_delete_{cid}"):
+                    st.session_state.deleting_criterion = None
+                    st.rerun()
+
+        # Crtieria Timeout
+        timeout_block(
+            action,
+            goal,
+            criteria_timeout,
+            c,
+            id=cid,
+            title=f"Timeout for Criterion `{cid}`"
+        )
+
+    # GOAL Timeout
     timeout = goal.get("timeout", {})
-    timeout_block(action, goal, timeout, goal, action_id, title="Goal Timeout")
+
+    timeout_block(
+        action,
+        goal,
+        timeout,
+        goal,
+        action_id,
+        title="Goal Timeout"
+    )
 
     # Editable additional instructions as list
     instructions = goal.get("additional_instructions", [])
