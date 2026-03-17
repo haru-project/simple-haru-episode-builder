@@ -1,4 +1,4 @@
-# Haru Scenario Builder
+# Haru Episode Builder
 
 A Streamlit app for creating Task and Scenario JSON files for the Haru social robot.
 
@@ -11,27 +11,32 @@ A Streamlit app for creating Task and Scenario JSON files for the Haru social ro
 - **Four action types**:
   - `HARU_CONVERSATE` - Dialogue with structured goals
   - `HARU_GAZE` - Gaze tracking (person/group)
-  - `HARU_SHARE` - Display content on screen
-  - `HARU_REQUEST` - Request input from users
+  - `HARU_SHARE` - Display content on screen (video, image, or collected results)
+  - `HARU_REQUEST` - Request input from users (avatars, drawings, photos, text)
 - **Visual action flow**: Timeline view with parallel action support
-- **Inline editing**: Edit timeout and additional instructions directly in preview
+- **Inline editing**: Edit goals, success criteria, timeout, and instructions directly in preview
+- **Block insertion**: Insert actions before/after with content or goal mode
 - **Scenario composition**: Combine multiple tasks into scenarios
 
 ---
 
 ## Setup
 
-### Using `uv` (recommended)
+### Using Docker (recommended)
 
 ```bash
-# Create virtual environment
+docker compose up --build
+```
+
+Open http://localhost:8501
+
+### Using `uv`
+
+```bash
 uv venv
-
-# Activate
 source .venv/bin/activate
-
-# Install dependencies
 uv sync
+streamlit run app.py
 ```
 
 ### Using pip
@@ -40,17 +45,8 @@ uv sync
 python -m venv .venv
 source .venv/bin/activate
 pip install streamlit pydantic
-```
-
----
-
-## Run
-
-```bash
 streamlit run app.py
 ```
-
-Open http://localhost:8501
 
 ---
 
@@ -61,9 +57,22 @@ Open http://localhost:8501
 Create individual tasks from templates or load existing tasks.
 
 1. **Load**: Select a template or load an existing task
-2. **Configure**: Fill in template parameters (topic, etc.)
-3. **Preview & Edit**: View action flow, edit timeout and instructions
+2. **Configure**: Fill in template parameters (topic, video URL, etc.)
+3. **Preview & Edit**: View action flow, edit goals/timeout/instructions, insert or delete actions
 4. **Save**: Save to Scenario Builder or download JSON
+
+#### Block Templates
+
+Insert actions using predefined block templates, each with a **Content** or **Goal** mode:
+
+| Block | Action Type | Description |
+|-------|-------------|-------------|
+| Conversate | CONVERSATE | TTS speech with voice genre and routine |
+| Converse & Gaze | CONVERSATE + GAZE | Bonded speech and gaze (GROUP or GAZE_INDIVIDUAL) |
+| Request iPads | REQUEST | Request avatars, drawings, photos, or text from iPads |
+| Share Video | SHARE | Display video on projector with loop/mute/wait options |
+| Share Image | SHARE | Display image on projector |
+| Share Results | SHARE | Display collected results from a previous REQUEST |
 
 ### Scenario Builder
 
@@ -79,10 +88,52 @@ Combine saved tasks into scenarios.
 
 | Type | Icon | Description |
 |------|------|-------------|
-| CONVERSATE | `conversation` | Dialogue with goals, success criteria, timeout |
-| GAZE | `eye` | Look at person or group |
-| SHARE | `screen` | Display text, image, or video |
-| REQUEST | `inbox` | Request avatar photo or text input |
+| CONVERSATE | 💬 | Dialogue with goals, success criteria, timeout |
+| GAZE | 👁️ | Look at person (TRACK_PERSON) or group (GROUP) |
+| SHARE | 🖥️ | Display video, image, text, or collected results |
+| REQUEST | 📥 | Request avatar, drawing, photo, or text input |
+
+---
+
+## Templates
+
+Templates are JSON files in `data/tasks/templates/` with optional parameter placeholders:
+
+```json
+{
+  "template": {
+    "parameters": {
+      "video_url": {
+        "description": "URL to the how-to video",
+        "example": "/shared/projector/resources/video.webm"
+      }
+    }
+  },
+  "actions": [...]
+}
+```
+
+Included templates:
+
+| Template | Description |
+|----------|-------------|
+| Avatar | Request avatar creation + display on projector |
+| Drawing | Request drawing + display on projector |
+| Greet | Self-introduction and greeting |
+| LearnAbout | Learn about a topic |
+| AskAbout | Ask questions about a topic |
+| DoYouPrefer | Preference gathering |
+| WouldYouRather | Would you rather questions |
+| AgreeDisagree | Opinion gathering |
+| ShareAndRelate | Collaborative sharing |
+| BuildTheIdea | Idea building |
+| Prediction | Prediction task |
+| RankIt | Ranking task |
+| FacilitateDiscussion | Discussion facilitation |
+| Sleep | Haru sleep behavior |
+| Closing | Session closing |
+| WelcomeBack | Welcome back |
+| HaruShareIceCream | Haru shares ice cream preferences |
 
 ---
 
@@ -91,38 +142,18 @@ Combine saved tasks into scenarios.
 ```
 simple-haru-episode-builder/
 ├── app.py                    # Main entry point
+├── Dockerfile
+├── docker-compose.yml
 ├── views/
 │   ├── scenario_builder.py   # Scenario Builder page
-│   └── task_builder.py       # Task Builder page
+│   └── task_builder.py       # Task Builder page + block templates
 ├── src/
 │   ├── models/               # Pydantic data models
-│   ├── components/           # UI components
-│   ├── services/             # Template service
+│   ├── components/           # UI components + action editors
+│   ├── services/             # Template, validation, import/export
 │   └── utils/                # Constants and helpers
 └── data/
     └── tasks/
-        ├── templates/        # Task templates
+        ├── templates/        # Task templates (JSON)
         └── saved/            # Saved tasks
 ```
-
----
-
-## Templates
-
-Templates are JSON files with parameter placeholders:
-
-```json
-{
-  "template": {
-    "parameters": {
-      "topic": {
-        "description": "The topic to discuss",
-        "example": "favorite movies"
-      }
-    }
-  },
-  "actions": [...]
-}
-```
-
-Place templates in `data/tasks/templates/` or configure a custom path in `src/utils/constants.py`.
