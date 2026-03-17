@@ -262,9 +262,9 @@ def _render_share_content(content: list, key_prefix: str) -> list:
     if use_template:
         template_ref = st.text_input(
             "Template Reference",
-            value="{{local_avatars_results}}",
+            value="{{results}}",
             key=f"{key_prefix}_share_template",
-            help="e.g., {{local_avatars_results}}, {{local_images_results}}",
+            help="e.g., {{avatars}}, {{drawings}}",
         )
         return template_ref
 

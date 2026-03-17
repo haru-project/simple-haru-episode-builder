@@ -66,6 +66,7 @@ class RequestType(str, Enum):
 
     IMAGE_AVATAR = "IMAGE_AVATAR"
     IMAGE_PHOTO = "IMAGE_PHOTO"
+    IMAGE_DRAW = "IMAGE_DRAW"
     TEXT = "TEXT"
 
 

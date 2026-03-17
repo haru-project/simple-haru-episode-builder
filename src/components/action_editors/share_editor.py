@@ -2,7 +2,7 @@
 
 import streamlit as st
 from ..content_editor import render_content_editor
-from ...utils.constants import SHARE_MODES, SHARE_TYPES, SHARE_SUBTYPES
+from ...utils.constants import SHARE_MODES, SHARE_TYPES, SHARE_SUBTYPES, IMAGE_SUBTYPES
 
 
 def render_share_editor(editing_action: dict | None = None) -> dict:
@@ -101,11 +101,12 @@ def render_share_editor(editing_action: dict | None = None) -> dict:
 
     elif share_type == "IMAGE":
         st.markdown("#### Image Options")
-        share_image_subtype = st.text_input(
+        share_image_subtype = st.selectbox(
             "Image Subtype (optional)",
-            value=default_image_subtype,
+            options=IMAGE_SUBTYPES,
+            index=IMAGE_SUBTYPES.index(default_image_subtype) if default_image_subtype in IMAGE_SUBTYPES else 0,
             key="image_subtype",
-            help="e.g., IMAGE_AVATAR, IMAGE_PHOTO",
+            help="PHOTO, AVATAR, or DRAWING",
         )
 
     # Content editor

@@ -8,7 +8,7 @@ import streamlit as st
 from pathlib import Path
 
 from src.services.template_service import TemplateService
-from src.utils.constants import DEFAULT_TEMPLATE_PATH
+from src.utils.constants import DEFAULT_TEMPLATE_PATH, ACTION_TYPES, GAZE_MODES, SHARE_MODES, SHARE_TYPES, SHARE_SUBTYPES, IMAGE_SUBTYPES, REQUEST_TYPES
 
 # Saved tasks directory
 SAVED_TASKS_DIR = Path(__file__).parent.parent / "data" / "tasks" / "saved"
@@ -18,8 +18,28 @@ SAVED_TASKS_DIR = Path(__file__).parent.parent / "data" / "tasks" / "saved"
 # ---------------------------------------------------------------------------
 VOICE_GENRES = ["default", "question", "highnrg", "sad", "serious", "whiny"]
 
+def _build_goal(goal_id, goal_description, timeout_minutes=0, timeout_seconds=0,
+                max_turns=0, criteria=None, instructions=None):
+    """Build a goal JSON string from field values."""
+    goal = {
+        "id": goal_id,
+        "description": goal_description,
+        "success_criteria": criteria or [],
+        "timeout": {},
+        "additional_instructions": instructions or [],
+    }
+    mins = int(timeout_minutes)
+    secs = int(timeout_seconds)
+    turns = int(max_turns)
+    if mins > 0 or secs > 0:
+        goal["timeout"]["max_time"] = {"minutes": mins, "seconds": secs}
+    if turns > 0:
+        goal["timeout"]["max_turns"] = turns
+    return json.dumps(goal, ensure_ascii=False)
+
+
 BLOCK_TEMPLATES = {
-    "Express TTS": {
+    "Conversate": {
         "action_type": "HARU_CONVERSATE",
         "fields": [
             {"name": "tts", "label": "TTS Text", "type": "text_area", "required": True,
@@ -45,9 +65,203 @@ BLOCK_TEMPLATES = {
                         }
                     ],
                     "value_type": "JSON_CONVERSATE_MULTITTS",
-                    "metainfo": vals["metainfo"] if vals.get("metainfo") else "Express TTS",
+                    "metainfo": vals["metainfo"] if vals.get("metainfo") else "Conversate",
                 }
             ],
+        },
+    },
+    "Converse & Gaze": {
+        "action_type": "HARU_CONVERSATE",
+        "multi": True,
+        "fields": [
+            {"name": "tts", "label": "TTS Text", "type": "text_area", "required": True,
+             "help": "The robot's speech text."},
+            {"name": "voice_genre", "label": "Voice Genre", "type": "select", "default": "default",
+             "options": VOICE_GENRES,
+             "help": "Voice style: default (neutral), question (interrogative), highnrg (energetic), sad, serious, whiny (frustrated)."},
+            {"name": "delay", "label": "Delay (seconds)", "type": "number", "default": 0,
+             "help": "Delay in seconds between the TTS and the routine."},
+            {"name": "routine", "label": "Routine ID", "type": "number", "default": 2001,
+             "help": "Routine ID from the [Routine List](https://docs.google.com/spreadsheets/d/1HAl8e7q3Vk94xx7pFC_rzmOrMwwRwDomXYbhDgINVmE/edit?gid=0#gid=0)."},
+            {"name": "metainfo", "label": "Metainfo", "type": "text", "default": ""},
+        ],
+        "companion_fields": [
+            {"name": "gaze_type", "label": "Gaze Type", "type": "select", "default": "GROUP",
+             "options": ["GROUP", "GAZE_INDIVIDUAL"],
+             "help": "GROUP: scan the group. GAZE_INDIVIDUAL: track a specific person."},
+            {"name": "gaze_haru_id", "label": "Haru ID", "type": "text", "default": "haru-jp",
+             "help": "Robot identifier (for GAZE_INDIVIDUAL).", "content_only": True},
+            {"name": "gaze_local_id", "label": "Local ID", "type": "number", "default": 1,
+             "help": "Target user ID (for GAZE_INDIVIDUAL).", "content_only": True},
+        ],
+        "build": lambda vals: [
+            {
+                "action_type": "HARU_CONVERSATE",
+                "action_content": [
+                    {
+                        "value": [
+                            {
+                                "tts": f'<usel genre="{vals["voice_genre"]}"> {vals["tts"]} </usel>',
+                                "delay": vals["delay"],
+                                "routine": vals["routine"],
+                            }
+                        ],
+                        "value_type": "JSON_CONVERSATE_MULTITTS",
+                        "metainfo": vals["metainfo"] if vals.get("metainfo") else "Converse & Gaze",
+                    }
+                ],
+            },
+            {
+                "action_type": "HARU_GAZE",
+                "_bond": True,
+                "action_arguments": {
+                    "gaze_arguments": {
+                        "gaze_mode": "GROUP" if vals["gaze_type"] == "GROUP" else "TRACK_PERSON",
+                    }
+                },
+                "action_content": [{}] if vals["gaze_type"] == "GROUP" else [
+                    {
+                        "user_id": {
+                            "haru_id": vals.get("gaze_haru_id") or "haru-jp",
+                            "local_id": int(vals.get("gaze_local_id", 1)),
+                        },
+                        "value_type": "GAZE_INDIVIDUAL",
+                    }
+                ],
+            },
+        ],
+    },
+    "Request iPads": {
+        "action_type": "HARU_REQUEST",
+        "fields": [
+            {"name": "request_type", "label": "Request Type", "type": "select", "default": "IMAGE_AVATAR",
+             "options": REQUEST_TYPES, "help": "Type of content to request from users."},
+            {"name": "results_key", "label": "Results Key", "type": "text", "required": True,
+             "help": "Key to store results (e.g., local_avatars_results). Can be referenced in later SHARE actions."},
+            {"name": "metainfo", "label": "Metainfo", "type": "text", "default": "",
+             "help": "Description of the request."},
+            {"name": "haru_id", "label": "Haru ID", "type": "text", "default": "haru-jp",
+             "help": "Robot identifier."},
+            {"name": "local_id", "label": "Local ID", "type": "number", "default": -1,
+             "help": "Target user ID (-1 for all users)."},
+        ],
+        "build": lambda vals: {
+            "action_type": "HARU_REQUEST",
+            "action_content": [
+                {
+                    "user_id": {
+                        "haru_id": vals["haru_id"] if vals.get("haru_id") else "haru-jp",
+                        "local_id": int(vals["local_id"]),
+                    },
+                    "metainfo": vals["metainfo"] if vals.get("metainfo") else f"Request {vals['request_type']}",
+                }
+            ],
+            "action_arguments": {
+                "request_arguments": {
+                    "request_type": vals["request_type"],
+                }
+            },
+            "action_results_key": vals["results_key"],
+        },
+    },
+    "Share Video": {
+        "action_type": "HARU_SHARE",
+        "fields": [
+            {"name": "url", "label": "Video URL/Path", "type": "text", "required": True,
+             "help": "Path or URL to the video file (e.g., /shared/projector/resources/video.webm)."},
+            {"name": "metainfo", "label": "Metainfo", "type": "text", "default": "",
+             "help": "Description of the video content."},
+            {"name": "share_mode", "label": "Share Mode", "type": "select", "default": "SHOW_SIMPLE",
+             "options": SHARE_MODES, "help": "SHOW_SIMPLE: single item. SHOW_ALL: grid."},
+            {"name": "video_loop", "label": "Loop", "type": "select", "default": "No",
+             "options": ["No", "Yes"], "help": "Loop the video."},
+            {"name": "video_mute", "label": "Mute", "type": "select", "default": "No",
+             "options": ["No", "Yes"], "help": "Mute the video."},
+            {"name": "video_wait", "label": "Wait for Completion", "type": "select", "default": "No",
+             "options": ["No", "Yes"], "help": "Wait for video to finish before proceeding."},
+        ],
+        "build": lambda vals: {
+            "action_type": "HARU_SHARE",
+            "action_content": [
+                {
+                    "value": vals["url"],
+                    "value_type": "URL_VIDEO",
+                    "metainfo": vals["metainfo"] if vals.get("metainfo") else "Video",
+                }
+            ],
+            "action_arguments": {
+                "share_arguments": {
+                    "share_mode": vals["share_mode"],
+                    "share_type": "VIDEO",
+                    "share_screen": 1,
+                    "share_subtype": "APP_CONTENT",
+                    "share_video_args": {
+                        "video_loop": vals["video_loop"] == "Yes",
+                        "video_mute": vals["video_mute"] == "Yes",
+                        "video_wait_completion": vals["video_wait"] == "Yes",
+                    },
+                }
+            },
+        },
+    },
+    "Share Image": {
+        "action_type": "HARU_SHARE",
+        "fields": [
+            {"name": "url", "label": "Image URL/Path", "type": "text", "required": True,
+             "help": "Path or URL to the image file (e.g., /shared/projector/resources/image.png)."},
+            {"name": "metainfo", "label": "Metainfo", "type": "text", "default": "",
+             "help": "Description of the image content."},
+            {"name": "share_mode", "label": "Share Mode", "type": "select", "default": "SHOW_SIMPLE",
+             "options": SHARE_MODES, "help": "SHOW_SIMPLE: single item. SHOW_ALL: grid."},
+            {"name": "share_subtype", "label": "Content Subtype", "type": "select", "default": "APP_CONTENT",
+             "options": SHARE_SUBTYPES, "help": "APP_CONTENT: built-in. SHARED_CONTENT: user-shared."},
+            {"name": "image_subtype", "label": "Image Subtype", "type": "select", "default": "",
+             "options": IMAGE_SUBTYPES, "help": "PHOTO, AVATAR, or DRAWING."},
+        ],
+        "build": lambda vals: {
+            "action_type": "HARU_SHARE",
+            "action_content": [
+                {
+                    "value": vals["url"],
+                    "value_type": "URL_IMAGE",
+                    "metainfo": vals["metainfo"] if vals.get("metainfo") else "Image",
+                }
+            ],
+            "action_arguments": {
+                "share_arguments": {
+                    "share_mode": vals["share_mode"],
+                    "share_type": "IMAGE",
+                    "share_screen": 1,
+                    "share_subtype": vals["share_subtype"],
+                    **({"share_image_subtype": vals["image_subtype"]} if vals.get("image_subtype") else {}),
+                }
+            },
+        },
+    },
+    "Share Results": {
+        "action_type": "HARU_SHARE",
+        "fields": [
+            {"name": "results_key", "label": "Results Key", "type": "text", "required": True,
+             "help": "Template variable referencing REQUEST results (e.g., local_avatars_results)."},
+            {"name": "share_mode", "label": "Share Mode", "type": "select", "default": "SHOW_ALL",
+             "options": SHARE_MODES, "help": "SHOW_SIMPLE: single item. SHOW_ALL: grid."},
+            {"name": "share_subtype", "label": "Content Subtype", "type": "select", "default": "SHARED_CONTENT",
+             "options": SHARE_SUBTYPES, "help": "APP_CONTENT: built-in. SHARED_CONTENT: user-shared."},
+            {"name": "image_subtype", "label": "Image Subtype", "type": "select", "default": "AVATAR",
+             "options": IMAGE_SUBTYPES[1:], "help": "PHOTO, AVATAR, or DRAWING."},
+        ],
+        "build": lambda vals: {
+            "action_type": "HARU_SHARE",
+            "action_content": "{{" + vals["results_key"] + "}}",
+            "action_arguments": {
+                "share_arguments": {
+                    "share_mode": vals["share_mode"],
+                    "share_type": "IMAGE",
+                    "share_screen": 1,
+                    "share_subtype": vals["share_subtype"],
+                    "share_image_subtype": vals["image_subtype"],
+                }
+            },
         },
     },
 }
@@ -56,6 +270,7 @@ BLOCK_TEMPLATES = {
 ACTION_KEY_ORDER = [
     "action_id", "wait_for_action_ids", "bond_action_ids",
     "action_type", "action_arguments", "action_goal", "action_content",
+    "action_results_key",
 ]
 
 
@@ -482,14 +697,9 @@ def render_action_panel(action: dict):
             pos_label = "Before" if position == "before" else "After"
             st.markdown(f"#### Insert {pos_label} Action #{aid}")
 
-            # Filter templates to those matching the selected action's type
-            current_action_type = action.get("action_type", "")
-            compatible = {
-                name: tmpl for name, tmpl in BLOCK_TEMPLATES.items()
-                if tmpl["action_type"] == current_action_type
-            }
+            compatible = BLOCK_TEMPLATES
             if not compatible:
-                st.info("No block templates available for this action type.")
+                st.info("No block templates available.")
             else:
                 block_type = st.selectbox(
                     "Block Type",
@@ -497,45 +707,255 @@ def render_action_panel(action: dict):
                     key=f"block_type_{aid}",
                 )
                 tmpl = compatible[block_type]
-                field_values = {}
-                for field in tmpl["fields"]:
-                    fkey = f"block_field_{aid}_{field['name']}"
-                    help_text = field.get("help")
-                    if field["type"] == "text_area":
-                        field_values[field["name"]] = st.text_area(
-                            field["label"], key=fkey, help=help_text,
-                        )
-                    elif field["type"] == "number":
-                        field_values[field["name"]] = st.number_input(
-                            field["label"], value=field.get("default", 0), key=fkey, help=help_text,
-                        )
-                    elif field["type"] == "select":
-                        options = field.get("options", [])
-                        default_idx = options.index(field["default"]) if field.get("default") in options else 0
-                        field_values[field["name"]] = st.selectbox(
-                            field["label"], options=options, index=default_idx, key=fkey, help=help_text,
-                        )
-                    else:
-                        field_values[field["name"]] = st.text_input(
-                            field["label"], value=field.get("default", ""), key=fkey, help=help_text,
-                        )
 
-                form_cols = st.columns(2)
-                with form_cols[0]:
+                # --- Explicit Content vs Goal choice ---
+                mode = st.radio(
+                    "Action mode",
+                    options=["📄 Content", "🎯 Goal"],
+                    horizontal=True,
+                    key=f"action_mode_{aid}",
+                )
+                use_goal = mode == "🎯 Goal"
+
+                field_values = {}
+                goal_values = {}
+
+                if not use_goal:
+                    # --- Content fields ---
+                    for field in tmpl["fields"]:
+                        fkey = f"block_field_{aid}_{field['name']}"
+                        help_text = field.get("help")
+                        if field["type"] == "text_area":
+                            field_values[field["name"]] = st.text_area(
+                                field["label"], key=fkey, help=help_text,
+                            )
+                        elif field["type"] == "number":
+                            field_values[field["name"]] = st.number_input(
+                                field["label"], value=field.get("default", 0), key=fkey, help=help_text,
+                            )
+                        elif field["type"] == "select":
+                            options = field.get("options", [])
+                            default_idx = options.index(field["default"]) if field.get("default") in options else 0
+                            field_values[field["name"]] = st.selectbox(
+                                field["label"], options=options, index=default_idx, key=fkey, help=help_text,
+                            )
+                        else:
+                            field_values[field["name"]] = st.text_input(
+                                field["label"], value=field.get("default", ""), key=fkey, help=help_text,
+                            )
                     can_confirm = all(
                         field_values.get(f["name"])
                         for f in tmpl["fields"]
                         if f.get("required")
                     )
+
+                if not use_goal:
+                    pass  # can_confirm already set above
+                else:
+                    # --- Goal fields ---
+                    goal_values["goal_id"] = st.text_input(
+                        "Goal ID", key=f"goal_id_{aid}",
+                        help="Unique identifier (e.g., greet, discuss_topic).",
+                    )
+                    goal_values["goal_desc"] = st.text_area(
+                        "Goal Description", key=f"goal_desc_{aid}",
+                        help="What the agent should achieve.",
+                    )
+
+                    # Timeout
+                    st.markdown("##### Timeout")
+                    gcol1, gcol2, gcol3 = st.columns(3)
+                    with gcol1:
+                        goal_values["timeout_mins"] = st.number_input(
+                            "Minutes", min_value=0, value=3, key=f"goal_mins_{aid}")
+                    with gcol2:
+                        goal_values["timeout_secs"] = st.number_input(
+                            "Seconds", min_value=0, max_value=59, value=0, key=f"goal_secs_{aid}")
+                    with gcol3:
+                        goal_values["max_turns"] = st.number_input(
+                            "Max Turns", min_value=0, value=0, key=f"goal_turns_{aid}",
+                            help="0 = no limit.")
+
+                    # Success criteria
+                    st.markdown("##### Success Criteria")
+                    criteria_key = f"goal_criteria_{aid}"
+                    if criteria_key not in st.session_state:
+                        st.session_state[criteria_key] = []
+
+                    criteria_list = st.session_state[criteria_key]
+                    to_remove = None
+                    for ci, crit in enumerate(criteria_list):
+                        ccol1, ccol2, ccol3 = st.columns([2, 5, 1])
+                        with ccol1:
+                            criteria_list[ci]["id"] = st.text_input(
+                                "ID", value=crit.get("id", f"c{ci+1}"),
+                                key=f"crit_id_{aid}_{ci}", label_visibility="collapsed",
+                            )
+                        with ccol2:
+                            criteria_list[ci]["description"] = st.text_input(
+                                "Description", value=crit.get("description", ""),
+                                key=f"crit_desc_{aid}_{ci}", label_visibility="collapsed",
+                            )
+                        with ccol3:
+                            if st.button("✕", key=f"crit_del_{aid}_{ci}"):
+                                to_remove = ci
+
+                        # Criterion timeout
+                        crit_timeout = crit.get("timeout", {})
+                        crit_max_time = crit_timeout.get("max_time", {})
+                        with st.expander(f"⏱️ Timeout for `{crit.get('id', f'c{ci+1}')}`"):
+                            tc1, tc2, tc3 = st.columns(3)
+                            with tc1:
+                                ct_mins = st.number_input(
+                                    "Minutes", min_value=0,
+                                    value=crit_max_time.get("minutes", 0),
+                                    key=f"crit_mins_{aid}_{ci}",
+                                )
+                            with tc2:
+                                ct_secs = st.number_input(
+                                    "Seconds", min_value=0, max_value=59,
+                                    value=crit_max_time.get("seconds", 0),
+                                    key=f"crit_secs_{aid}_{ci}",
+                                )
+                            with tc3:
+                                ct_turns = st.number_input(
+                                    "Max Turns", min_value=0,
+                                    value=crit_timeout.get("max_turns", 0) or 0,
+                                    key=f"crit_turns_{aid}_{ci}",
+                                )
+                            ct = {}
+                            if ct_mins > 0 or ct_secs > 0:
+                                ct["max_time"] = {"minutes": ct_mins, "seconds": ct_secs}
+                            if ct_turns > 0:
+                                ct["max_turns"] = ct_turns
+                            criteria_list[ci]["timeout"] = ct
+
+                    if to_remove is not None:
+                        criteria_list.pop(to_remove)
+                        st.rerun()
+                    if st.button("+ Add Criterion", key=f"add_crit_{aid}"):
+                        criteria_list.append({"id": f"c{len(criteria_list)+1}", "description": "", "timeout": {}})
+                        st.rerun()
+
+                    # Additional instructions
+                    st.markdown("##### Additional Instructions")
+                    instr_key = f"goal_instructions_{aid}"
+                    if instr_key not in st.session_state:
+                        st.session_state[instr_key] = []
+
+                    instr_list = st.session_state[instr_key]
+                    instr_to_remove = None
+                    for ii, instr in enumerate(instr_list):
+                        icol1, icol2 = st.columns([6, 1])
+                        with icol1:
+                            instr_list[ii] = st.text_input(
+                                "Instruction", value=instr,
+                                key=f"instr_{aid}_{ii}", label_visibility="collapsed",
+                            )
+                        with icol2:
+                            if st.button("✕", key=f"instr_del_{aid}_{ii}"):
+                                instr_to_remove = ii
+                    if instr_to_remove is not None:
+                        instr_list.pop(instr_to_remove)
+                        st.rerun()
+                    if st.button("+ Add Instruction", key=f"add_instr_goal_{aid}"):
+                        instr_list.append("")
+                        st.rerun()
+
+                    can_confirm = bool(goal_values.get("goal_id") and goal_values.get("goal_desc"))
+
+                # --- Companion fields (always shown after content/goal, e.g. gaze settings) ---
+                companion_values = {}
+                companion_fields = tmpl.get("companion_fields", [])
+                if companion_fields:
+                    st.markdown("---")
+                    for field in companion_fields:
+                        if field.get("content_only") and use_goal:
+                            continue
+                        fkey = f"companion_{aid}_{field['name']}"
+                        help_text = field.get("help")
+                        if field["type"] == "text_area":
+                            companion_values[field["name"]] = st.text_area(
+                                field["label"], key=fkey, help=help_text,
+                            )
+                        elif field["type"] == "number":
+                            companion_values[field["name"]] = st.number_input(
+                                field["label"], value=field.get("default", 0), key=fkey, help=help_text,
+                            )
+                        elif field["type"] == "select":
+                            options = field.get("options", [])
+                            default_idx = options.index(field["default"]) if field.get("default") in options else 0
+                            companion_values[field["name"]] = st.selectbox(
+                                field["label"], options=options, index=default_idx, key=fkey, help=help_text,
+                            )
+                        else:
+                            companion_values[field["name"]] = st.text_input(
+                                field["label"], value=field.get("default", ""), key=fkey, help=help_text,
+                            )
+
+                form_cols = st.columns(2)
+                with form_cols[0]:
                     if st.button(
                         "✅ Confirm", key=f"confirm_insert_{aid}",
                         disabled=not can_confirm, use_container_width=True,
                     ):
                         task = st.session_state.get("working_task")
                         if task:
-                            new_action_data = tmpl["build"](field_values)
-                            insert_action(task, aid, position, new_action_data)
+                            if use_goal:
+                                criteria = []
+                                for c in st.session_state.get(f"goal_criteria_{aid}", []):
+                                    if c.get("id") and c.get("description"):
+                                        crit_entry = {"id": c["id"], "description": c["description"]}
+                                        if c.get("timeout"):
+                                            crit_entry["timeout"] = c["timeout"]
+                                        criteria.append(crit_entry)
+                                instructions = [
+                                    i for i in st.session_state.get(f"goal_instructions_{aid}", [])
+                                    if i.strip()
+                                ]
+                                goal_str = _build_goal(
+                                    goal_values["goal_id"], goal_values["goal_desc"],
+                                    goal_values["timeout_mins"], goal_values["timeout_secs"],
+                                    goal_values["max_turns"], criteria, instructions,
+                                )
+                                # For multi-action templates, build with companion values and add goal to first
+                                if tmpl.get("multi"):
+                                    build_vals = {**field_values, **companion_values}
+                                    action_list = tmpl["build"](build_vals)
+                                    action_list[0]["action_goal"] = goal_str
+                                    action_list[0]["action_content"] = []
+                                else:
+                                    action_list = [{
+                                        "action_type": tmpl["action_type"],
+                                        "action_goal": goal_str,
+                                        "action_content": [],
+                                    }]
+                            else:
+                                build_vals = {**field_values, **companion_values}
+                                result = tmpl["build"](build_vals)
+                                action_list = result if isinstance(result, list) else [result]
+
+                            # Insert actions — handle multi-action blocks with bonding
+                            first_action = action_list[0]
+                            insert_action(task, aid, position, first_action)
+                            if len(action_list) > 1:
+                                # Find the inserted action's new ID
+                                actions = task.get("actions", [])
+                                first_new = next(
+                                    a for a in actions
+                                    if a.get("action_type") == first_action.get("action_type")
+                                    and a.get("action_goal") == first_action.get("action_goal")
+                                    and a.get("action_content") == first_action.get("action_content")
+                                )
+                                first_id = first_new["action_id"]
+                                for extra in action_list[1:]:
+                                    if extra.pop("_bond", False):
+                                        extra["bond_action_ids"] = [first_id]
+                                    insert_action(task, first_id, "after", extra)
+
                             st.session_state.pop("insert_mode", None)
+                            st.session_state.pop(f"goal_criteria_{aid}", None)
+                            st.session_state.pop(f"goal_instructions_{aid}", None)
                             st.session_state["selected_action"] = None
                             st.rerun()
                 with form_cols[1]:

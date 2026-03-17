@@ -58,7 +58,16 @@ SHARE_SUBTYPES = [
 REQUEST_TYPES = [
     "IMAGE_AVATAR",
     "IMAGE_PHOTO",
+    "IMAGE_DRAW",
     "TEXT",
+]
+
+# Image subtypes for HARU_SHARE
+IMAGE_SUBTYPES = [
+    "",
+    "PHOTO",
+    "AVATAR",
+    "DRAWING",
 ]
 
 # Default template path (relative to project root)
