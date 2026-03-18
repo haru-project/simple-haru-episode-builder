@@ -74,13 +74,10 @@ def build_episode(tasks: list[dict], episode_config: dict) -> dict:
                 ]
                 wait_ids.extend(mapped_waits)
 
-            # Add cross-task linking for first two actions of subsequent tasks
-            # Both CONVERSATE and its bonded GAZE should wait for previous task
-            if task_idx > 0 and prev_task_action_ids:
-                is_first_action = action == task_actions[0]
-                is_second_action = len(task_actions) > 1 and action == task_actions[1]
-                if (is_first_action or is_second_action) and not wait_ids:
-                    wait_ids = list(prev_task_action_ids)
+            # Add cross-task linking: any root action (no internal waits)
+            # in a subsequent task should wait for the previous task to finish
+            if task_idx > 0 and prev_task_action_ids and not wait_ids:
+                wait_ids = list(prev_task_action_ids)
 
             if wait_ids:
                 new_action["wait_for_action_ids"] = wait_ids
@@ -99,6 +96,10 @@ def build_episode(tasks: list[dict], episode_config: dict) -> dict:
             if "action_goal" in action:
                 new_action["action_goal"] = action["action_goal"]
 
+            # Copy action_results_key
+            if "action_results_key" in action:
+                new_action["action_results_key"] = action["action_results_key"]
+
             # Copy action_content
             if "action_content" in action:
                 new_action["action_content"] = action["action_content"]
@@ -107,7 +108,17 @@ def build_episode(tasks: list[dict], episode_config: dict) -> dict:
             task_action_ids.append(current_action_id)
             current_action_id += 1
 
-        prev_task_action_ids = task_action_ids
+        # Compute leaf actions: actions that no other action in this task
+        # waits for. These are the "last" actions to finish.
+        # Note: bond_action_ids are excluded — bonded actions finish together,
+        # so the bonding target is still a leaf.
+        depended_on = set()
+        for action in task_actions:
+            for wid in action.get("wait_for_action_ids", []) or []:
+                if wid in action_id_map:
+                    depended_on.add(action_id_map[wid])
+        leaf_ids = [aid for aid in task_action_ids if aid not in depended_on]
+        prev_task_action_ids = leaf_ids if leaf_ids else task_action_ids
 
     return episode
 
