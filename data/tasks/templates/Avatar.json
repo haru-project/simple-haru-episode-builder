@@ -11,34 +11,7 @@
   "actions": [
     {
       "action_id": 1,
-      "action_type": "HARU_REQUEST",
-      "action_content": [
-        {
-          "user_id": {
-            "haru_id": "haru-jp",
-            "local_id": -1
-          },
-          "metainfo": "Request avatars on iPads"
-        }
-      ],
-      "action_arguments": {
-        "request_arguments": {
-          "request_type": "IMAGE_AVATAR"
-        }
-      },
-      "action_results_key": "avatars",
-      "wait_for_action_ids": []
-    },
-    {
-      "action_id": 2,
       "action_type": "HARU_SHARE",
-      "action_content": [
-        {
-          "value": "{video_url}",
-          "metainfo": "Avatar Creation Video How to Create from iPads",
-          "value_type": "URL_VIDEO"
-        }
-      ],
       "action_arguments": {
         "share_arguments": {
           "share_mode": "SHOW_SIMPLE",
@@ -51,12 +24,57 @@
             "video_wait_completion": false
           }
         }
-      }
+      },
+      "action_content": [
+        {
+          "value": "{video_url}",
+          "metainfo": "Avatar Creation Video How to Create from iPads",
+          "value_type": "URL_VIDEO"
+        }
+      ]
+    },
+    {
+      "action_id": 2,
+      "action_type": "HARU_REQUEST",
+      "action_arguments": {
+        "request_arguments": {
+          "request_type": "IMAGE_AVATAR"
+        }
+      },
+      "action_content": [
+        {
+          "user_id": {
+            "haru_id": "haru-jp",
+            "local_id": -1
+          },
+          "metainfo": "Request avatars on iPads"
+        }
+      ],
+      "action_results_key": "avatars"
     },
     {
       "action_id": 3,
+      "bond_action_ids": [
+        2
+      ],
+      "action_type": "HARU_GAZE",
+      "action_arguments": {
+        "gaze_arguments": {
+          "gaze_mode": "GROUP"
+        }
+      },
+      "action_content": [
+        {}
+      ]
+    },
+    {
+      "action_id": 4,
+      "wait_for_action_ids": [
+        1,
+        2,
+        3
+      ],
       "action_type": "HARU_SHARE",
-      "action_content": "{{avatars}}",
       "action_arguments": {
         "share_arguments": {
           "share_mode": "SHOW_ALL",
@@ -66,7 +84,36 @@
           "share_image_subtype": "AVATAR"
         }
       },
-      "wait_for_action_ids": [1, 2]
+      "action_content": "{{avatars}}"
+    },
+    {
+      "action_id": 5,
+      "wait_for_action_ids": [
+        1,
+        2,
+        3
+      ],
+      "action_type": "HARU_CONVERSATE",
+      "action_goal": "{\"id\": \"greet_by_name\", \"description\": \"Thank all participants for creating their avatars and ask each one to describe their avatar.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} thanks {participants_start_left} for creating their avatar.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"{robot_name} asks {participant} to describe their avatar.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c3\", \"description\": \"{participant} describes their avatar.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c4\", \"description\": \"{robot_name} reacts to {participant}'s avatar description.\", \"reached\": false, \"evidence\": null}], \"criteria_expand\": [{\"ids\": [\"c2\", \"c3\", \"c4\"], \"mappings\": [{\"source\": \"{participant_order}\", \"target\": \"participant\"}]}], \"timeout\": {\"max_time\": {\"minutes\": 5, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Complete all criteria for one participant before moving to the next.\", \"Follow the criteria order.\", \"Address participants by name.\", \"Keep the conversation natural, light and fun.\"]}",
+      "action_content": []
+    },
+    {
+      "action_id": 6,
+      "wait_for_action_ids": [
+        1,
+        2,
+        3
+      ],
+      "bond_action_ids": [
+        5
+      ],
+      "action_type": "HARU_GAZE",
+      "action_arguments": {
+        "gaze_arguments": {
+          "gaze_mode": "TRACK_PERSON"
+        }
+      },
+      "action_content": []
     }
   ],
   "template": {
@@ -74,6 +121,10 @@
       "video_url": {
         "description": "URL or path to the how-to video shown on projector while users create avatars",
         "example": "/shared/projector/resources/AvatarCreation_Howto.webm"
+      },
+      "participant_order": {
+        "description": "Order to address participants (e.g., 'participants_start_left', 'participants_start_right')",
+        "example": "participants_start_left"
       }
     }
   }

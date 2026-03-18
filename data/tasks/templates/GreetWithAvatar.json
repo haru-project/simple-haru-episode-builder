@@ -1,0 +1,34 @@
+{
+  "app_id": "greet_with_avatar",
+  "episode_id": "1",
+  "haru_id": "haru-jp",
+  "stage_id": 1,
+  "task_id": 1,
+  "ready": false,
+  "mute": false,
+  "teleconference_on": false,
+  "description": "GreetWithAvatar - Greet participants, introduce yourself, and propose avatar creation on iPads",
+  "actions": [
+    {
+      "action_id": 1,
+      "action_type": "HARU_CONVERSATE",
+      "action_goal": "{\"id\": \"greet_and_avatar_intro\", \"description\": \"Greet the group, introduce yourself, and propose the avatar creation activity.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} says its name.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"{robot_name} greets all participants.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c3\", \"description\": \"At least one participant responds to the greeting.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c4\", \"description\": \"{robot_name} proposes to start by creating avatars on the iPads.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c5\", \"description\": \"At least one participant confirms the activity.\", \"reached\": false, \"evidence\": null}], \"timeout\": {\"max_time\": {\"minutes\": 2, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Introduce yourself as Honda's newest robot friend.\", \"Express how happy you are to meet everyone.\", \"Keep it brief.\", \"Do not ask participants their names, as they will input them when creating their avatar.\"]}",
+      "action_content": []
+    },
+    {
+      "action_id": 2,
+      "bond_action_ids": [
+        1
+      ],
+      "action_type": "HARU_GAZE",
+      "action_arguments": {
+        "gaze_arguments": {
+          "gaze_mode": "GROUP"
+        }
+      },
+      "action_content": [
+        {}
+      ]
+    }
+  ]
+}
