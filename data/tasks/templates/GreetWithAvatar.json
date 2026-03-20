@@ -33,8 +33,7 @@
     {
       "action_id": 3,
       "wait_for_action_ids": [
-        1,
-        2
+        1
       ],
       "action_type": "HARU_CONVERSATE",
       "action_goal": "{\"id\": \"avatar_intro\", \"description\": \"Propose the avatar creation activity and get confirmation.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} proposes to start by creating avatars on the iPads.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"At least one participant confirms the activity.\", \"reached\": false, \"evidence\": null}], \"timeout\": {\"max_time\": {\"minutes\": 1, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Keep it brief and enthusiastic.\", \"Do not ask participants their names, as they will input them when creating their avatar.\"]}",
@@ -46,8 +45,7 @@
         3
       ],
       "wait_for_action_ids": [
-        1,
-        2
+        1
       ],
       "action_type": "HARU_GAZE",
       "action_arguments": {

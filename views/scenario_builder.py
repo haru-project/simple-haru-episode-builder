@@ -109,15 +109,20 @@ def build_episode(tasks: list[dict], episode_config: dict) -> dict:
             current_action_id += 1
 
         # Compute leaf actions: actions that no other action in this task
-        # waits for. These are the "last" actions to finish.
-        # Note: bond_action_ids are excluded — bonded actions finish together,
-        # so the bonding target is still a leaf.
+        # waits for, and that are not bonded to another action.
+        # Bonded actions finish when their bond target finishes, so they
+        # are not independent leaves. Bond targets remain leaves.
         depended_on = set()
+        bonded_actions = set()
         for action in task_actions:
             for wid in action.get("wait_for_action_ids", []) or []:
                 if wid in action_id_map:
                     depended_on.add(action_id_map[wid])
-        leaf_ids = [aid for aid in task_action_ids if aid not in depended_on]
+            if action.get("bond_action_ids"):
+                old_id = action.get("action_id")
+                if old_id in action_id_map:
+                    bonded_actions.add(action_id_map[old_id])
+        leaf_ids = [aid for aid in task_action_ids if aid not in depended_on and aid not in bonded_actions]
         prev_task_action_ids = leaf_ids if leaf_ids else task_action_ids
 
     return episode

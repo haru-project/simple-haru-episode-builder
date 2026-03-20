@@ -11,6 +11,26 @@
   "actions": [
     {
       "action_id": 1,
+      "action_type": "HARU_REQUEST",
+      "action_arguments": {
+        "request_arguments": {
+          "request_type": "IMAGE_AVATAR"
+        }
+      },
+      "action_content": [
+        {
+          "user_id": {
+            "haru_id": "haru-jp",
+            "local_id": -1
+          },
+          "metainfo": "Request avatars on iPads"
+        }
+      ],
+      "action_results_key": "avatars"
+    },
+    {
+      "action_id": 2,
+      "bond_action_ids": [1],
       "action_type": "HARU_SHARE",
       "action_arguments": {
         "share_arguments": {
@@ -34,28 +54,9 @@
       ]
     },
     {
-      "action_id": 2,
-      "action_type": "HARU_REQUEST",
-      "action_arguments": {
-        "request_arguments": {
-          "request_type": "IMAGE_AVATAR"
-        }
-      },
-      "action_content": [
-        {
-          "user_id": {
-            "haru_id": "haru-jp",
-            "local_id": -1
-          },
-          "metainfo": "Request avatars on iPads"
-        }
-      ],
-      "action_results_key": "avatars"
-    },
-    {
       "action_id": 3,
       "bond_action_ids": [
-        2
+        1
       ],
       "action_type": "HARU_GAZE",
       "action_arguments": {
@@ -70,9 +71,28 @@
     {
       "action_id": 4,
       "wait_for_action_ids": [
-        1,
-        2,
-        3
+        1
+      ],
+      "action_type": "HARU_CONVERSATE",
+      "action_content": [
+        {
+          "value": [
+            {
+              "tts": "Thank you all for creating your avatars! They look great!",
+              "delay": 0,
+              "routine": 2001
+            }
+          ],
+          "metainfo": "Thank participants for creating avatars",
+          "value_type": "JSON_CONVERSATE_MULTITTS"
+        }
+      ]
+    },
+    {
+      "action_id": 5,
+      "bond_action_ids": [4],
+      "wait_for_action_ids": [
+        1
       ],
       "action_type": "HARU_SHARE",
       "action_arguments": {
@@ -87,25 +107,21 @@
       "action_content": "{{avatars}}"
     },
     {
-      "action_id": 5,
+      "action_id": 6,
       "wait_for_action_ids": [
-        1,
-        2,
-        3
+        4
       ],
       "action_type": "HARU_CONVERSATE",
-      "action_goal": "{\"id\": \"greet_by_name\", \"description\": \"Thank all participants for creating their avatars, ask each one to describe their avatar, and follow up.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} thanks {participant_order} for creating their avatar.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"{robot_name} asks {participant} to describe their avatar.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c3\", \"description\": \"{participant} describes their avatar.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c4\", \"description\": \"{robot_name} asks {participant} a follow-up question about their avatar.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c5\", \"description\": \"{participant} responds to the follow-up question.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c6\", \"description\": \"{robot_name} acknowledges {participant}'s response.\", \"reached\": false, \"evidence\": null}], \"criteria_expand\": [{\"ids\": [\"c2\", \"c3\", \"c4\", \"c5\", \"c6\"], \"mappings\": [{\"source\": \"{participant_order}\", \"target\": \"participant\"}]}], \"timeout\": {\"max_time\": {\"minutes\": 5, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Complete all criteria for one participant before moving to the next.\", \"Follow the criteria order.\", \"Address participants by name.\", \"Keep the conversation natural, light and fun.\"]}",
+      "action_goal": "{\"id\": \"discuss_avatars\", \"description\": \"Ask each participant to describe their avatar and follow up.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} asks {participant} to describe their avatar.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"{participant} describes their avatar.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c3\", \"description\": \"{robot_name} asks {participant} a follow-up question about their avatar.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c4\", \"description\": \"{participant} responds to the follow-up question.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c5\", \"description\": \"{robot_name} acknowledges {participant}'s response.\", \"reached\": false, \"evidence\": null}], \"criteria_expand\": [{\"ids\": [\"c1\", \"c2\", \"c3\", \"c4\", \"c5\"], \"mappings\": [{\"source\": \"{participant_order}\", \"target\": \"participant\"}]}], \"timeout\": {\"max_time\": {\"minutes\": 5, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Complete all criteria for one participant before moving to the next.\", \"Follow the criteria order.\", \"Address participants by name.\", \"Keep the conversation natural, light and fun.\"]}",
       "action_content": []
     },
     {
-      "action_id": 6,
+      "action_id": 7,
       "wait_for_action_ids": [
-        1,
-        2,
-        3
+        4
       ],
       "bond_action_ids": [
-        5
+        6
       ],
       "action_type": "HARU_GAZE",
       "action_arguments": {

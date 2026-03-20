@@ -518,14 +518,32 @@ def render_action_flow(actions: list):
         "REQUEST": "📥",
     }
 
-    # Find parallel groups
-    parallel_groups = {}
+    # Find parallel groups and merge overlapping ones
+    raw_groups = []
     for action in actions:
         aid = action.get("action_id", 0)
         bond_ids = action.get("bond_action_ids", [])
         if bond_ids:
-            group_key = tuple(sorted([aid] + bond_ids))
-            parallel_groups[group_key] = parallel_groups.get(group_key, set()) | {aid} | set(bond_ids)
+            raw_groups.append({aid} | set(bond_ids))
+
+    # Merge overlapping groups (e.g., {1,2} and {1,3} become {1,2,3})
+    merged = True
+    while merged:
+        merged = False
+        new_groups = []
+        for group in raw_groups:
+            placed = False
+            for i, existing in enumerate(new_groups):
+                if group & existing:
+                    new_groups[i] = existing | group
+                    merged = True
+                    placed = True
+                    break
+            if not placed:
+                new_groups.append(group)
+        raw_groups = new_groups
+
+    parallel_groups = {tuple(sorted(g)): g for g in raw_groups}
 
     in_parallel = set()
     for group in parallel_groups.values():
