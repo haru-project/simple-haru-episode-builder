@@ -74,19 +74,8 @@
         1
       ],
       "action_type": "HARU_CONVERSATE",
-      "action_content": [
-        {
-          "value": [
-            {
-              "tts": "Thank you all for creating your avatars! They look great!",
-              "delay": 0,
-              "routine": 2001
-            }
-          ],
-          "metainfo": "Thank participants for creating avatars",
-          "value_type": "JSON_CONVERSATE_MULTITTS"
-        }
-      ]
+      "action_goal": "{\"id\": \"thank_avatars\", \"description\": \"Thank all participants for creating their avatars and make a positive comment.\", \"success_criteria\": [], \"timeout\": {\"max_time\": {\"minutes\": 1, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Thank everyone for creating their avatars.\", \"Make a general positive comment about the avatars without describing specific ones.\", \"Keep it brief.\"]}",
+      "action_content": []
     },
     {
       "action_id": 5,

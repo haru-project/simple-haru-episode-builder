@@ -42,8 +42,7 @@
     {
       "action_id": 3,
       "wait_for_action_ids": [
-        1,
-        2
+        1
       ],
       "action_type": "HARU_CONVERSATE",
       "action_goal": "{\"id\": \"greet_phase\", \"description\": \"Introduce yourself and greet each participant.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} says its name.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"{robot_name} greets {participant}.\", \"reached\": false, \"evidence\": null}], \"criteria_expand\": [{\"ids\": [\"c2\"], \"mappings\": [{\"source\": \"participants_start_left\", \"target\": \"participant\"}]}], \"timeout\": {\"max_time\": {\"minutes\": 2, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Introduce yourself briefly.\", \"Be warm and friendly.\"]}",
@@ -52,8 +51,7 @@
     {
       "action_id": 4,
       "wait_for_action_ids": [
-        1,
-        2
+        1
       ],
       "bond_action_ids": [
         3
@@ -69,8 +67,7 @@
     {
       "action_id": 5,
       "wait_for_action_ids": [
-        3,
-        4
+        3
       ],
       "action_type": "HARU_CONVERSATE",
       "action_content": [
@@ -247,8 +244,7 @@
     {
       "action_id": 14,
       "wait_for_action_ids": [
-        12,
-        13
+        12
       ],
       "action_type": "HARU_CONVERSATE",
       "action_goal": "{\"id\": \"group_discussion\", \"description\": \"Facilitate a group discussion about colors.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} summarizes what the group shared.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"At least two participants talk to each other.\", \"reached\": false, \"evidence\": null}], \"additional_instructions\": [\"Address participants as a group.\", \"Step back and let them talk.\"]}",
@@ -260,8 +256,7 @@
     {
       "action_id": 15,
       "wait_for_action_ids": [
-        12,
-        13
+        12
       ],
       "action_type": "HARU_GAZE",
       "action_arguments": {
@@ -322,8 +317,7 @@
     {
       "action_id": 19,
       "wait_for_action_ids": [
-        17,
-        18
+        17
       ],
       "action_type": "HARU_CONVERSATE",
       "action_content": [
@@ -348,8 +342,7 @@
     {
       "action_id": 20,
       "wait_for_action_ids": [
-        17,
-        18
+        17
       ],
       "bond_action_ids": [
         19
@@ -365,8 +358,7 @@
     {
       "action_id": 21,
       "wait_for_action_ids": [
-        19,
-        20
+        19
       ],
       "action_type": "HARU_CONVERSATE",
       "action_goal": "{\"id\": \"farewell\", \"description\": \"Say goodbye to participants.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} says goodbye.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"At least one participant says goodbye.\", \"reached\": false, \"evidence\": null}], \"timeout\": {\"max_time\": {\"minutes\": 1, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Keep it warm but brief.\"]}",
@@ -375,8 +367,7 @@
     {
       "action_id": 22,
       "wait_for_action_ids": [
-        19,
-        20
+        19
       ],
       "bond_action_ids": [
         21
@@ -392,8 +383,7 @@
     {
       "action_id": 23,
       "wait_for_action_ids": [
-        21,
-        22
+        21
       ],
       "action_type": "HARU_GAZE",
       "action_arguments": {
