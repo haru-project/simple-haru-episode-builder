@@ -9,3 +9,7 @@ __pycache__/
 # Python venv #
 ###################
 .python-version
+
+# Data
+data/tasks/saved
+data/episodes

@@ -1,0 +1,48 @@
+{
+  "app_id": "learn_about_{topic_id}",
+  "episode_id": "1",
+  "haru_id": "haru-jp",
+  "stage_id": 1,
+  "task_id": 1,
+  "ready": false,
+  "mute": true,
+  "teleconference_on": true,
+  "description": "LearnAbout - Learn each participant's {topic}",
+  "actions": [
+    {
+      "action_id": 1,
+      "action_type": "HARU_CONVERSATE",
+      "action_goal": "{\"id\": \"learn_about_{topic_id}\", \"description\": \"Learn each participant's {topic}.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} learns {participant}'s {topic}.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"{robot_name} asks {participant} a follow-up question about their {topic}.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c3\", \"description\": \"{participant} responds to the follow-up question about their {topic}.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c4\", \"description\": \"{robot_name} acknowledges {participant}'s response.\", \"reached\": false, \"evidence\": null}], \"criteria_expand\": [{\"ids\": [\"c1\", \"c2\", \"c3\", \"c4\"], \"mappings\": [{\"source\": \"{participant_order}\", \"target\": \"participant\"}]}], \"timeout\": {\"max_time\": {\"minutes\": 5, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Complete all criteria for one participant before moving to the next.\", \"Follow the criteria order.\", \"Address participants by name.\", \"Keep the conversation natural, light and fun.\"]}",
+      "action_content": []
+    },
+    {
+      "action_id": 2,
+      "bond_action_ids": [
+        1
+      ],
+      "action_type": "HARU_GAZE",
+      "action_arguments": {
+        "gaze_arguments": {
+          "gaze_mode": "TRACK_PERSON"
+        }
+      },
+      "action_content": []
+    }
+  ],
+  "template": {
+    "parameters": {
+      "topic": {
+        "description": "The topic to learn about (e.g., 'favorite school subject', 'favorite color', 'first pet', 'least favorite food')",
+        "example": "favorite school subject"
+      },
+      "topic_id": {
+        "description": "Snake_case identifier for the topic (e.g., 'favorite_school_subject', 'favorite_color', 'first_pet')",
+        "example": "favorite_school_subject"
+      },
+      "participant_order": {
+        "description": "Order to address participants (e.g., 'participants_start_left', 'participants_start_right')",
+        "example": "participants_start_left"
+      }
+    }
+  }
+}

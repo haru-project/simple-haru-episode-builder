@@ -1,99 +1,148 @@
+# Haru Episode Builder
 
-# Simple Haru Episode Builder
-
-A lightweight Streamlit app for creating episode JSON files for the Haru social robot.  
-The tool lets you define metadata, add actions, specify bonds, and export structured JSON files ready for use in Haru interaction pipelines.
-
-![alt text](images/SimpleHaruEpisodeBuilder.png)
+A Streamlit app for creating Task and Scenario JSON files for the Haru social robot.
 
 ---
 
 ## Features
-- Simple Streamlit web UI  
-- Auto-incrementing action IDs  
-- Two action types:
-  - `HARU_CONVERSATE`
-  - `HARU_GAZE` (auto-fills gaze arguments)
-- Support for bonded and waiting dependencies  
-- Live JSON preview  
-- One-click JSON download  
+
+- **Two-page workflow**: Task Builder and Scenario Builder
+- **Template-based tasks**: Load from predefined templates with parameter substitution
+- **Four action types**:
+  - `HARU_CONVERSATE` - Dialogue with structured goals
+  - `HARU_GAZE` - Gaze tracking (person/group)
+  - `HARU_SHARE` - Display content on screen (video, image, or collected results)
+  - `HARU_REQUEST` - Request input from users (avatars, drawings, photos, text)
+- **Visual action flow**: Timeline view with parallel action support
+- **Inline editing**: Edit goals, success criteria, timeout, and instructions directly in preview
+- **Block insertion**: Insert actions before/after with content or goal mode
+- **Scenario composition**: Combine multiple tasks into scenarios
 
 ---
 
-## Setup (Linux, using `uv`)
+## Setup
 
-This project already includes a `pyproject.toml` with the required dependencies.
-
-### 1. Create the virtual environment
+### Using Docker (recommended)
 
 ```bash
-uv venv
+docker compose up --build
 ```
 
-### 2. Activate the environment
+Open http://localhost:8501
 
-```bash
-source .venv/bin/activate
-```
-
-### 3. Install dependencies from `pyproject.toml`
+### Using `uv` (local development)
 
 ```bash
 uv sync
-```
-
-This installs everything listed under `[project.dependencies]` into the venv.
-
----
-
-## Run the App
-
-```bash
-streamlit run haru_json_builder_app.py
-```
-
-Then open:
-
-```
-http://localhost:8501
+uv run streamlit run app.py
 ```
 
 ---
 
-## Usage Overview
+## Pages
 
-### 1. Configure Episode Metadata
-Specify:
-- app_id / episode_id  
-- haru_id  
-- stage_id / task_id  
-- ready / mute / teleconference flags  
-- description  
+### Task Builder
 
-### 2. Add Actions
-Choose between:
+Create individual tasks from templates or load existing tasks.
 
-#### HARU_CONVERSATE
-- `action_content: []`
-- No `action_arguments`
+1. **Load**: Select a template or load an existing task
+2. **Configure**: Fill in template parameters (topic, video URL, etc.)
+3. **Preview & Edit**: View action flow, edit goals/timeout/instructions, insert or delete actions
+4. **Save**: Save to Scenario Builder or download JSON
 
-#### HARU_GAZE
-Automatically inserts:
+#### Block Templates
+
+Insert actions using predefined block templates, each with a **Content** or **Goal** mode:
+
+| Block | Action Type | Description |
+|-------|-------------|-------------|
+| Conversate | CONVERSATE | TTS speech with voice genre and routine |
+| Converse & Gaze | CONVERSATE + GAZE | Bonded speech and gaze (GROUP or GAZE_INDIVIDUAL) |
+| Request iPads | REQUEST | Request avatars, drawings, photos, or text from iPads |
+| Share Video | SHARE | Display video on projector with loop/mute/wait options |
+| Share Image | SHARE | Display image on projector |
+| Share Results | SHARE | Display collected results from a previous REQUEST |
+
+### Scenario Builder
+
+Combine saved tasks into scenarios.
+
+1. **Add tasks** from the left panel
+2. **Reorder** with up/down buttons
+3. **Download** the complete scenario JSON
+
+---
+
+## Action Types
+
+| Type | Icon | Description |
+|------|------|-------------|
+| CONVERSATE | 💬 | Dialogue with goals, success criteria, timeout |
+| GAZE | 👁️ | Look at person (TRACK_PERSON) or group (GROUP) |
+| SHARE | 🖥️ | Display video, image, text, or collected results |
+| REQUEST | 📥 | Request avatar, drawing, photo, or text input |
+
+---
+
+## Templates
+
+Templates are JSON files in `data/tasks/templates/` with optional parameter placeholders:
 
 ```json
 {
-  "gaze_arguments": {
-    "gaze_mode": "TRACK_PERSON"
-  }
+  "template": {
+    "parameters": {
+      "video_url": {
+        "description": "URL to the how-to video",
+        "example": "/shared/projector/resources/video.webm"
+      }
+    }
+  },
+  "actions": [...]
 }
 ```
 
-### 3. Link Actions
-Optionally configure:
-- `bond_action_ids`
-- `wait_for_action_ids`
+Included templates:
 
-### 4. Export Episode
-Preview the generated JSON and download it in one click.
+| Template | Description |
+|----------|-------------|
+| Avatar | Request avatar creation + display on projector |
+| Drawing | Request drawing + display on projector |
+| Greet | Self-introduction and greeting |
+| LearnAbout | Learn about a topic |
+| AskAbout | Ask questions about a topic |
+| DoYouPrefer | Preference gathering |
+| WouldYouRather | Would you rather questions |
+| AgreeDisagree | Opinion gathering |
+| ShareAndRelate | Collaborative sharing |
+| BuildTheIdea | Idea building |
+| Prediction | Prediction task |
+| RankIt | Ranking task |
+| FacilitateDiscussion | Discussion facilitation |
+| Sleep | Haru sleep behavior |
+| Closing | Session closing |
+| WelcomeBack | Welcome back |
+| HaruShareIceCream | Haru shares ice cream preferences |
 
 ---
+
+## Project Structure
+
+```
+simple-haru-episode-builder/
+├── app.py                    # Main entry point
+├── Dockerfile
+├── docker-compose.yml
+├── views/
+│   ├── scenario_builder.py   # Scenario Builder page
+│   └── task_builder.py       # Task Builder page + block templates
+├── src/
+│   ├── models/               # Pydantic data models
+│   ├── components/           # UI components + action editors
+│   ├── services/             # Template, validation, import/export
+│   └── utils/                # Constants and helpers
+└── data/
+    └── tasks/
+        ├── templates/        # Task templates (JSON)
+        └── saved/            # Saved tasks
+```

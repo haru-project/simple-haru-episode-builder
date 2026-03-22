@@ -1,0 +1,76 @@
+{
+  "app_id": "drawing",
+  "episode_id": "1",
+  "haru_id": "haru-jp",
+  "stage_id": 1,
+  "task_id": 1,
+  "ready": false,
+  "mute": false,
+  "teleconference_on": false,
+  "description": "Drawing - Request drawing from iPads and display results on projector",
+  "actions": [
+    {
+      "action_id": 1,
+      "action_type": "HARU_REQUEST",
+      "action_content": [
+        {
+          "user_id": {
+            "haru_id": "haru-jp",
+            "local_id": -1
+          },
+          "metainfo": "Request drawings on iPads"
+        }
+      ],
+      "action_arguments": {
+        "request_arguments": {
+          "request_type": "IMAGE_DRAW"
+        }
+      },
+      "action_results_key": "drawings",
+      "wait_for_action_ids": []
+    },
+    {
+      "action_id": 2,
+      "action_type": "HARU_SHARE",
+      "action_content": [
+        {
+          "value": "{image_url}",
+          "metainfo": "Translation",
+          "value_type": "URL_IMAGE"
+        }
+      ],
+      "action_arguments": {
+        "share_arguments": {
+          "share_mode": "SHOW_SIMPLE",
+          "share_type": "IMAGE",
+          "share_screen": 1,
+          "share_subtype": "APP_CONTENT",
+          "share_image_subtype": "PHOTO"
+        }
+      }
+    },
+    {
+      "action_id": 3,
+      "action_type": "HARU_SHARE",
+      "action_content": "{{drawings}}",
+      "action_arguments": {
+        "share_arguments": {
+          "share_mode": "SHOW_ALL",
+          "share_type": "IMAGE",
+          "share_screen": 1,
+          "share_subtype": "SHARED_CONTENT",
+          "share_image_subtype": "DRAWING"
+        }
+      },
+      "wait_for_action_ids": [1, 2]
+    }
+  ],
+  "template": {
+    "parameters": {
+      "image_url": {
+        "description": "URL or path to the reference image shown on projector while users draw",
+        "example": "/shared/projector/resources/Translation.png"
+      }
+    }
+  }
+}

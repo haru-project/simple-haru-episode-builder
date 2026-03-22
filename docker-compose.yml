@@ -1,0 +1,8 @@
+services:
+  episode-builder:
+    build: .
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./data/tasks/saved:/app/data/tasks/saved
+      - ./data/tasks/templates:/app/data/tasks/templates

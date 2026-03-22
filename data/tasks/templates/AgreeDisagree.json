@@ -1,0 +1,54 @@
+{
+  "app_id": "agree_disagree_{topic_id}",
+  "episode_id": "1",
+  "haru_id": "haru-jp",
+  "stage_id": 1,
+  "task_id": 1,
+  "ready": false,
+  "mute": true,
+  "teleconference_on": true,
+  "description": "AgreeDisagree - Present a statement about {topic} and discuss who agrees or disagrees",
+  "actions": [
+    {
+      "action_id": 1,
+      "action_type": "HARU_CONVERSATE",
+      "action_goal": "{\"id\": \"agree_disagree_{topic_id}\", \"description\": \"Present a statement about {topic}, ask who agrees or disagrees, and facilitate discussion about their reasons.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} presents the statement: {statement}.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"{robot_name} asks who agrees and who disagrees.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c3\", \"description\": \"At least one participant shares their opinion.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c4\", \"description\": \"{robot_name} keeps participants engaged for {discussion_time}.\", \"reached\": false, \"evidence\": null}], \"timeout\": {\"max_time\": {\"minutes\": 5, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Address the group as a whole.\", \"Stay neutral - don't judge opinions.\", \"React to what participants say, use open-ended questions, and encourage everyone to share.\", \"Step back and keep responses short - facilitate, don't dominate.\"]}",
+      "action_content": []
+    },
+    {
+      "action_id": 2,
+      "bond_action_ids": [
+        1
+      ],
+      "action_type": "HARU_GAZE",
+      "action_arguments": {
+        "gaze_arguments": {
+          "gaze_mode": "GROUP"
+        }
+      },
+      "action_content": [
+        {}
+      ]
+    }
+  ],
+  "template": {
+    "parameters": {
+      "topic": {
+        "description": "The topic area (e.g., 'pets', 'food', 'travel')",
+        "example": "pets"
+      },
+      "topic_id": {
+        "description": "Auto-generated from topic (editable)",
+        "example": "pets"
+      },
+      "statement": {
+        "description": "The statement to agree or disagree with (e.g., 'Cats are better pets than dogs')",
+        "example": "Cats are better pets than dogs"
+      },
+      "discussion_time": {
+        "description": "How long to continue the discussion (e.g., '2 minutes', '90 seconds')",
+        "example": "2 minutes"
+      }
+    }
+  }
+}
