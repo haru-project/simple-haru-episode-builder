@@ -9,8 +9,10 @@ RUN uv sync --frozen --no-dev --no-install-project
 
 COPY . .
 
-EXPOSE 8501
+ENV PORT=8501
 
-HEALTHCHECK CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8501/_stcore/health')" || exit 1
+EXPOSE ${PORT}
 
-ENTRYPOINT ["uv", "run", "streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]
+HEALTHCHECK CMD python -c "import urllib.request, os; urllib.request.urlopen(f'http://localhost:{os.environ[\"PORT\"]}/_stcore/health')" || exit 1
+
+ENTRYPOINT ["sh", "-c", "uv run streamlit run app.py --server.port=${PORT} --server.address=0.0.0.0"]
