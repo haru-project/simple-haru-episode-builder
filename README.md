@@ -30,22 +30,11 @@ docker compose up --build
 
 Open http://localhost:8501
 
-### Using `uv`
+### Using `uv` (local development)
 
 ```bash
-uv venv
-source .venv/bin/activate
 uv sync
-streamlit run app.py
-```
-
-### Using pip
-
-```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install streamlit pydantic
-streamlit run app.py
+uv run streamlit run app.py
 ```
 
 ---
