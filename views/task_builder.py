@@ -449,17 +449,11 @@ def delete_action(task: dict, action_id: int):
     task["actions"] = actions
 
 
-def to_snake_case(text: str) -> str:
-    """Convert text to snake_case identifier."""
-    text = text.lower().strip()
-    text = re.sub(r"[^\w\s]", "", text)
-    text = re.sub(r"\s+", "_", text)
-    return text
 
-
-def to_title_case(snake_text: str) -> str:
-    """Convert snake_case to Title_Case (preserving underscores)."""
-    return "_".join(word.capitalize() for word in snake_text.split("_"))
+def to_title_case(text: str) -> str:
+    """Convert text to Title_Case with underscores."""
+    words = re.split(r"[\s_]+", text.strip())
+    return "_".join(word.capitalize() for word in words if word)
 
 
 def get_action_content_preview(action: dict, max_len: int = 50) -> str:
@@ -1427,52 +1421,42 @@ with source_tab1:
                 param_values = st.session_state[param_key]
                 st.session_state["current_template_param_key"] = param_key
 
-                # Sort: _id params come last, after their source params
-                def param_sort_key(item):
-                    name = item[0]
-                    if name.endswith("_id"):
-                        return (1, name)  # _id params last
-                    return (0, name)
-
-                sorted_params = sorted(parameters.items(), key=param_sort_key)
-
-                # Find first non-id param for fallback auto-generation
-                first_source_param = next((p for p, _ in sorted_params if not p.endswith("_id")), None)
-
-                for pname, pinfo in sorted_params:
+                for pname, pinfo in parameters.items():
                     desc = pinfo.get("description", "")
                     example = pinfo.get("example", "")
                     widget_key = f"tmpl_param_{selected_name}_{pname}"
 
-                    # Auto-generate _id params from their base param or first param
-                    if pname.endswith("_id"):
-                        base_param = pname[:-3]  # e.g., "topic_id" -> "topic"
-                        source_param = base_param if base_param in parameters else first_source_param
-
-                        if source_param:
-                            source_widget_key = f"tmpl_param_{selected_name}_{source_param}"
-                            source_val = st.session_state.get(source_widget_key, "")
-                            prev_key = f"prev_{source_param}_{selected_name}"
-                            prev_source_val = st.session_state.get(prev_key, "")
-
-                            # Auto-update widget if source changed
-                            if source_val != prev_source_val:
-                                new_id = to_snake_case(source_val) if source_val else ""
-                                st.session_state[widget_key] = new_id
-                                st.session_state[prev_key] = source_val
-
-                            param_values[pname] = st.text_input(
-                                pname,
-                                help=f"Auto-generated from {source_param} (editable)",
-                                key=widget_key,
+                    options = pinfo.get("options")
+                    param_type = pinfo.get("type")
+                    if options:
+                        param_values[pname] = st.selectbox(
+                            pname,
+                            options=options,
+                            help=desc,
+                            key=widget_key,
+                        )
+                    elif param_type == "path":
+                        base_path = pinfo.get("base_path", "/")
+                        browse_dir = Path(base_path)
+                        if browse_dir.is_dir():
+                            files = sorted(
+                                (f for f in browse_dir.iterdir()
+                                if f.is_file() and not f.name.startswith(".")),
+                                key=lambda f: f.name,
                             )
+                            if files:
+                                param_values[pname] = str(st.selectbox(
+                                    pname,
+                                    options=files,
+                                    format_func=lambda f: f.name,
+                                    key=widget_key,
+                                ))
+                            else:
+                                st.warning(f"No files found in {browse_dir}")
+                                param_values[pname] = ""
                         else:
-                            param_values[pname] = st.text_input(
-                                pname,
-                                help=desc,
-                                placeholder=f"e.g., {example}" if example else "",
-                                key=widget_key,
-                            )
+                            st.warning(f"Directory not found: {browse_dir}")
+                            param_values[pname] = ""
                     else:
                         param_values[pname] = st.text_input(
                             pname,
@@ -1487,12 +1471,18 @@ with source_tab1:
                     st.warning("Please fill in all parameters")
                 else:
                     result = template_service.substitute_parameters(template_data, param_values)
-                    # Use template name + Topic_Id (or first _id param) as task name
-                    id_param = next((p for p in parameters if p.endswith("_id")), None)
-                    if id_param and param_values.get(id_param):
-                        selected_name = f"{selected_name}_{to_title_case(param_values[id_param])}"
-                    else:
-                        selected_name = f"{selected_name}_{to_title_case(param_values.get(list(parameters.keys())[0], 'task'))}"
+                    # Build task name from template name + visible parameter values only
+                    name_parts = []
+                    for pname in parameters:
+                        val = param_values.get(pname, "")
+                        if not val:
+                            continue
+                        # For file paths, use only the filename without extension
+                        if "/" in val or "\\" in val:
+                            val = Path(val).stem
+                        name_parts.append(to_title_case(val))
+                    if name_parts:
+                        selected_name = f"{selected_name}_{'_'.join(name_parts)}"
             else:
                 result = template_data.copy()
                 if "template" in result:
@@ -1543,6 +1533,7 @@ if result:
         st.session_state["working_task"] = result
         st.session_state["working_task_name"] = selected_name
         st.session_state["working_task_params_hash"] = params_hash
+        st.session_state["task_name_main"] = selected_name
     result = st.session_state["working_task"]
 
 # Display task if we have a result
@@ -1555,7 +1546,9 @@ if result and selected_name:
     # Save Task section
     st.markdown("---")
     st.subheader("Save Task")
-    task_name = st.text_input("Task Name", value=selected_name, key="task_name_main")
+    if "task_name_main" not in st.session_state:
+        st.session_state["task_name_main"] = selected_name
+    task_name = st.text_input("Task Name", key="task_name_main")
     col1, col2 = st.columns(2)
     with col1:
         if st.button("💾 Save to Scenario Builder", type="primary", use_container_width=True):

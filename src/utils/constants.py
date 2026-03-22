@@ -74,9 +74,3 @@ IMAGE_SUBTYPES = [
 DEFAULT_TEMPLATE_PATH = Path(__file__).parent.parent.parent / "data" / "tasks" / "templates"
 
 # Common participant variable sources for criteria expansion
-PARTICIPANT_SOURCES = [
-    "participants_start_right",
-    "participants_start_left",
-    "participants_all",
-    "participants_random",
-]

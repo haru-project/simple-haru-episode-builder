@@ -32,6 +32,9 @@
     }
   ],
   "template": {
+    "derived": {
+      "topic_id": { "from": "topic", "transform": "snake_case" }
+    },
     "parameters": {
       "option_a": {
         "description": "First option (e.g., 'go to the beach')",
@@ -40,10 +43,6 @@
       "option_b": {
         "description": "Second option (e.g., 'go to the mountains')",
         "example": "go to the mountains"
-      },
-      "topic_id": {
-        "description": "Auto-generated from option_a (editable)",
-        "example": "beach_vs_mountains"
       },
       "discussion_time": {
         "description": "How long to continue the discussion (e.g., '2 minutes', '90 seconds')",

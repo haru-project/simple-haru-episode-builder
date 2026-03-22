@@ -32,14 +32,13 @@
     }
   ],
   "template": {
+    "derived": {
+      "topic_id": { "from": "topic", "transform": "snake_case" }
+    },
     "parameters": {
       "topic": {
         "description": "What to build together (e.g., 'the perfect party', 'an ideal vacation', 'a fun weekend')",
         "example": "the perfect party"
-      },
-      "topic_id": {
-        "description": "Auto-generated from topic (editable)",
-        "example": "perfect_party"
       },
       "discussion_time": {
         "description": "How long to continue the discussion (e.g., '2 minutes', '90 seconds')",

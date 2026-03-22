@@ -32,13 +32,12 @@
     }
   ],
   "template": {
+    "derived": {
+      "topic_id": { "from": "topic", "transform": "snake_case" }
+    },
     "parameters": {
       "topic": {
         "description": "The topic area (e.g., 'pets', 'food', 'travel')",
-        "example": "pets"
-      },
-      "topic_id": {
-        "description": "Auto-generated from topic (editable)",
         "example": "pets"
       },
       "statement": {

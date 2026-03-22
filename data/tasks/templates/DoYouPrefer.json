@@ -32,6 +32,9 @@
     }
   ],
   "template": {
+    "derived": {
+      "topic_id": { "from": "topic", "transform": "snake_case" }
+    },
     "parameters": {
       "option_a": {
         "description": "First option (e.g., 'cats', 'summer', 'pizza')",
@@ -40,10 +43,6 @@
       "option_b": {
         "description": "Second option (e.g., 'dogs', 'winter', 'burgers')",
         "example": "dogs"
-      },
-      "topic_id": {
-        "description": "Auto-generated from options (editable)",
-        "example": "cats_vs_dogs"
       }
     }
   }

@@ -32,14 +32,13 @@
     }
   ],
   "template": {
+    "derived": {
+      "topic_id": { "from": "topic", "transform": "snake_case" }
+    },
     "parameters": {
       "topic": {
         "description": "The topic to discuss (e.g., 'favorite school subject', 'favorite color', 'first pet')",
         "example": "favorite school subject"
-      },
-      "topic_id": {
-        "description": "Auto-generated from topic (editable)",
-        "example": "favorite_school_subject"
       },
       "discussion_time": {
         "description": "How long the group discussion should continue (e.g., '5 minutes', '90 seconds')",

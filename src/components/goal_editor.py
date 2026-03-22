@@ -3,7 +3,7 @@
 import json
 import streamlit as st
 from ..models.goal import ActionGoal, SuccessCriterion, CriteriaExpand, CriteriaExpandMapping, Timeout
-from ..utils.constants import PARTICIPANT_SOURCES
+PARTICIPANT_SOURCES = ["participants", "participants_start_left", "participants_start_right"]
 
 
 def render_goal_editor(current_goal: str = "") -> str | None:

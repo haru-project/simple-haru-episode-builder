@@ -32,14 +32,13 @@
     }
   ],
   "template": {
+    "derived": {
+      "topic_id": { "from": "topic", "transform": "snake_case" }
+    },
     "parameters": {
       "topic": {
         "description": "What to share about (e.g., 'a funny memory', 'a challenge you overcame', 'something you learned recently')",
         "example": "a funny memory"
-      },
-      "topic_id": {
-        "description": "Auto-generated from topic (editable)",
-        "example": "funny_memory"
       },
       "discussion_time": {
         "description": "How long to continue the discussion (e.g., '2 minutes', '90 seconds')",

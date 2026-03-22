@@ -6,4 +6,6 @@ services:
     ports:
       - "${PORT:-8501}:${PORT:-8501}"
     volumes:
-      - ./data/tasks/saved:/app/data/tasks/saved
+      - ./data/tasks/saved:/app/data/tasks/saved:rw
+      - ./data/tasks/saved:/app/data/episodes:rw
+      - ./data/resources:/shared/projector/resources:ro

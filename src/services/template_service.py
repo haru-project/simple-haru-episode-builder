@@ -70,8 +70,31 @@ class TemplateService:
         with open(template_path, "r") as f:
             return json.load(f)
 
+    _FILLER_WORDS = {"a", "an", "the", "your", "their", "my", "our", "his", "her", "its"}
+    _MAX_ID_LENGTH = 40
+
+    @classmethod
+    def _to_snake_case(cls, text: str) -> str:
+        """Convert text to a snake_case identifier."""
+        text = text.lower().strip()
+        text = re.sub(r"[^\w\s]", "", text)
+        words = [w for w in text.split() if w not in cls._FILLER_WORDS]
+        text = "_".join(words)
+        text = re.sub(r"_+", "_", text)
+        # Truncate at word boundary
+        if len(text) > cls._MAX_ID_LENGTH:
+            text = text[:cls._MAX_ID_LENGTH].rsplit("_", 1)[0]
+        return text.strip("_")
+
     def substitute_parameters(self, template_data: dict, params: dict[str, str]) -> dict:
         """Substitute {param} placeholders with actual values."""
+        # Auto-generate derived parameters
+        derived = template_data.get("template", {}).get("derived", {})
+        for key, rule in derived.items():
+            source_value = params.get(rule["from"], "")
+            if rule.get("transform") == "snake_case":
+                params[key] = self._to_snake_case(source_value)
+
         # Convert to string, substitute, convert back
         content = json.dumps(template_data, ensure_ascii=False)
 

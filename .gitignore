@@ -13,3 +13,5 @@ __pycache__/
 # Data
 data/tasks/saved
 data/episodes
+data/resources/*
+!data/resources/.gitkeep

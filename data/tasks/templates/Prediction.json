@@ -32,14 +32,13 @@
     }
   ],
   "template": {
+    "derived": {
+      "topic_id": { "from": "topic", "transform": "snake_case" }
+    },
     "parameters": {
       "topic": {
         "description": "What to predict (e.g., 'the weather tomorrow', 'the next big trend', 'how the story ends')",
         "example": "the weather tomorrow"
-      },
-      "topic_id": {
-        "description": "Auto-generated from topic (editable)",
-        "example": "weather_tomorrow"
       },
       "discussion_time": {
         "description": "How long to continue the discussion (e.g., '2 minutes', '90 seconds')",

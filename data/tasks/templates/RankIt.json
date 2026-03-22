@@ -32,6 +32,9 @@
     }
   ],
   "template": {
+    "derived": {
+      "topic_id": { "from": "topic", "transform": "snake_case" }
+    },
     "parameters": {
       "options": {
         "description": "The options to rank (e.g., 'honesty, humor, and loyalty')",
@@ -40,10 +43,6 @@
       "ranking_criteria": {
         "description": "What to rank by (e.g., 'importance', 'preference', 'priority')",
         "example": "importance"
-      },
-      "topic_id": {
-        "description": "Auto-generated from options (editable)",
-        "example": "qualities_in_friend"
       },
       "discussion_time": {
         "description": "How long to continue the discussion (e.g., '2 minutes', '90 seconds')",
