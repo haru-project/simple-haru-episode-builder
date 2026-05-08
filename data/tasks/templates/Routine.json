@@ -1,0 +1,34 @@
+{
+  "app_id": "sleep",
+  "episode_id": "1",
+  "haru_id": "haru-jp",
+  "stage_id": 1,
+  "task_id": 1,
+  "ready": false,
+  "mute": true,
+  "teleconference_on": true,
+  "description": "Routine - Haru does a routine",
+  "actions": [
+    {
+      "action_id": 1,
+      "wait_for_action_ids": [],
+      "action_type": "HARU_CONVERSATE",
+      "action_content": [
+        {
+          "value": [
+            {
+              "tts": "",
+              "delay": 0,
+              "routine": 2058
+            }
+          ],
+          "value_type": "JSON_CONVERSATE_MULTITTS",
+          "metainfo": "Doing a routine"
+        }
+      ]
+    }
+  ],
+  "template": {
+    "parameters": {}
+  }
+}

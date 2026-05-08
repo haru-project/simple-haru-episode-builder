@@ -993,6 +993,9 @@ def render_action_panel(action: dict):
             goal = action.get("action_goal", "")
             render_goal_visualization(goal, action=action, action_id=aid, task_name=selected_name)
 
+            # Render routine editor (if applicable)
+            _render_routine_editor(action, aid, selected_name)
+
         elif atype == "GAZE":
             args = action.get("action_arguments", {}).get("gaze_arguments", {})
             st.markdown("#### 🎯 Gaze Mode")
@@ -1056,6 +1059,125 @@ def render_action_panel(action: dict):
 
     with st.expander("🔧 Raw JSON"):
         st.json(action)
+
+
+def _render_routine_editor(action: dict, aid: int, task_name: str) -> None:
+    """Render UI for editing *both* routine numbers and TTS of a CONVERSATE action.
+
+    The editor is displayed only when the action's ``action_content`` contains a
+    ``value`` list with at least one entry that has a ``tts`` field (the value may
+    be an empty string). It allows the user to:
+
+    * Edit the TTS text for each turn.
+    * Edit the routine number for each turn.
+    * Add a new turn (empty TTS, routine 0).
+    * Remove an existing turn.
+
+    All changes are written back to the ``action`` dict and the global
+    ``working_task`` state so they persist when the task is saved.
+    """
+    # Extract the list of turns from the first content block
+    content = action.get("action_content", [])
+    if not (content and isinstance(content, list)):
+        return
+    value_list = content[0].get("value", [])
+    if not (value_list and isinstance(value_list, list)):
+        return
+
+    # Only show the editor if at least one entry has a ``tts`` key (value may be empty)
+    if not any("tts" in v for v in value_list):
+        return
+
+    st.markdown("#### 🎵 Routine & TTS Editor")
+    # Session state key that holds a mutable list of turn dicts
+    ss_key = f"routine_tts_edit_{aid}_{task_name}"
+    if ss_key not in st.session_state:
+        # Initialise with a deep copy of the current values (avoid mutating original)
+        st.session_state[ss_key] = [
+            {"tts": v.get("tts", ""), "routine": v.get("routine", 2001)} for v in value_list
+        ]
+
+    turn_data = st.session_state[ss_key]
+
+    # Load routine catalogue (once per session) for dropdown options
+    routine_cache_key = "routine_catalogue"
+    if routine_cache_key not in st.session_state:
+        routines_path = Path(__file__).parent.parent / "data" / "routines" / "routines_haru2.json"
+        try:
+            with open(routines_path) as f:
+                catalogue = json.load(f)
+        except Exception as e:
+            st.error(f"Failed to load routines catalogue: {e}")
+            catalogue = {}
+        # Build mapping id -> name and list of "Name (ID)" options
+        id_to_name = {int(k): v.get("name", "") for k, v in catalogue.items()}
+        options = [f"{name} ({rid})" for rid, name in sorted(id_to_name.items())]
+        st.session_state[routine_cache_key] = {
+            "catalogue": catalogue,
+            "id_to_name": id_to_name,
+            "options": options,
+        }
+
+    routine_data = st.session_state[routine_cache_key]
+    options = routine_data["options"]
+    # Helper to map display string back to numeric id
+    option_to_id = {opt: int(opt.split("(")[-1].rstrip(")")) for opt in options}
+
+    # Render UI for each turn
+    to_delete = None
+    for idx, turn in enumerate(turn_data):
+        col_tts, col_routine, col_del = st.columns([5, 2, 1])
+        with col_tts:
+            # Show a visible label for each TTS input so users can identify the field
+            turn["tts"] = st.text_area(
+                f"TTS {idx + 1}",
+                value=turn.get("tts", ""),
+                key=f"tts_edit_{aid}_{task_name}_{idx}",
+                height=80,
+            )
+        with col_routine:
+            # Determine current routine id and its index in the options list
+            current_id = turn.get("routine", 0)
+            default_index = 0
+            for i, opt in enumerate(options):
+                if option_to_id[opt] == current_id:
+                    default_index = i
+                    break
+            selected_opt = st.selectbox(
+                f"Routine {idx + 1}",
+                options=options,
+                index=default_index,
+                key=f"routine_sel_{aid}_{task_name}_{idx}",
+            )
+            turn["routine"] = option_to_id.get(selected_opt, 0)
+        with col_del:
+            if st.button("🗑️", key=f"del_turn_{aid}_{task_name}_{idx}"):
+                to_delete = idx
+
+        st.markdown("---")
+
+    if to_delete is not None:
+        turn_data.pop(to_delete)
+        st.rerun()
+
+    # Button to add a new empty turn
+    if st.button("➕ Add Turn", key=f"add_turn_{aid}_{task_name}"):
+        turn_data.append({"tts": "", "routine": 0})
+        st.rerun()
+
+    # Persist changes back to the action if anything changed
+    # Compare with original list of dicts
+    original = [{"tts": v.get("tts", ""), "routine": v.get("routine", 0)} for v in value_list]
+    if turn_data != original:
+        # Update the underlying content structure – keep any other keys in the block
+        content[0]["value"] = turn_data
+        action["action_content"] = content
+        # Update the global working task actions list
+        if "working_task" in st.session_state:
+            st.session_state["working_task"]["actions"] = [
+                a if a.get("action_id") != aid else action
+                for a in st.session_state["working_task"].get("actions", [])
+            ]
 
 def timeout_block(action: dict, goal: dict, timeout: dict, timeout_parent: dict, id: str, title: str = "Timeout") -> None:
     """Render editable timeout block with minutes, seconds, and max turns."""

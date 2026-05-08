@@ -1,0 +1,1948 @@
+{
+    "2001": {
+        "name": "nodCasualA",
+        "keywords": [
+            "nodcasual",
+            "neutral",
+            "yes"
+        ],
+        "emotion": "neutral",
+        "emojis": [
+            "🙆‍♀️",
+            "🙌",
+            "👍",
+            "🤝",
+            "🙆‍♂️",
+            "😌"
+        ],
+        "execution_time": 1400
+    },
+    "2002": {
+        "name": "lookaround",
+        "keywords": [
+            "lookaround",
+            "neutral",
+            "curious"
+        ],
+        "emotion": "neutral",
+        "emojis": [
+            "🌏",
+            "🔍",
+            "👀"
+        ],
+        "execution_time": 7330
+    },
+    "2003": {
+        "name": "curiousA",
+        "keywords": [
+            "curious",
+            "neutral",
+            "curious"
+        ],
+        "emotion": "neutral",
+        "emojis": [
+            "🤷‍♂️",
+            "🔍",
+            "👀",
+            "🤨",
+            "🧐",
+            "🤔"
+        ],
+        "execution_time": 8030
+    },
+    "2004": {
+        "name": "listeningA",
+        "keywords": [
+            "listening",
+            "neutral"
+        ],
+        "emotion": "neutral",
+        "emojis": [
+            "📢",
+            "🎧",
+            "🎶",
+            "🗣️",
+            "🎵",
+            "👂"
+        ],
+        "execution_time": 6660
+    },
+    "2005": {
+        "name": "shortListening",
+        "keywords": [
+            "shortlistening",
+            "neutral"
+        ],
+        "emotion": "neutral",
+        "emojis": [
+            "🎶",
+            "🎧"
+        ],
+        "execution_time": 3560
+    },
+    "2006": {
+        "name": "harumoji_laughing",
+        "keywords": [
+            "harumojilaughing",
+            "joy",
+            "cheering"
+        ],
+        "emotion": "joy",
+        "emojis": [
+            "😂",
+            "😄",
+            "😁",
+            "😆",
+            "🤣"
+        ],
+        "execution_time": 6800
+    },
+    "2007": {
+        "name": "shortNodding",
+        "keywords": [
+            "shortnodding",
+            "neutral"
+        ],
+        "emotion": "neutral",
+        "emojis": [
+            "🙆‍♂️",
+            "🙆‍♀️",
+            "👍"
+        ],
+        "execution_time": 1700
+    },
+    "2008": {
+        "name": "shortPeek",
+        "keywords": [
+            "shortpeek",
+            "neutral",
+            "curious"
+        ],
+        "emotion": "neutral",
+        "emojis": [
+            "🔍",
+            "🕵️‍♂️",
+            "👁️",
+            "👀"
+        ],
+        "execution_time": 3330
+    },
+    "2009": {
+        "name": "complaint",
+        "keywords": [
+            "complaint",
+            "anger",
+            "grumpy"
+        ],
+        "emotion": "anger",
+        "emojis": [
+            "😠",
+            "📢",
+            "🥺",
+            "😡"
+        ],
+        "execution_time": 5760
+    },
+    "2010": {
+        "name": "curiousB",
+        "keywords": [
+            "curious",
+            "surprise",
+            "question"
+        ],
+        "emotion": "surprise",
+        "emojis": [
+            "🧐",
+            "🔍",
+            "🤔"
+        ],
+        "execution_time": 8960
+    },
+    "2011": {
+        "name": "derpMild",
+        "keywords": [
+            "derpmild",
+            "dumb"
+        ],
+        "emotion": "cheeky",
+        "emojis": [
+            "🌊",
+            "🌿",
+            "🌌",
+            "☁️"
+        ],
+        "execution_time": 4960
+    },
+    "2012": {
+        "name": "embarassedA",
+        "keywords": [
+            "embarassed",
+            "worried"
+        ],
+        "emotion": "",
+        "emojis": [
+            "😅",
+            "🙈",
+            "😳",
+            "🥴",
+            "😬"
+        ],
+        "execution_time": 6760
+    },
+    "2013": {
+        "name": "evilplan",
+        "keywords": [
+            "evilplan",
+            "guilty"
+        ],
+        "emotion": "",
+        "emojis": [
+            "😈",
+            "🦹‍♂️",
+            "💀",
+            "🗡️"
+        ],
+        "execution_time": 4700
+    },
+    "2014": {
+        "name": "goingToSleep",
+        "keywords": [
+            "goingtosleep",
+            "sleepy"
+        ],
+        "emotion": "",
+        "emojis": [
+            "🌙",
+            "💤",
+            "🌜",
+            "😴",
+            "🛌"
+        ],
+        "execution_time": 7030
+    },
+    "2015": {
+        "name": "sadMild",
+        "keywords": [
+            "sadmild",
+            "sadness"
+        ],
+        "emotion": "sadness",
+        "emojis": [
+            "😔",
+            "💔"
+        ],
+        "execution_time": 7400
+    },
+    "2016": {
+        "name": "shortSmileReaction",
+        "keywords": [
+            "shortsmilereaction",
+            "yes"
+        ],
+        "emotion": "",
+        "emojis": [
+            "😊",
+            "🙂",
+            "😄"
+        ],
+        "execution_time": 2060
+    },
+    "2017": {
+        "name": "worriedA",
+        "keywords": [
+            "worried",
+            "worried",
+            "curious"
+        ],
+        "emotion": "",
+        "emojis": [
+            "😨",
+            "😱",
+            "😟",
+            "😰"
+        ],
+        "execution_time": 4830
+    },
+    "2018": {
+        "name": "awaitingReply",
+        "keywords": [
+            "awaitingreply",
+            "neutral"
+        ],
+        "emotion": "neutral",
+        "emojis": [
+            "📬",
+            "⏳",
+            "🙄",
+            "🤔",
+            "🕒"
+        ],
+        "execution_time": 5030
+    },
+    "2019": {
+        "name": "falling_asleep",
+        "keywords": [
+            "fallingasleep",
+            "sleepy"
+        ],
+        "emotion": "",
+        "emojis": [
+            "🌙",
+            "💤",
+            "😴",
+            "🛌",
+            "😌"
+        ],
+        "execution_time": 5830
+    },
+    "2020": {
+        "name": "amused_A",
+        "keywords": [
+            "amused",
+            "joy",
+            "cheering",
+            "encouraging"
+        ],
+        "emotion": "joy",
+        "emojis": [
+            "😂",
+            "😄",
+            "😆",
+            "🤭",
+            "💯"
+        ],
+        "execution_time": 3200
+    },
+    "2021": {
+        "name": "harumoji_angry",
+        "keywords": [
+            "harumojiangry",
+            "anger",
+            "grumpy",
+            "impatient"
+        ],
+        "emotion": "anger",
+        "emojis": [
+            "😒",
+            "🤬",
+            "👿",
+            "😠",
+            "😤",
+            "😡",
+            "🤬",
+            "👊"
+        ],
+        "execution_time": 4960
+    },
+    "2023": {
+        "name": "blink1",
+        "keywords": [
+            "blink1"
+        ],
+        "emotion": "",
+        "emojis": [
+            "😉",
+            "👀"
+        ],
+        "execution_time": 30
+    },
+    "2024": {
+        "name": "blink2",
+        "keywords": [
+            "blink2"
+        ],
+        "emotion": "",
+        "emojis": [
+            "😉",
+            "👀"
+        ],
+        "execution_time": 30
+    },
+    "2025": {
+        "name": "blink3",
+        "keywords": [
+            "blink3"
+        ],
+        "emotion": "",
+        "emojis": [
+            "🙄",
+            "👀"
+        ],
+        "execution_time": 30
+    },
+    "2026": {
+        "name": "blink4",
+        "keywords": [
+            "blink4"
+        ],
+        "emotion": "",
+        "emojis": [
+            "😉",
+            "👀"
+        ],
+        "execution_time": 700
+    },
+    "2027": {
+        "name": "blink5",
+        "keywords": [
+            "blink5"
+        ],
+        "emotion": "",
+        "emojis": [
+            "🙄",
+            "👀"
+        ],
+        "execution_time": 700
+    },
+    "2028": {
+        "name": "crying",
+        "keywords": [
+            "crying",
+            "sadness",
+            "worried"
+        ],
+        "emotion": "sadness",
+        "emojis": [
+            "😢",
+            "😭",
+            "😿",
+            "😩"
+        ],
+        "execution_time": 6100
+    },
+    "2030": {
+        "name": "curious_C",
+        "keywords": [
+            "curiousc",
+            "curious"
+        ],
+        "emotion": "whisper-yell",
+        "emojis": [
+            "🤷‍♂️",
+            "🔍",
+            "👀",
+            "🤨",
+            "🧐",
+            "🤔"
+        ],
+        "execution_time": 4530
+    },
+    "2031": {
+        "name": "derp",
+        "keywords": [
+            "derp",
+            "dumb"
+        ],
+        "emotion": "cheeky",
+        "emojis": [
+            "🤪",
+            "👻",
+            "😜",
+            "🙃",
+            "😏",
+            "🤭"
+        ],
+        "execution_time": 4960
+    },
+    "2032": {
+        "name": "giggle",
+        "keywords": [
+            "giggle",
+            "joy",
+            "cheering"
+        ],
+        "emotion": "joy",
+        "emojis": [
+            "😂",
+            "📣",
+            "😄",
+            "🥳",
+            "🎊",
+            "🎉"
+        ],
+        "execution_time": 5130
+    },
+    "2033": {
+        "name": "grumpy_A",
+        "keywords": [
+            "grumpy",
+            "anger",
+            "grumpy",
+            "impatient"
+        ],
+        "emotion": "anger",
+        "emojis": [
+            "😠",
+            "😒",
+            "😤",
+            "😾",
+            "👊"
+        ],
+        "execution_time": 4000
+    },
+    "2034": {
+        "name": "harumoji_happy",
+        "keywords": [
+            "harumojihappy",
+            "joy",
+            "cheering"
+        ],
+        "emotion": "joy",
+        "emojis": [
+            "😃",
+            "😁",
+            "😄",
+            "🌞"
+        ],
+        "execution_time": 3300
+    },
+    "2036": {
+        "name": "nodding",
+        "keywords": [
+            "nodding",
+            "neutral",
+            "yes"
+        ],
+        "emotion": "neutral",
+        "emojis": [
+            "🙆‍♂️",
+            "🙆‍♀️",
+            "👍"
+        ],
+        "execution_time": 1700
+    },
+    "2037": {
+        "name": "sad",
+        "keywords": [
+            "sad",
+            "sadness",
+            "worried",
+            "no"
+        ],
+        "emotion": "sadness",
+        "emojis": [
+            "😔",
+            "😞",
+            "😟"
+        ],
+        "execution_time": 5360
+    },
+    "2038": {
+        "name": "harumoji_shocked",
+        "keywords": [
+            "harumojishocked",
+            "surprise",
+            "surprise"
+        ],
+        "emotion": "surprise",
+        "emojis": [
+            "🤯",
+            "😲",
+            "😱",
+            "😮"
+        ],
+        "execution_time": 3090
+    },
+    "2039": {
+        "name": "short_happy_slow",
+        "keywords": [
+            "shorthappyslow",
+            "joy",
+            "cheering"
+        ],
+        "emotion": "joy",
+        "emojis": [
+            "😄",
+            "🥳",
+            "😁",
+            "🎉"
+        ],
+        "execution_time": 7130
+    },
+    "2041": {
+        "name": "thinking_a",
+        "keywords": [
+            "thinkinga",
+            "neutral",
+            "relax/thinking"
+        ],
+        "emotion": "neutral",
+        "emojis": [
+            "💭",
+            "💡",
+            "🤨",
+            "🧐",
+            "🤔"
+        ],
+        "execution_time": 7400
+    },
+    "2042": {
+        "name": "tired",
+        "keywords": [
+            "tired",
+            "sleepy"
+        ],
+        "emotion": "sleepy",
+        "emojis": [
+            "💤",
+            "🥱",
+            "😴"
+        ],
+        "execution_time": 7600
+    },
+    "2043": {
+        "name": "yawning",
+        "keywords": [
+            "yawning",
+            "sleepy"
+        ],
+        "emotion": "sleepy",
+        "emojis": [
+            "😴",
+            "😪",
+            "💤",
+            "🥱"
+        ],
+        "execution_time": 5530
+    },
+    "2044": {
+        "name": "wakeup",
+        "keywords": [
+            "wakeup",
+            "sleepy"
+        ],
+        "emotion": "sleepy",
+        "emojis": [
+            "🌅",
+            "⏰",
+            "☀️",
+            "😴",
+            "🛌",
+            "🛏"
+        ],
+        "execution_time": 3860
+    },
+    "2045": {
+        "name": "sleeping_loop",
+        "keywords": [
+            "sleepingloop",
+            "sleepy"
+        ],
+        "emotion": "sleepy",
+        "emojis": [
+            "🌙",
+            "💤",
+            "🔄",
+            "😴",
+            "🛌",
+            "🛏"
+        ],
+        "execution_time": 9460
+    },
+    "2046": {
+        "name": "going_to_sleep",
+        "keywords": [
+            "goingtosleep",
+            "sleepy"
+        ],
+        "emotion": "sleepy",
+        "emojis": [
+            "🌙",
+            "💤",
+            "🌜",
+            "😴",
+            "🛌",
+            "🛏"
+        ],
+        "execution_time": 7290
+    },
+    "2047": {
+        "name": "camera",
+        "keywords": [
+            "camera"
+        ],
+        "emotion": "",
+        "emojis": [
+            "📹",
+            "📼",
+            "📸",
+            "📷",
+            "🖼️"
+        ],
+        "execution_time": 4330
+    },
+    "2048": {
+        "name": "crosseyes",
+        "keywords": [
+            "crosseyes",
+            "dumb",
+            "dizzy"
+        ],
+        "emotion": "",
+        "emojis": [
+            "😵",
+            "🤪"
+        ],
+        "execution_time": 13930
+    },
+    "2049": {
+        "name": "squinting",
+        "keywords": [
+            "squinting",
+            "suspicious"
+        ],
+        "emotion": "",
+        "emojis": [
+            "😑",
+            "😐",
+            "👀",
+            "🤨"
+        ],
+        "execution_time": 4800
+    },
+    "2050": {
+        "name": "ah",
+        "keywords": [
+            "ah",
+            "surprise",
+            "surprise"
+        ],
+        "emotion": "surprise",
+        "emojis": [
+            "😯",
+            "🤯",
+            "😲",
+            "😮"
+        ],
+        "execution_time": 3960
+    },
+    "2051": {
+        "name": "matrix",
+        "keywords": [
+            "matrix",
+            "relax/thinking"
+        ],
+        "emotion": "",
+        "emojis": [
+            "🔢",
+            "🔣",
+            "📊"
+        ],
+        "execution_time": 9760
+    },
+    "2052": {
+        "name": "bow_respectfull",
+        "keywords": [
+            "bowrespectfull"
+        ],
+        "emotion": "",
+        "emojis": [
+            "🙇‍♀️",
+            "🙇‍♂️",
+            "🙏"
+        ],
+        "execution_time": 6800
+    },
+    "2053": {
+        "name": "harumoji_on_fire",
+        "keywords": [
+            "harumojionfire",
+            "joy",
+            "fire",
+            "encouraging",
+            "cheering"
+        ],
+        "emotion": "joy",
+        "emojis": [
+            "👏",
+            "💪",
+            "😎",
+            "🔥",
+            "🏆",
+            "💥"
+        ],
+        "execution_time": 5000
+    },
+    "2054": {
+        "name": "harumoji_fireworks",
+        "keywords": [
+            "harumojifireworks",
+            "joy",
+            "cheering",
+            "encouraging"
+        ],
+        "emotion": "joy",
+        "emojis": [
+            "🎇",
+            "🎆",
+            "💥"
+        ],
+        "execution_time": 3360
+    },
+    "2055": {
+        "name": "happy7",
+        "keywords": [
+            "happy7",
+            "joy",
+            "cheering"
+        ],
+        "emotion": "joy",
+        "emojis": [
+            "🎉",
+            "🥳",
+            "😂"
+        ],
+        "execution_time": 8530
+    },
+    "2056": {
+        "name": "attention_4",
+        "keywords": [
+            "attention4",
+            "cheering",
+            "dumb"
+        ],
+        "emotion": "",
+        "emojis": [
+            "📢",
+            "🔔",
+            "⚠️",
+            "👀",
+            "📣"
+        ],
+        "execution_time": 2700
+    },
+    "2057": {
+        "name": "harumoji_glass_heart",
+        "keywords": [
+            "harumojiglassheart",
+            "love",
+            "love"
+        ],
+        "emotion": "love",
+        "emojis": [
+            "💜",
+            "💖",
+            "🥰",
+            "❤️",
+            "🤗",
+            "😘",
+            "💞",
+            "😍",
+            "💕'",
+            "🤩",
+            "💛"
+        ],
+        "execution_time": 8860
+    },
+    "2058": {
+        "name": "woohoo",
+        "keywords": [
+            "woohoo",
+            "joy",
+            "cheering"
+        ],
+        "emotion": "joy",
+        "emojis": [
+            "🎈",
+            "🥳",
+            "🎊",
+            "🎉",
+            "💃"
+        ],
+        "execution_time": 3990
+    },
+    "2059": {
+        "name": "surprised606",
+        "keywords": [
+            "surprised606",
+            "surprise",
+            "surprise"
+        ],
+        "emotion": "surprise",
+        "emojis": [
+            "🤯",
+            "😲",
+            "😱",
+            "😮"
+        ],
+        "execution_time": 5600
+    },
+    "2060": {
+        "name": "3sec_countdown",
+        "keywords": [
+            "3seccountdown"
+        ],
+        "emotion": "",
+        "emojis": [
+            "⏳",
+            "⏰",
+            "⌛"
+        ],
+        "execution_time": 4260
+    },
+    "2061": {
+        "name": "harumoji_wide_smile",
+        "keywords": [
+            "harumojiwidesmile",
+            "joy",
+            "smirk"
+        ],
+        "emotion": "joy",
+        "emojis": [
+            "😃",
+            "😄",
+            "😁",
+            "😆",
+            "😀",
+            "🙂",
+            "😊"
+        ],
+        "execution_time": 3390
+    },
+    "2062": {
+        "name": "attention_3_dance",
+        "keywords": [
+            "attention3dance",
+            "curious"
+        ],
+        "emotion": "",
+        "emojis": [
+            "👯‍♀️",
+            "👯‍♂️",
+            "💃",
+            "🕺"
+        ],
+        "execution_time": 5560
+    },
+    "2063": {
+        "name": "harumoji_blushing",
+        "keywords": [
+            "harumojiblushing",
+            "love"
+        ],
+        "emotion": "love",
+        "emojis": [
+            "🥰",
+            "😳"
+        ],
+        "execution_time": 4990
+    },
+    "2064": {
+        "name": "bow_meeting",
+        "keywords": [
+            "bowmeeting"
+        ],
+        "emotion": "",
+        "emojis": [
+            "🤝",
+            "🙇‍♀️",
+            "🙇‍♂️"
+        ],
+        "execution_time": 3830
+    },
+    "2065": {
+        "name": "dejected",
+        "keywords": [
+            "dejected",
+            "sadness",
+            "confused",
+            "no"
+        ],
+        "emotion": "sadness",
+        "emojis": [
+            "😔",
+            "😫",
+            "😢",
+            "😓",
+            "😭",
+            "😞"
+        ],
+        "execution_time": 5030
+    },
+    "2066": {
+        "name": "disinterested",
+        "keywords": [
+            "disinterested",
+            "impatient",
+            "no"
+        ],
+        "emotion": "",
+        "emojis": [
+            "😢",
+            "😐",
+            "😑",
+            "😭"
+        ],
+        "execution_time": 9630
+    },
+    "2067": {
+        "name": "eye_roll",
+        "keywords": [
+            "eyeroll",
+            "impatient",
+            "no"
+        ],
+        "emotion": "",
+        "emojis": [
+            "🙄"
+        ],
+        "execution_time": 4100
+    },
+    "2068": {
+        "name": "friendly_smile",
+        "keywords": [
+            "friendlysmile",
+            "joy",
+            "cheering"
+        ],
+        "emotion": "joy",
+        "emojis": [
+            "😊",
+            "😁",
+            "😄",
+            "🙂"
+        ],
+        "execution_time": 4360
+    },
+    "2069": {
+        "name": "grimace",
+        "keywords": [
+            "grimace",
+            "fear",
+            "suspicious"
+        ],
+        "emotion": "fear",
+        "emojis": [
+            "😣",
+            "😫",
+            "😖"
+        ],
+        "execution_time": 3360
+    },
+    "2070": {
+        "name": "happy_acknowledgement",
+        "keywords": [
+            "happyacknowledgement",
+            "joy",
+            "yes"
+        ],
+        "emotion": "joy",
+        "emojis": [
+            "👏",
+            "👍"
+        ],
+        "execution_time": 4000
+    },
+    "2071": {
+        "name": "idle_a",
+        "keywords": [
+            "idlea",
+            "sleepy"
+        ],
+        "emotion": "",
+        "emojis": [
+            "🥱"
+        ],
+        "execution_time": 15530
+    },
+    "2072": {
+        "name": "idle_a_variation",
+        "keywords": [
+            "idleavariation",
+            "sleepy"
+        ],
+        "emotion": "",
+        "emojis": [
+            "🥱"
+        ],
+        "execution_time": 16660
+    },
+    "2073": {
+        "name": "idle_b",
+        "keywords": [
+            "idleb"
+        ],
+        "emotion": "",
+        "emojis": [
+            "🥱"
+        ],
+        "execution_time": 10000
+    },
+    "2074": {
+        "name": "idle_c",
+        "keywords": [
+            "idlec"
+        ],
+        "emotion": "",
+        "emojis": [
+            "🥱"
+        ],
+        "execution_time": 8030
+    },
+    "2075": {
+        "name": "inquisitive",
+        "keywords": [
+            "inquisitive",
+            "curious",
+            "relax/thinking"
+        ],
+        "emotion": "",
+        "emojis": [
+            "🧐",
+            "🤔"
+        ],
+        "execution_time": 3360
+    },
+    "2076": {
+        "name": "laughter",
+        "keywords": [
+            "laughter",
+            "joy",
+            "cheering"
+        ],
+        "emotion": "joy",
+        "emojis": [
+            "😃",
+            "📣",
+            "🤣",
+            "😂"
+        ],
+        "execution_time": 6160
+    },
+    "2077": {
+        "name": "listening_b",
+        "keywords": [
+            "listeningb"
+        ],
+        "emotion": "",
+        "emojis": [
+            "👂",
+            "🎧"
+        ],
+        "execution_time": 6660
+    },
+    "2078": {
+        "name": "listening_c",
+        "keywords": [
+            "listeningc"
+        ],
+        "emotion": "",
+        "emojis": [
+            "👂",
+            "🎧"
+        ],
+        "execution_time": 9760
+    },
+    "2079": {
+        "name": "listening_d",
+        "keywords": [
+            "listeningd"
+        ],
+        "emotion": "",
+        "emojis": [
+            "👂",
+            "🎧"
+        ],
+        "execution_time": 8830
+    },
+    "2080": {
+        "name": "no",
+        "keywords": [
+            "no",
+            "no"
+        ],
+        "emotion": "",
+        "emojis": [
+            "👎",
+            "🙅‍♂️",
+            "🙅‍♀️"
+        ],
+        "execution_time": 6700
+    },
+    "2081": {
+        "name": "shy",
+        "keywords": [
+            "shy",
+            "worried"
+        ],
+        "emotion": "",
+        "emojis": [
+            "😳"
+        ],
+        "execution_time": 10500
+    },
+    "2082": {
+        "name": "harumoji_shy",
+        "keywords": [
+            "harumojishy"
+        ],
+        "emotion": "",
+        "emojis": [
+            "😳"
+        ],
+        "execution_time": 5400
+    },
+    "2083": {
+        "name": "harumoji_star_struck",
+        "keywords": [
+            "harumojistarstruck",
+            "surprise",
+            "surprise"
+        ],
+        "emotion": "surprise",
+        "emojis": [
+            "🤩",
+            "😯",
+            "🤯",
+            "✨",
+            "💫",
+            "🌟"
+        ],
+        "execution_time": 5030
+    },
+    "2084": {
+        "name": "sympathetic",
+        "keywords": [
+            "sympathetic",
+            "love"
+        ],
+        "emotion": "love",
+        "emojis": [
+            "🫂",
+            "❤️‍🩹",
+            "😔",
+            "🤕",
+            "🤗",
+            "😭",
+            "🤒",
+            "🤧"
+        ],
+        "execution_time": 8030
+    },
+    "2085": {
+        "name": "thinking_b",
+        "keywords": [
+            "thinkingb",
+            "relax/thinking"
+        ],
+        "emotion": "",
+        "emojis": [
+            "💭",
+            "😪",
+            "🧐",
+            "🤔"
+        ],
+        "execution_time": 7960
+    },
+    "2086": {
+        "name": "thinking_c",
+        "keywords": [
+            "thinkingc",
+            "relax/thinking"
+        ],
+        "emotion": "",
+        "emojis": [
+            "💭",
+            "😪",
+            "🤔"
+        ],
+        "execution_time": 9630
+    },
+    "2087": {
+        "name": "harumoji_tongue_out",
+        "keywords": [
+            "harumojitongueout",
+            "dumb"
+        ],
+        "emotion": "",
+        "emojis": [
+            "😜",
+            "😛",
+            "🤪",
+            "😝"
+        ],
+        "execution_time": 3260
+    },
+    "2088": {
+        "name": "unsure",
+        "keywords": [
+            "unsure",
+            "confused",
+            "suspicious"
+        ],
+        "emotion": "",
+        "emojis": [
+            "😕",
+            "😒",
+            "🤔"
+        ],
+        "execution_time": 5030
+    },
+    "2089": {
+        "name": "waking_up",
+        "keywords": [
+            "wakingup",
+            "sleepy"
+        ],
+        "emotion": "",
+        "emojis": [
+            "😴",
+            "💤",
+            "🥱"
+        ],
+        "execution_time": 10500
+    },
+    "2090": {
+        "name": "wave_big",
+        "keywords": [
+            "wavebig",
+            "joy"
+        ],
+        "emotion": "joy",
+        "emojis": [
+            "👋"
+        ],
+        "execution_time": 3230
+    },
+    "2091": {
+        "name": "wave_small",
+        "keywords": [
+            "wavesmall",
+            "joy"
+        ],
+        "emotion": "joy",
+        "emojis": [
+            "👋"
+        ],
+        "execution_time": 2430
+    },
+    "2092": {
+        "name": "harumoji_wink",
+        "keywords": [
+            "harumojiwink",
+            "smirk"
+        ],
+        "emotion": "",
+        "emojis": [
+            "😉"
+        ],
+        "execution_time": 3300
+    },
+    "2093": {
+        "name": "yes",
+        "keywords": [
+            "yes",
+            "yes"
+        ],
+        "emotion": "",
+        "emojis": [
+            "🙆‍♂️",
+            "🙆‍♀️",
+            "👍"
+        ],
+        "execution_time": 4030
+    },
+    "2094": {
+        "name": "lean_forward",
+        "keywords": [
+            "leanforward"
+        ],
+        "emotion": "",
+        "emojis": [
+            "🤝",
+            "🙇‍♀️",
+            "🙇‍♂️"
+        ],
+        "execution_time": 4630
+    },
+    "2095": {
+        "name": "harumoji_birthday_B",
+        "keywords": [
+            "harumojibirthday",
+            "joy",
+            "birthday"
+        ],
+        "emotion": "joy",
+        "emojis": [
+            "🎈",
+            "🎂",
+            "🥳",
+            "🎁"
+        ],
+        "execution_time": 7900
+    },
+    "2096": {
+        "name": "harumoji_butterfly",
+        "keywords": [
+            "harumojibutterfly"
+        ],
+        "emotion": "",
+        "emojis": [
+            "🦋"
+        ],
+        "execution_time": 7000
+    },
+    "2097": {
+        "name": "harumoji_cat_bath",
+        "keywords": [
+            "harumojicatbath"
+        ],
+        "emotion": "",
+        "emojis": [
+            "🛀",
+            "😼",
+            "😺",
+            "😻",
+            "😽",
+            "🚿",
+            "😸"
+        ],
+        "execution_time": 5200
+    },
+    "2098": {
+        "name": "harumoji_cat_comet",
+        "keywords": [
+            "harumojicatcomet"
+        ],
+        "emotion": "",
+        "emojis": [
+            "🙀",
+            "☄️",
+            "😸",
+            "😻",
+            "🔥",
+            "💥"
+        ],
+        "execution_time": 3260
+    },
+    "2099": {
+        "name": "harumoji_cat_cup",
+        "keywords": [
+            "harumojicatcup"
+        ],
+        "emotion": "",
+        "emojis": [
+            "😺",
+            "☕"
+        ],
+        "execution_time": 3600
+    },
+    "2102": {
+        "name": "harumoji_Cosy_Cat",
+        "keywords": [
+            "harumojicosycat"
+        ],
+        "emotion": "",
+        "emojis": [
+            "😺",
+            "🥱"
+        ],
+        "execution_time": 8100
+    },
+    "2103": {
+        "name": "harumoji_Lotus_Heart",
+        "keywords": [
+            "harumojilotusheart"
+        ],
+        "emotion": "",
+        "emojis": [
+            "❤️",
+            "🌸",
+            "🌺",
+            "🌼"
+        ],
+        "execution_time": 5990
+    },
+    "2104": {
+        "name": "harumoji_lucky_cat",
+        "keywords": [
+            "harumojiluckycat"
+        ],
+        "emotion": "",
+        "emojis": [
+            "💰",
+            "🍀",
+            "🤑",
+            "💸"
+        ],
+        "execution_time": 5230
+    },
+    "2105": {
+        "name": "harumoji_Ramen",
+        "keywords": [
+            "harumojiramen",
+            "food"
+        ],
+        "emotion": "",
+        "emojis": [
+            "😋",
+            "🤤",
+            "🍴",
+            "🍥",
+            "🍜"
+        ],
+        "execution_time": 10030
+    },
+    "2106": {
+        "name": "harumoji_birthday_B",
+        "keywords": [
+            "harumojibirthday",
+            "joy",
+            "birthday"
+        ],
+        "emotion": "joy",
+        "emojis": [
+            "🎈",
+            "🎂",
+            "🥳",
+            "🎁"
+        ],
+        "execution_time": 7900
+    },
+    "2107": {
+        "name": "harumoji_butterfly",
+        "keywords": [
+            "harumojibutterfly"
+        ],
+        "emotion": "",
+        "emojis": [
+            "🦋"
+        ],
+        "execution_time": 7000
+    },
+    "2108": {
+        "name": "harumoji_cat_dj",
+        "keywords": [
+            "harumojicatdj"
+        ],
+        "emotion": "",
+        "emojis": [
+            "🎤",
+            "🎧",
+            "🧢",
+            "🎵",
+            "🔊",
+            "🎛️",
+            "💃",
+            "🕺"
+        ],
+        "execution_time": 5990
+    },
+    "2109": {
+        "name": "harumoji_cat_meditating",
+        "keywords": [
+            "harumojicatmeditating"
+        ],
+        "emotion": "",
+        "emojis": [
+            "🧘‍♂️",
+            "🧘‍♀️"
+        ],
+        "execution_time": 5400
+    },
+    "2110": {
+        "name": "Icon_harumojis_Roomba",
+        "keywords": [
+            "iconharumojisroomba"
+        ],
+        "emotion": "",
+        "emojis": [
+            "😺",
+            "😻",
+            "😸",
+            "😹"
+        ],
+        "execution_time": 9100
+    },
+    "2111": {
+        "name": "weather_snow",
+        "keywords": [
+            "weathersnow"
+        ],
+        "emotion": "",
+        "emojis": [
+            "❄️",
+            "☃️",
+            "🌨️"
+        ],
+        "execution_time": 5960
+    },
+    "2112": {
+        "name": "weather_fog",
+        "keywords": [
+            "weatherfog"
+        ],
+        "emotion": "",
+        "emojis": [
+            "🌫️"
+        ],
+        "execution_time": 5960
+    },
+    "2113": {
+        "name": "weather_lightning",
+        "keywords": [
+            "weatherlightning"
+        ],
+        "emotion": "",
+        "emojis": [
+            "🌩️",
+            "⚡"
+        ],
+        "execution_time": 6030
+    },
+    "2114": {
+        "name": "weather_overcast",
+        "keywords": [
+            "weatherovercast"
+        ],
+        "emotion": "",
+        "emojis": [
+            "☁️"
+        ],
+        "execution_time": 6160
+    },
+    "2115": {
+        "name": "weather_rain",
+        "keywords": [
+            "weatherrain"
+        ],
+        "emotion": "",
+        "emojis": [
+            "💧",
+            "🌧️",
+            "☔",
+            "🌂"
+        ],
+        "execution_time": 5990
+    },
+    "2116": {
+        "name": "quiet_blink1",
+        "keywords": [
+            ""
+        ],
+        "emotion": "",
+        "emojis": [
+            "👀",
+            "😌"
+        ],
+        "execution_time": 730
+    },
+    "2117": {
+        "name": "quiet_blink2",
+        "keywords": [
+            ""
+        ],
+        "emotion": "",
+        "emojis": [
+            "👀",
+            "😌"
+        ],
+        "execution_time": 1360
+    },
+    "2118": {
+        "name": "quiet_blink2_sleepy",
+        "keywords": [
+            ""
+        ],
+        "emotion": "",
+        "emojis": [
+            "👀",
+            "😌",
+            "😴",
+            "😪",
+            "🥱",
+            "💤"
+        ],
+        "execution_time": 1230
+    },
+    "2119": {
+        "name": "quiet_blink3",
+        "keywords": [
+            ""
+        ],
+        "emotion": "",
+        "emojis": [
+            "👀",
+            "😌"
+        ],
+        "execution_time": 2300
+    },
+    "2120": {
+        "name": "quiet_blink3_sleepy",
+        "keywords": [
+            ""
+        ],
+        "emotion": "",
+        "emojis": [
+            "👀",
+            "😌",
+            "😴",
+            "😪",
+            "🥱",
+            "💤"
+        ],
+        "execution_time": 1960
+    },
+    "2121": {
+        "name": "quiet_blink4",
+        "keywords": [
+            ""
+        ],
+        "emotion": "",
+        "emojis": [
+            "👀",
+            "😌"
+        ],
+        "execution_time": 3800
+    },
+    "2122": {
+        "name": "quiet_blink4_sleepy",
+        "keywords": [
+            ""
+        ],
+        "emotion": "",
+        "emojis": [
+            "👀",
+            "😌",
+            "😴",
+            "😪",
+            "🥱",
+            "💤"
+        ],
+        "execution_time": 2630
+    },
+    "2123": {
+        "name": "question_mark_blue",
+        "keywords": [
+            "question"
+        ],
+        "emotion": "question",
+        "emojis": [
+            "❔"
+        ],
+        "execution_time": 3430
+    },
+    "2124": {
+        "name": "question_mark_green",
+        "keywords": [
+            ""
+        ],
+        "emotion": "question",
+        "emojis": [],
+        "execution_time": 3430
+    },
+    "2125": {
+        "name": "crosseyes_fixed",
+        "keywords": [
+            ""
+        ],
+        "emotion": "",
+        "emojis": [
+            "😵",
+            "😵‍💫",
+            "👀"
+        ],
+        "execution_time": 9100
+    },
+    "2126": {
+        "name": "smirk_short",
+        "keywords": [
+            ""
+        ],
+        "emotion": "",
+        "emojis": [
+            "😏",
+            "😒"
+        ],
+        "execution_time": 4660
+    },
+    "2127": {
+        "name": "smirk_long",
+        "keywords": [
+            ""
+        ],
+        "emotion": "",
+        "emojis": [
+            "😏",
+            "😒"
+        ],
+        "execution_time": 6130
+    },
+    "2128": {
+        "name": "evillaugh",
+        "keywords": [
+            ""
+        ],
+        "emotion": "",
+        "emojis": [
+            "😈",
+            "😈",
+            "🎃"
+        ],
+        "execution_time": 4730
+    },
+    "2129": {
+        "name": "superEyeRoll_v1",
+        "keywords": [
+            ""
+        ],
+        "emotion": "",
+        "emojis": [
+            "🙄"
+        ],
+        "execution_time": 4500
+    },
+    "2130": {
+        "name": "giggle_minimalist",
+        "keywords": [
+            ""
+        ],
+        "emotion": "joy",
+        "emojis": [
+            "😆",
+            "😂",
+            "🤭"
+        ],
+        "execution_time": 4130
+    },
+    "2131": {
+        "name": "sad_fixed shortend_part1",
+        "keywords": [
+            ""
+        ],
+        "emotion": "sadness",
+        "emojis": [
+            "😢",
+            "😞",
+            "😔",
+            "😟",
+            "😿"
+        ],
+        "execution_time": 6300
+    },
+    "2132": {
+        "name": "Haru_cuteAF",
+        "keywords": [
+            ""
+        ],
+        "emotion": "",
+        "emojis": [
+            "🥰",
+            "😊",
+            "😍",
+            "🥺",
+            "😘"
+        ],
+        "execution_time": 4400
+    },
+    "2133": {
+        "name": "Haru_annoyed_v02_fixed_part2_v2",
+        "keywords": [
+            ""
+        ],
+        "emotion": "anger",
+        "emojis": [
+            "😠",
+            "😡",
+            "😤",
+            "😑",
+            "😒"
+        ],
+        "execution_time": 3830
+    },
+    "2134": {
+        "name": "sad_fixed shortend_part2",
+        "keywords": [
+            ""
+        ],
+        "emotion": "sadness",
+        "emojis": [
+            "😢",
+            "😞",
+            "😔",
+            "😟",
+            "😿"
+        ],
+        "execution_time": 5200
+    },
+    "2135": {
+        "name": "ah_wow",
+        "keywords": [
+            ""
+        ],
+        "emotion": "surprise",
+        "emojis": [
+            "😲",
+            "🤯",
+            "😮",
+            "😯",
+            "😳"
+        ],
+        "execution_time": 2600
+    },
+    "2136": {
+        "name": "ah_foolnod",
+        "keywords": [
+            ""
+        ],
+        "emotion": "",
+        "emojis": [
+            "😌",
+            "😄",
+            "😊",
+            "🤗"
+        ],
+        "execution_time": 2930
+    },
+    "2137": {
+        "name": "grumpy_A",
+        "keywords": [
+            ""
+        ],
+        "emotion": "anger",
+        "emojis": [
+            "😤",
+            "😡",
+            "😠",
+            "😒",
+            "😑"
+        ],
+        "execution_time": 3060
+    },
+    "2138": {
+        "name": "positive1",
+        "keywords": [
+            ""
+        ],
+        "emotion": "",
+        "emojis": [],
+        "execution_time": 2830
+    },
+    "2139": {
+        "name": "positive2",
+        "keywords": [
+            ""
+        ],
+        "emotion": "",
+        "emojis": [],
+        "execution_time": 5730
+    },
+    "2140": {
+        "name": "negative1",
+        "keywords": [
+            ""
+        ],
+        "emotion": "",
+        "emojis": [],
+        "execution_time": 4630
+    },
+    "2141": {
+        "name": "negative2",
+        "keywords": [
+            ""
+        ],
+        "emotion": "",
+        "emojis": [],
+        "execution_time": 4900
+    }
+}

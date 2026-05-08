@@ -12,7 +12,7 @@
     {
       "action_id": 1,
       "action_type": "HARU_CONVERSATE",
-      "action_goal": "{\"id\": \"haru_share_ice_cream\", \"description\": \"Share your favorite ice cream flavor and discuss ice cream preferences with the group.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} shares that if he could eat ice cream, his favorite would be chocolate mint.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"{robot_name} gets {participants_count} responses from participants.\", \"reached\": false, \"evidence\": null}], \"timeout\": {\"max_time\": {\"minutes\": 3, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Address the group as a whole.\", \"Ask the group about their favorite flavors and react to their answers.\", \"Keep the discussion flowing with follow-up questions.\"]}",
+      "action_goal": "{\"id\": \"haru_share_ice_cream\", \"description\": \"Share your favorite ice cream flavor (chocolate mint) and ask if anybody else likes chocolate mint ice cream.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} shares that if it could eat ice cream, its favorite would be chocolate mint.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"{robot_name} gets {participants_count} responses from participants.\", \"reached\": false, \"evidence\": null}], \"timeout\": {\"max_time\": {\"minutes\": 3, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Address the group as a whole.\", \"Ask the group about their favorite flavors and react to their answers.\", \"Keep the discussion flowing with follow-up questions.\"]}",
       "action_content": []
     },
     {
