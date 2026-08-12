@@ -1,0 +1,41 @@
+{
+  "app_id": "greet_activity_intro",
+  "episode_id": "1",
+  "haru_id": "haru-jp",
+  "stage_id": 1,
+  "task_id": 1,
+  "ready": false,
+  "mute": true,
+  "teleconference_on": true,
+  "description": "Greet Group - Greet the group and introduce an activity",
+  "actions": [
+    {
+      "action_id": 1,
+      "action_type": "HARU_CONVERSATE",
+      "action_goal": "{\"id\": \"greet\", \"description\": \"Introduce yourself as Haru, Honda's newest robot friend. Then introduce the following activity: {topic}.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} greets the participants as a group.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"{robot_name} introduces the activity {topic}.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c3\", \"description\": \"At least one participant responds to {robot_name}'s greeting.\", \"reached\": false, \"evidence\": null}], \"criteria_expand\": [], \"timeout\": {\"max_time\": {\"minutes\": 3, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Make sure you follow the personality of Haru as expressed in the system prompt\", \"It is ABSOLUTELY FORBIDDEN to repeat yourself. Make sure each sentence you say is unique.\", \"Express how happy you are to meet everyone.\", \"Address the group as a whole and not by name. e.g., everyone, everybody, friends \", \"Keep the introduction brief.\"]}",
+      "action_content": []
+    },
+    {
+      "action_id": 2,
+      "bond_action_ids": [
+        1
+      ],
+      "action_type": "HARU_GAZE",
+      "action_arguments": {
+        "gaze_arguments": {
+          "gaze_mode": "GROUP"
+        }
+      },
+      "action_content": []
+    }
+  ],
+  "template": {
+    "parameters": {
+      "topic": {
+        "description": "The topic of the activity to be introduced and an explanation",
+        "example": "Let’s practice English together. I will be a convenience store clerk. You are the customer. Please buy three things: a sandwich, a bottle of water, and a snack. You can use simple English. It is okay to make mistakes. Let’s start!",
+        "options": []
+      }
+    }
+  }
+}

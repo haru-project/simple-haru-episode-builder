@@ -1,0 +1,48 @@
+{
+  "app_id": "ask_about_specific_question_{topic_id}",
+  "episode_id": "1",
+  "haru_id": "haru-jp",
+  "stage_id": 1,
+  "task_id": 1,
+  "ready": false,
+  "mute": true,
+  "teleconference_on": true,
+  "description": "AskQuestion - Ask each participant a specific {topic} and then ask a follow up question",
+  "actions": [
+    {
+      "action_id": 1,
+      "action_type": "HARU_CONVERSATE",
+      "action_goal": "{\"id\": \"ask_about_specific_question_{topic_id}\", \"description\": \"Ask each participant {topic}.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} asks {topic}.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"{robot_name} asks {participant} a follow-up question.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c3\", \"description\": \"{participant} responds to the follow-up question.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c4\", \"description\": \"{robot_name} acknowledges {participant}'s response.\", \"reached\": false, \"evidence\": null}], \"criteria_expand\": [{\"ids\": [\"c1\", \"c2\", \"c3\", \"c4\"], \"mappings\": [{\"source\": \"participants_start_right\", \"target\": \"participant\"}]}], \"timeout\": {\"max_time\": {\"minutes\": 5, \"seconds\": 0}}, \"additional_instructions\": [\"Complete all criteria for one participant before moving to the next.\", \"Follow the criteria order.\", \"Address participants by name.\", \"Make sure you follow the personality of Haru as expressed in the system prompt\", \"Keep the conversation natural, light and fun.\"]}",
+      "action_content": []
+    },
+    {
+      "action_id": 2,
+      "bond_action_ids": [
+        1
+      ],
+      "action_type": "HARU_GAZE",
+      "action_arguments": {
+        "gaze_arguments": {
+          "gaze_mode": "TRACK_PERSON"
+        }
+      },
+      "action_content": []
+    }
+  ],
+  "template": {
+    "derived": {
+      "topic_id": { "from": "topic", "transform": "snake_case" }
+    },
+    "parameters": {
+      "topic": {
+        "description": "The topic to ask about (e.g., 'favorite school subject', 'favorite color', 'first pet', 'least favorite food')",
+        "example": "what is your favorite school subject"
+      },
+      "participants": {
+        "description": "Order to address participants",
+        "example": "participants_start_left",
+        "options": ["participants", "participants_start_left", "participants_start_right"]
+      }
+    }
+  }
+}

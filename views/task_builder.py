@@ -18,15 +18,28 @@ SAVED_TASKS_DIR = Path(__file__).parent.parent / "data" / "tasks" / "saved"
 # ---------------------------------------------------------------------------
 VOICE_GENRES = ["default", "question", "highnrg", "sad", "serious", "whiny"]
 
-def _build_goal(goal_id, goal_description, timeout_minutes=0, timeout_seconds=0,
-                max_turns=0, criteria=None, instructions=None):
-    """Build a goal JSON string from field values."""
+def _build_goal(
+    goal_id,
+    goal_description,
+    timeout_minutes=0,
+    timeout_seconds=0,
+    max_turns=0,
+    criteria=None,
+    instructions=None,
+    expand_ids=None,
+):
+    """Build a goal JSON string from field values.
+
+    Args:
+        expand_ids: Optional list of criterion IDs that should be expanded.
+    """
     goal = {
         "id": goal_id,
         "description": goal_description,
         "success_criteria": criteria or [],
         "timeout": {},
         "additional_instructions": instructions or [],
+        "criteria_expand": [],
     }
     mins = int(timeout_minutes)
     secs = int(timeout_seconds)
@@ -35,6 +48,13 @@ def _build_goal(goal_id, goal_description, timeout_minutes=0, timeout_seconds=0,
         goal["timeout"]["max_time"] = {"minutes": mins, "seconds": secs}
     if turns > 0:
         goal["timeout"]["max_turns"] = turns
+
+    # Add criteria expansion configuration if provided
+    if expand_ids:
+        for cid in expand_ids:
+            # Empty mappings; UI can be extended later to specify source/target
+            goal["criteria_expand"].append({"ids": [cid], "mappings": []})
+
     return json.dumps(goal, ensure_ascii=False)
 
 
@@ -846,7 +866,12 @@ def render_action_panel(action: dict):
                         criteria_list.pop(to_remove)
                         st.rerun()
                     if st.button("+ Add Criterion", key=f"add_crit_{aid}"):
-                        criteria_list.append({"id": f"c{len(criteria_list)+1}", "description": "", "timeout": {}})
+                        criteria_list.append({
+                            "id": f"c{len(criteria_list)+1}",
+                            "description": "",
+                            "timeout": {},
+                            "expand": False,
+                        })
                         st.rerun()
 
                     # Additional instructions

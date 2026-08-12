@@ -1,0 +1,35 @@
+{
+  "app_id": "greet_group_get_names",
+  "episode_id": "1",
+  "haru_id": "haru-jp",
+  "stage_id": 1,
+  "task_id": 1,
+  "ready": false,
+  "mute": true,
+  "teleconference_on": true,
+  "description": "Greet Group Get Names - Self-introduction and a group greeting. Then ask each participant to say their name.",
+  "actions": [
+    {
+      "action_id": 1,
+      "action_type": "HARU_CONVERSATE",
+      "action_goal": "{\"id\": \"greet\", \"description\": \"Introduce yourself as Haru, Honda's newest robot friend. Then greet the participants as a group and ask if everybody could introduce themselves.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} greets the participants as a group.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"All {participants_count} participants introduce themselves.\", \"reached\": false, \"evidence\": null}], \"criteria_expand\": [], \"timeout\": {\"max_time\": {\"minutes\": 3, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Make sure you follow the personality of Haru as expressed in the system prompt\", \"It is ABSOLUTELY FORBIDDEN to repeat yourself. Make sure each sentence you say is unique.\", \"Express how happy you are to meet everyone.\", \"Address the group as a whole and not by name. e.g., everyone, everybody, friends \", \"Keep the introduction brief.\"]}",
+      "action_content": []
+    },
+    {
+      "action_id": 2,
+      "bond_action_ids": [
+        1
+      ],
+      "action_type": "HARU_GAZE",
+      "action_arguments": {
+        "gaze_arguments": {
+          "gaze_mode": "GROUP"
+        }
+      },
+      "action_content": []
+    }
+  ],
+  "template": {
+    "parameters": {}
+  }
+}
