@@ -1477,7 +1477,7 @@ def render_goal_visualization(goal_str: str, action: dict = None, action_id: int
         "Disable Summarize",
         key=summarize_key,
         on_change=update_disable_summarize,
-        help="Applies to the entire goal: when on, the goal is not summarized.",
+        help="When enabled, the conversation history for this entire goal will not be summarized.",
     )
 
     # Editable additional instructions as list
