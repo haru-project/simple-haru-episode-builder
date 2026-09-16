@@ -45,7 +45,7 @@
         1
       ],
       "action_type": "HARU_CONVERSATE",
-      "action_goal": "{\"id\": \"greet_phase\", \"description\": \"Introduce yourself and greet each participant.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} says its name.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"{robot_name} greets {participant}.\", \"reached\": false, \"evidence\": null}], \"criteria_expand\": [{\"ids\": [\"c2\"], \"mappings\": [{\"source\": \"participants_start_left\", \"target\": \"participant\"}]}], \"timeout\": {\"max_time\": {\"minutes\": 2, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Introduce yourself briefly.\", \"Be warm and friendly.\"]}",
+      "action_goal": "{\"id\": \"greet_phase\", \"description\": \"Introduce yourself and greet each participant.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} says its name.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"{robot_name} greets {participant}.\", \"reached\": false, \"evidence\": null}], \"criteria_expand\": [{\"ids\": [\"c2\"], \"mappings\": [{\"source\": \"participants_start_left\", \"target\": \"participant\"}], \"disable_summarize\": false}], \"timeout\": {\"max_time\": {\"minutes\": 2, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Introduce yourself briefly.\", \"Be warm and friendly.\"], \"disable_summarize\": false}",
       "action_content": []
     },
     {
@@ -221,7 +221,7 @@
         11
       ],
       "action_type": "HARU_CONVERSATE",
-      "action_goal": "{\"id\": \"learn_topic\", \"description\": \"Learn each participant's favorite color.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} asks {participant} about their favorite color.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"{robot_name} learns {participant}'s favorite color.\", \"reached\": false, \"evidence\": null}], \"criteria_expand\": [{\"ids\": [\"c1\", \"c2\"], \"mappings\": [{\"source\": \"participants_start_right\", \"target\": \"participant\"}]}], \"timeout\": {\"max_time\": {\"minutes\": 3, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Be curious about their answers.\"]}",
+      "action_goal": "{\"id\": \"learn_topic\", \"description\": \"Learn each participant's favorite color.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} asks {participant} about their favorite color.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"{robot_name} learns {participant}'s favorite color.\", \"reached\": false, \"evidence\": null}], \"criteria_expand\": [{\"ids\": [\"c1\", \"c2\"], \"mappings\": [{\"source\": \"participants_start_right\", \"target\": \"participant\"}], \"disable_summarize\": false}], \"timeout\": {\"max_time\": {\"minutes\": 3, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Be curious about their answers.\"], \"disable_summarize\": false}",
       "action_content": []
     },
     {
@@ -247,7 +247,7 @@
         12
       ],
       "action_type": "HARU_CONVERSATE",
-      "action_goal": "{\"id\": \"group_discussion\", \"description\": \"Facilitate a group discussion about colors.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} summarizes what the group shared.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"At least two participants talk to each other.\", \"reached\": false, \"evidence\": null}], \"additional_instructions\": [\"Address participants as a group.\", \"Step back and let them talk.\"]}",
+      "action_goal": "{\"id\": \"group_discussion\", \"description\": \"Facilitate a group discussion about colors.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} summarizes what the group shared.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"At least two participants talk to each other.\", \"reached\": false, \"evidence\": null}], \"additional_instructions\": [\"Address participants as a group.\", \"Step back and let them talk.\"], \"disable_summarize\": false}",
       "action_content": [],
       "parallel_action_ids": [
         15
@@ -295,7 +295,7 @@
         16
       ],
       "action_type": "HARU_CONVERSATE",
-      "action_goal": "{\"id\": \"individual_moment\", \"description\": \"Have a brief individual moment with one participant.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} asks a personal question.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"The participant shares something personal.\", \"reached\": false, \"evidence\": null}], \"timeout\": {\"max_time\": {\"minutes\": 2, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Be genuinely interested.\"]}",
+      "action_goal": "{\"id\": \"individual_moment\", \"description\": \"Have a brief individual moment with one participant.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} asks a personal question.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"The participant shares something personal.\", \"reached\": false, \"evidence\": null}], \"timeout\": {\"max_time\": {\"minutes\": 2, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Be genuinely interested.\"], \"disable_summarize\": false}",
       "action_content": []
     },
     {
@@ -361,7 +361,7 @@
         19
       ],
       "action_type": "HARU_CONVERSATE",
-      "action_goal": "{\"id\": \"farewell\", \"description\": \"Say goodbye to participants.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} says goodbye.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"At least one participant says goodbye.\", \"reached\": false, \"evidence\": null}], \"timeout\": {\"max_time\": {\"minutes\": 1, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Keep it warm but brief.\"]}",
+      "action_goal": "{\"id\": \"farewell\", \"description\": \"Say goodbye to participants.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} says goodbye.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"At least one participant says goodbye.\", \"reached\": false, \"evidence\": null}], \"timeout\": {\"max_time\": {\"minutes\": 1, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Keep it warm but brief.\"], \"disable_summarize\": false}",
       "action_content": []
     },
     {

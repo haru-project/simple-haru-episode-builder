@@ -12,7 +12,7 @@
     {
       "action_id": 1,
       "action_type": "HARU_CONVERSATE",
-      "action_goal": "{\"id\": \"group_question\", \"description\": \"Ask the group: {topic}.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} asks the group: {topic}.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"{robot_name} gets responses from all {participants_count} participants.\", \"reached\": false, \"evidence\": null}], \"timeout\": {\"max_time\": {\"minutes\": 3, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Address the group as a whole.\", \"Never refer to participants by name.\", \"Make sure you follow the personality of Haru as expressed in the system prompt\", \"Be curious about their preferences!\", \"React to their answers with excitement.\"]}",      
+      "action_goal": "{\"id\": \"group_question\", \"description\": \"Ask the group: {topic}.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} asks the group: {topic}.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"{robot_name} gets responses from all {participants_count} participants.\", \"reached\": false, \"evidence\": null}], \"timeout\": {\"max_time\": {\"minutes\": 3, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Address the group as a whole.\", \"Never refer to participants by name.\", \"Make sure you follow the personality of Haru as expressed in the system prompt\", \"Be curious about their preferences!\", \"React to their answers with excitement.\"], \"disable_summarize\": false}",      
       "action_content": []
     },
     {

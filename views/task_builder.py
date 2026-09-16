@@ -27,11 +27,13 @@ def _build_goal(
     criteria=None,
     instructions=None,
     expand_ids=None,
+    disable_summarize=False,
 ):
     """Build a goal JSON string from field values.
 
     Args:
         expand_ids: Optional list of criterion IDs that should be expanded.
+        disable_summarize: Whether summarization is disabled for the whole goal.
     """
     goal = {
         "id": goal_id,
@@ -40,6 +42,7 @@ def _build_goal(
         "timeout": {},
         "additional_instructions": instructions or [],
         "criteria_expand": [],
+        "disable_summarize": bool(disable_summarize),
     }
     mins = int(timeout_minutes)
     secs = int(timeout_seconds)
@@ -808,6 +811,11 @@ def render_action_panel(action: dict):
                             "Max Turns", min_value=0, value=0, key=f"goal_turns_{aid}",
                             help="0 = no limit.")
 
+                    goal_values["disable_summarize"] = st.toggle(
+                        "Disable Summarize", value=False, key=f"goal_disable_summarize_{aid}",
+                        help="Applies to the entire goal: when on, the conversation history from this goal is not summarized.",
+                    )
+
                     # Success criteria
                     st.markdown("##### Success Criteria")
                     criteria_key = f"goal_criteria_{aid}"
@@ -954,6 +962,7 @@ def render_action_panel(action: dict):
                                     goal_values["goal_id"], goal_values["goal_desc"],
                                     goal_values["timeout_mins"], goal_values["timeout_secs"],
                                     goal_values["max_turns"], criteria, instructions,
+                                    disable_summarize=goal_values.get("disable_summarize", False),
                                 )
                                 # For multi-action templates, build with companion values and add goal to first
                                 if tmpl.get("multi"):
@@ -1452,6 +1461,23 @@ def render_goal_visualization(goal_str: str, action: dict = None, action_id: int
         goal,
         action_id,
         title="Goal Timeout"
+    )
+
+    # Goal-level summarization toggle (applies to the whole goal, not per criterion)
+    summarize_key = f"disable_summarize_{task_name}_{action_id}"
+    if summarize_key not in st.session_state:
+        st.session_state[summarize_key] = bool(goal.get("disable_summarize", False))
+
+    def update_disable_summarize():
+        goal["disable_summarize"] = bool(st.session_state[summarize_key])
+        if action is not None:
+            action["action_goal"] = json.dumps(goal, ensure_ascii=False)
+
+    st.toggle(
+        "Disable Summarize",
+        key=summarize_key,
+        on_change=update_disable_summarize,
+        help="Applies to the entire goal: when on, the goal is not summarized.",
     )
 
     # Editable additional instructions as list

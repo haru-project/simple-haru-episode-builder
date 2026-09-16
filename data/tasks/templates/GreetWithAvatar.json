@@ -12,7 +12,7 @@
     {
       "action_id": 1,
       "action_type": "HARU_CONVERSATE",
-      "action_goal": "{\"id\": \"greet\", \"description\": \"Greet the group and introduce yourself.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} says its name.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"{robot_name} greets all participants.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c3\", \"description\": \"At least one participant responds to the greeting.\", \"reached\": false, \"evidence\": null}], \"timeout\": {\"max_time\": {\"minutes\": 1, \"seconds\": 30}, \"max_turns\": null}, \"additional_instructions\": [\"Introduce yourself as Honda's newest robot friend.\", \"Express how happy you are to meet everyone.\", \"Keep it brief.\", \"Do not ask participants their names, as they will input them when creating their avatar.\"]}",
+      "action_goal": "{\"id\": \"greet\", \"description\": \"Greet the group and introduce yourself.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} says its name.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"{robot_name} greets all participants.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c3\", \"description\": \"At least one participant responds to the greeting.\", \"reached\": false, \"evidence\": null}], \"timeout\": {\"max_time\": {\"minutes\": 1, \"seconds\": 30}, \"max_turns\": null}, \"additional_instructions\": [\"Introduce yourself as Honda's newest robot friend.\", \"Express how happy you are to meet everyone.\", \"Keep it brief.\", \"Do not ask participants their names, as they will input them when creating their avatar.\"], \"disable_summarize\": false}",
       "action_content": []
     },
     {
@@ -36,7 +36,7 @@
         1
       ],
       "action_type": "HARU_CONVERSATE",
-      "action_goal": "{\"id\": \"avatar_intro\", \"description\": \"Propose the avatar creation activity and get confirmation.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} proposes to start by creating avatars on the iPads.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"At least one participant confirms the activity.\", \"reached\": false, \"evidence\": null}], \"timeout\": {\"max_time\": {\"minutes\": 1, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Keep it brief and enthusiastic.\", \"Do not ask participants their names, as they will input them when creating their avatar.\"]}",
+      "action_goal": "{\"id\": \"avatar_intro\", \"description\": \"Propose the avatar creation activity and get confirmation.\", \"success_criteria\": [{\"id\": \"c1\", \"description\": \"{robot_name} proposes to start by creating avatars on the iPads.\", \"reached\": false, \"evidence\": null}, {\"id\": \"c2\", \"description\": \"At least one participant confirms the activity.\", \"reached\": false, \"evidence\": null}], \"timeout\": {\"max_time\": {\"minutes\": 1, \"seconds\": 0}, \"max_turns\": null}, \"additional_instructions\": [\"Keep it brief and enthusiastic.\", \"Do not ask participants their names, as they will input them when creating their avatar.\"], \"disable_summarize\": false}",
       "action_content": []
     },
     {
