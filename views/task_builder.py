@@ -2,6 +2,7 @@
 Task Builder - Create individual tasks from templates
 """
 
+from src.services.demo_language import apply_language
 import json
 import re
 import streamlit as st
@@ -1714,7 +1715,7 @@ if result and selected_name:
     actions = result.get("actions", [])
 
     # Generate JSON from current state (with canonical key order)
-    json_str = json.dumps(prepare_for_save(result), indent=2, ensure_ascii=False)
+    json_str = json.dumps(apply_language(prepare_for_save(result), st.session_state.get("demo_language")), indent=2, ensure_ascii=False)
 
     # Save Task section
     st.markdown("---")
