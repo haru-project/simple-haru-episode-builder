@@ -23,6 +23,7 @@ class Template(BaseModel):
 class Episode(BaseModel):
     """A complete Haru episode."""
 
+    demo_language: str = Field(default="en-US", description="Configured demo locale")
     app_id: str = Field(default="test", description="Application identifier")
     episode_id: str = Field(default="1", description="Episode identifier")
     haru_id: str = Field(default="haru-jp", description="Haru robot identifier")
@@ -45,6 +46,7 @@ class Episode(BaseModel):
     def to_dict(self) -> dict:
         """Convert to dict for JSON export."""
         data = {
+            "demo_language": self.demo_language,
             "app_id": self.app_id,
             "episode_id": self.episode_id,
             "haru_id": self.haru_id,
@@ -69,6 +71,7 @@ class Episode(BaseModel):
         for a in data.get("actions", []):
             actions.append(Action.model_validate(a))
         return cls(
+            demo_language=data.get("demo_language", "en-US"),
             app_id=data.get("app_id", "test"),
             episode_id=data.get("episode_id", "1"),
             haru_id=data.get("haru_id", "haru-jp"),

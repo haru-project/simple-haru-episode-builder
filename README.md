@@ -146,3 +146,15 @@ simple-haru-episode-builder/
         ├── templates/        # Task templates (JSON)
         └── saved/            # Saved tasks
 ```
+
+## Multilingual demos
+
+The sidebar selects English (default), Spanish, Japanese or Ukrainian, initially
+from `HARU_DEMO_LANGUAGE`. Exported conversation goals receive a native language
+instruction; `demo_language` metadata roundtrips through the Episode model.
+`MultilingualDemo_<locale>` templates provide localized greeting/hobby goals.
+Existing literal speech is preserved and needs manual translation. Run the
+ASR/TTS/LLM/reasoner with the matching startup language: this selector does not
+hot-switch running models.
+
+Run `uv run --python 3.13 --with pytest python -m pytest -q tests`.

@@ -2,6 +2,7 @@
 Scenario Builder - Combine tasks into episodes
 """
 
+from src.services.demo_language import apply_language
 import json
 import streamlit as st
 from pathlib import Path
@@ -125,7 +126,7 @@ def build_episode(tasks: list[dict], episode_config: dict) -> dict:
         leaf_ids = [aid for aid in task_action_ids if aid not in depended_on and aid not in bonded_actions]
         prev_task_action_ids = leaf_ids if leaf_ids else task_action_ids
 
-    return episode
+    return apply_language(episode, st.session_state.get("demo_language"))
 
 
 # Initialize session state for scenario
